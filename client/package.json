@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "React app for serving data content",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16.13.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitaRox/Transport.git"
+  },
+  "author": "Vita Harvey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VitaRox/Transport/issues"
+  },
+  "homepage": "https://github.com/VitaRox/Transport#readme"
+}
