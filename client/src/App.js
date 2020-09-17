@@ -1,23 +1,17 @@
 import React from 'react';
-import logo from './kitten_blog.jpg';
+// import logo from './kitten_blog.jpg';
 import './App.css';
+
+import InputMap from './InputMap';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        <div id="map-container">
+          <InputMap />
+          </div>
       </header>
     </div>
   );
