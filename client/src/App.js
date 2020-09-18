@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from './kitten_blog.jpg';
 import './App.css';
 
-import InputMap from './InputMap';
+import InputMap from './components/UIElements/InputMap';
 
 function App() {
   return (

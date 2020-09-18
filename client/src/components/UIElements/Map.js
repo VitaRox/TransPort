@@ -1,6 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import 'google-map-react';
-import 'google-maps-react';
 
 import './Map.css';
 
@@ -16,7 +14,16 @@ function Map(props) {
       center: center,
       zoom: zoom
     });
+    new window.google.maps.Marker({
+      position: center,
+      map: map
+    });
   }, [center, zoom]);
+
+
+
+
+
 
   return <div ref={mapRef} className={`map ${props.className}`} style={props.style}></div>
 }
