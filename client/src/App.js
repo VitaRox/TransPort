@@ -1,19 +1,41 @@
+// The basics;
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from 'react-router-dom';
+
+// Containers/high-level interfaces
+import MainNavigation from './shared/components/Navigation/MainNavigation';
+import InputMap from './shared/components/UIElements/InputMap';
+import OutputMap from './shared/components/UIElements/OutputMap';
+
+// Stylings:
 // import logo from './kitten_blog.jpg';
 import './App.css';
 
-import InputMap from './components/UIElements/InputMap';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <div id="map-container">
-          <InputMap />
-          </div>
-      </header>
-    </div>
+    <Router>
+      <MainNavigation />
+      <main>
+        <Switch>
+          {/* <Route path="/" exact>
+            <GreetScreen />
+          </Route> */}
+          <Route path='/view-data' exact>
+            <OutputMap />
+          </Route>
+          {/* <Route path="/places/new" exact>
+            <NewPlace />
+          </Route> */}
+          <Redirect to="/" />
+        </Switch>
+      </main>
+    </Router>
   );
 }
 

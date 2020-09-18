@@ -34,4 +34,4 @@ function InputMap(props) {
   )
 }
 
-export default React.memo(InputMap);
+export default InputMap;
