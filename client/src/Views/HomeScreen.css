@@ -1,0 +1,15 @@
+.greeting-screen {
+  height:100%;
+  width:100%;
+}
+
+.greeting-pic {
+  height:100%;
+  width:100%;
+}
+
+.greeting-pic-box {
+  box-sizing: border-box;
+  background-origin: padding-box;
+  position: center;
+}

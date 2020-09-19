@@ -1,4 +1,5 @@
-.map {
-  width: 100%;
-  height: 100%;
+.map-container {
+  height:inherit;
+  width:inherit;
+  background-color: aqua;
 }

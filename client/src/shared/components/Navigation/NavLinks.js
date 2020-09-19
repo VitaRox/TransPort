@@ -7,19 +7,21 @@ function NavLinks(props) {
   return (
     <ul className="nav-links">
       <li>
-        <NavLink to="/" exact>ALL USERS</NavLink>
+        <NavLink to="/" exact>HOME</NavLink>
       </li>
       <li>
-        <NavLink to="/u1/places">MY PLACES</NavLink>
+        <NavLink to="/data/view" exact>VIEW OUTPUT MAP</NavLink>
       </li>
       <li>
-        <NavLink to="/places/new">ADD PLACE</NavLink>
+        <NavLink to="/data/create">VIEW INPUT MAP</NavLink>
       </li>
       <li>
-        <NavLink to="/auth">AUTHENTICATE</NavLink>
+        <NavLink to="/auth">LOG IN</NavLink>
+      </li>
+      <li>
+        <NavLink to="/user/create" exact>CREATE ACCOUNT</NavLink>
       </li>
     </ul>
-
   );
 }
 

@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 // Containers/high-level interfaces
+import HomeScreen from './Views/HomeScreen';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import InputMap from './shared/components/UIElements/InputMap';
 import OutputMap from './shared/components/UIElements/OutputMap';
@@ -23,16 +24,19 @@ function App() {
       <MainNavigation />
       <main>
         <Switch>
-          {/* <Route path="/" exact>
-            <GreetScreen />
-          </Route> */}
-          <Route path='/view-data' exact>
+          <Route path="/" exact>
+            <HomeScreen />
+          </Route>
+          <Route path='/data/view' exact>
             <OutputMap />
           </Route>
-          {/* <Route path="/places/new" exact>
-            <NewPlace />
+          <Route path="/data/new" exact>
+            <InputMap />
+          </Route>
+          {/* <Route path="/auth" exact>
+            component to log in with
           </Route> */}
-          <Redirect to="/" />
+          {/* <Redirect to="/" /> */}
         </Switch>
       </main>
     </Router>

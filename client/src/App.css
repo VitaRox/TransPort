@@ -13,14 +13,8 @@
   background-color: aqua;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-image: 'client/src/Transgender_(Trans)Pride_Library_Logo.png';
+  background-image: './Views/Pride_Library_Logo.png';
   min-height: 100vh;
   display: flex;
   flex-direction: column;
