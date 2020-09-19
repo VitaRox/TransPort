@@ -1,8 +1,11 @@
+// The basics:
 import React from 'react';
+
+// Resources:
 import TempLogo from './Pride_Library_Logo.png';
-import Link from 'react-dom';
 import Card from '../shared/components/UIElements/Card.js';
 
+// Styles:
 import './HomeScreen.css';
 
 
@@ -13,7 +16,7 @@ function HomeScreen() {
     );
   };
   return (
-    <div className="greeting-screen">
+    <div className="home-screen">
       <Card>
         {Logo()}
       </Card>
