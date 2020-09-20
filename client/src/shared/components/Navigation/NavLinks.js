@@ -13,7 +13,7 @@ function NavLinks(props) {
         <NavLink to="/data/view" exact>VIEW OUTPUT MAP</NavLink>
       </li>
       <li>
-        <NavLink to="/data/create">VIEW INPUT MAP</NavLink>
+        <NavLink to="/data/new">VIEW INPUT MAP</NavLink>
       </li>
       <li>
         <NavLink to="/auth">LOG IN</NavLink>
