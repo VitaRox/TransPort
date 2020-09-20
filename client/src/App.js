@@ -28,14 +28,18 @@ function App() {
             <HomeScreen />
           </Route>
           <Route path='/data/view' exact>
+            Display a map component for viewing data
             <OutputMap />
           </Route>
           <Route path="/data/new" exact>
+            Display a map for entering data, as well as text inputs.
+            Clicking the map creates a Google Maps Marker to be attached to the post
+            for associating the data with location.
             <InputMap />
           </Route>
-          {/* <Route path="/auth" exact>
+          <Route path="/auth" exact>
             component to log in with
-          </Route> */}
+          </Route>
           {/* <Redirect to="/" /> */}
         </Switch>
       </main>
