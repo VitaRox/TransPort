@@ -1,5 +1,6 @@
 .map {
-  height:100%;
-  width:100%;
+  margin:auto;
+  height:500px;
+  width:70%;
   background-color: aqua;
 }
