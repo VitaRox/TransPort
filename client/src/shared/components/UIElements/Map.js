@@ -21,11 +21,7 @@ function Map(props) {
   }, [center, zoom]);
 
 
-
-
-
-
-  return <div ref={mapRef} className={`map ${props.className}`} style={props.style}></div>
+  return (<div ref={mapRef} className={`map ${props.className}`} style={props.style}></div>);
 }
 
 export default Map;
