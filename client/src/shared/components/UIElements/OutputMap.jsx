@@ -18,39 +18,22 @@ function OutputMap(props) {
   // State management;
   const [showMap, setShowMap] = useState(true);
 
+  //
   const openMapHandler = () => setShowMap(true);
   const closeMapHandler = () => setShowMap(false);
 
   props = {
+    class: "__output",
     defaultZoom: 12,
     defaultCenter: {
       lat: 39.833, lng: -98.583
     },
   };
 
-  // const defaultCenter =  {
-  //   lat : 39.833, lng : -98.583
-  // };
-
-  // const defaultZoom = 12;
-
-
   return (
     <div id="map-container">
-      <Map center={props.defaultCenter} zoom={props.defaultZoom} />
+      <Map class={props.class} center={props.defaultCenter} zoom={props.defaultZoom} />
     </div>
-    // <React.Fragment>
-    //   <Modal
-    //     show={showMap}
-    //     onCancel={closeMapHandler}
-    //     // header={props.address}
-    //     contentClass="modal-content"
-    //     footerClass="modal-actions"
-    //     footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
-    //   >
-    //     <Map center={props.defaultCenter} zoom={props.defaultZoom} />
-    //   </Modal>
-    // </React.Fragment>
   );
 }
 
