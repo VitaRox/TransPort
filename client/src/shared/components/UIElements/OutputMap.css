@@ -1,6 +1,6 @@
-.map-container {
+#map-container {
   height: 500px;
-  width: 500px;
+  width: 100%;
   position: center;
   display: block;
 }
