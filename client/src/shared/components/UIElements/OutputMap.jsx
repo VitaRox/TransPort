@@ -1,11 +1,7 @@
-import React, {useState} from 'react';
-// import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
-import GoogleMapReact from 'google-map-react';
-// import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import React, { useState } from 'react';
+
 import Map from './Map';
-import Modal from './Modal';
 import Button from '../FormElements/Button';
-import Card from './Card';
 
 import './OutputMap.css';
 
@@ -15,24 +11,24 @@ import './OutputMap.css';
  */
 function OutputMap(props) {
 
-  // State management;
-  const [showMap, setShowMap] = useState(true);
+  // // State management;
+  // const [showMap, setShowMap] = useState(true);
 
-  //
-  const openMapHandler = () => setShowMap(true);
-  const closeMapHandler = () => setShowMap(false);
+  // //
+  // const openMapHandler = () => setShowMap(true);
+  // const closeMapHandler = () => setShowMap(false);
 
   props = {
-    class: "__output",
-    defaultZoom: 12,
+    defaultClass: "__output",
     defaultCenter: {
       lat: 39.833, lng: -98.583
     },
+    defaultZoom: 12,
   };
 
   return (
     <div id="map-container">
-      <Map class={props.class} center={props.defaultCenter} zoom={props.defaultZoom} />
+      <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
     </div>
   );
 }
