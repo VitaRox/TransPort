@@ -24,23 +24,24 @@ function App() {
       <MainNavigation />
       <main>
         <Switch>
-          <Route path="/" exact>
+          <Route path='/' exact>
             <HomeScreen />
           </Route>
           <Route path='/data/view' exact>
-            Display a map component for viewing data
+            Display a map component for viewing data.
+             Will include filters and a Submit button for filtering map data results.
             <OutputMap />
           </Route>
-          <Route path="/data/new" exact>
+          <Route path='/data/new' exact>
             Display a map for entering data, as well as text inputs.
             Clicking the map creates a Google Maps Marker to be attached to the post
             for associating the data with location.
             <InputMap />
           </Route>
-          <Route path="/auth" exact>
+          <Route path='/auth' exact>
             component to log in with
           </Route>
-          {/* <Redirect to="/" /> */}
+          <Redirect to='/' />
         </Switch>
       </main>
     </Router>
