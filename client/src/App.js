@@ -16,6 +16,7 @@ import OutputMap from './shared/components/UIElements/OutputMap';
 // Stylings:
 // import logo from './kitten_blog.jpg';
 import './App.css';
+import Login from './Views/Login';
 
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
             <InputMap />
           </Route>
           <Route path='/auth' exact>
-            component to log in with
+            <Login />
           </Route>
           <Redirect to='/' />
         </Switch>

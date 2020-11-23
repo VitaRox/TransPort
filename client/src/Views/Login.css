@@ -1,0 +1,12 @@
+form {
+  background-color: rgb(87, 11, 158) ;
+}
+
+._login-info {
+  box-shadow: inset;
+  align-self: center;
+  align-items: inherit;
+  width: 400px;
+  height: 400px;
+  background-color: navy;
+}

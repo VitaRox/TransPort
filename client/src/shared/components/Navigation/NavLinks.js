@@ -19,7 +19,7 @@ function NavLinks(props) {
         <NavLink to="/auth">LOG IN</NavLink>
       </li>
       <li>
-        <NavLink to="/user/create" exact>CREATE ACCOUNT</NavLink>
+        <NavLink to="/users/create" exact>CREATE ACCOUNT</NavLink>
       </li>
     </ul>
   );

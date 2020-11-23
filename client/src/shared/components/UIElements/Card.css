@@ -5,5 +5,7 @@
   border-radius: 6px;
   padding: 1rem;
   overflow: hidden;
+  width: fit-content;
+  height: fit-content;
   background: white;
 }
