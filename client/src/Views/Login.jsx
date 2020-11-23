@@ -11,7 +11,6 @@ import './Login.css';
 
 function Login(props) {
 
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [username, setUsername] = useState('Enter username');
   const [password, setPassword] = useState("Enter password:");
   const form = useRef(null);
@@ -19,24 +18,25 @@ function Login(props) {
   const submit = e => {
     e.preventDefault();
     onChange();
-
     const data = new FormData(form.current)
     console.log(data);
     // fetch('/api', { method: 'POST', body: data })
     //   .then(res => res.json())
     //   .then(json => setUser(json.user))
-  }
+  };
+
   const onChange = () => {
-    setUsername(username);
-    setPassword(password);
-  }
+    setUsername(props.username);
+    setPassword(props.password);
+  };
+
 
   return (
-    <Card className="user-login">
-      <form ref={form} className="_login-info">
-        <Input placeholder="Enter username" element="input" onChange={onChange}>{username}</Input>
-        <Input placeholder="Enter password" element="input" type="password" onChange={onChange}>{username}</Input>
-        <Button type="submit">Submit</Button>
+    <Card className="login-info_">
+      <form ref={form} onChange={onChange}>
+        <Input placeholder="Enter username" element="input" >{username}</Input>
+        <Input placeholder="Enter password" element="input" type="password">{password}</Input>
+        <Button type="submit" >Submit</Button>
       </form>
     </Card>
   )

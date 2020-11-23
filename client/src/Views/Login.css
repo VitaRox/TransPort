@@ -1,12 +1,13 @@
-form {
-  background-color: rgb(87, 11, 158) ;
+.login-info_ {
+  box-shadow: inset;
+  text-align: center;
+  font-weight: bold;
+  font-optical-sizing: auto;
+  width: 200px;
+  height: 150px;
+  background-color: rgb(87, 11, 158);
 }
 
-._login-info {
-  box-shadow: inset;
-  align-self: center;
-  align-items: inherit;
-  width: 400px;
-  height: 400px;
-  background-color: navy;
+div {
+  justify-self: right;
 }
