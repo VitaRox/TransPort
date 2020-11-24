@@ -1,9 +1,9 @@
 .button {
   font: inherit;
   padding: 0.5rem 1.5rem;
-  border: 1px solid #ff0055;
+  border: 1px solid #070606;
   border-radius: 4px;
-  background: #ff0055;
+  background: #0563af;
   color: white;
   cursor: pointer;
   margin-right: 1rem;
