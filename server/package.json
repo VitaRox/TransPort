@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Express server for MERN app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitaRox/Transport.git"
+  },
+  "author": "Vita Harvey <vita.aubergine@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VitaRox/Transport/issues"
+  },
+  "homepage": "https://github.com/VitaRox/Transport#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
