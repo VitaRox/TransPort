@@ -12,7 +12,7 @@ A travel app to aid and assist in the safe travel of transgender folx in the Uni
 #### The following are some style guidelines:
 ##### Naming Git/Github branches
 Contributors' Git/GH branches should follow the following form:
-- <nameOfContributor or GH handle>/issue, feature, or bug/<the associated issue number>/brief description of what's being done on this branch, in present-tense
+- name_of_contributor/issue, feature, or bug/the associated issue number/brief description of what's being done on this branch, in present-tense
 e.g. VitaRox/issue/13/adds-frontend-validation-to-login-form
 
 ## Author(s)
