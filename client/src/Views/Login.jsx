@@ -5,6 +5,7 @@ import React, { useState, useRef }  from 'react';
 import Card from '../shared/components/UIElements/Card.js';
 import Input from '../shared/components/FormElements/Input';
 import Button from '../shared/components/FormElements/Button';
+import { useForm } from '../shared/hooks/form-hook.js';
 
 // Styles
 import './Login.css';
@@ -13,7 +14,20 @@ function Login(props) {
 
   const [username, setUsername] = useState('Enter username');
   const [password, setPassword] = useState("Enter password:");
-  const form = useRef(null);
+  // const form = useRef(null);
+  // Initialize form state;
+  const form = useForm({
+    username: {
+      value: '',
+      isValid: false
+    },
+    password: {
+      value: '',
+      isValid: false
+    },
+  },
+  false
+);
 
   const submit = e => {
     e.preventDefault();

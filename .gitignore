@@ -105,3 +105,6 @@ dist
 
 # VSCode Workspace directories
 *.code-workspace
+
+# Notes, screenshots, etc.
+*.png

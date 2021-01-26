@@ -23,10 +23,14 @@ const inputReducer = (state, action) => {
 const Input = props => {
 
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: '',
-    isValid: false,
+    value: props.value || '',
     isTouched: false,
+    isValid: props.valid || false,
   });
+
+  // Object destructuring: we can extract these from their parent objects
+  const { id, onInput } = props;
+  const { value, isValid } = inputState;
 
   const changeHandler = event => {
     dispatch({
@@ -56,12 +60,11 @@ const Input = props => {
       <textarea
         id={props.id}
         rows={props.rows || 3}
+        onChange={changeHandler}
         onBlur={touchHandler}
         value={inputState.value}
       />
     );
-
-
 
   return (
     <div className={`form-control ${!inputState.isValid && inputState.isTouched &&
