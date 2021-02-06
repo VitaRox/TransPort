@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { validate } from '../../util/validators.js';
 
 // Helper function:
@@ -31,6 +31,10 @@ const Input = props => {
   // Object destructuring: we can extract these from their parent objects
   const { id, onInput } = props;
   const { value, isValid } = inputState;
+  
+  useEffect(() => {
+    onInput(id, value, isValid);
+  }, [id, value, isValid, onInput]);
 
   const changeHandler = event => {
     dispatch({
