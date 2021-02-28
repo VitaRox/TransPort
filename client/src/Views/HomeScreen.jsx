@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Resources:
-import TempLogo from './Pride_Library_Logo.png';
+import TempLogo from '../images/Pride_Library_Logo.png';
 import Card from '../shared/components/UIElements/Card.js';
 
 // Styles:
