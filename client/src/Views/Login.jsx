@@ -1,5 +1,5 @@
 // The basics:
-import React, { useState, useRef }  from 'react';
+import React from 'react';
 
 // Resources
 import Card from '../shared/components/UIElements/Card.js';
@@ -12,11 +12,7 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../shared/util/validator
 import './Login.css';
 
 
-function Login() {
-
-  // TODO: figure out why these are necessary to make the Submit button clickable.
-  const [username, setUsername] = useState('Enter username');
-  const [password, setPassword] = useState("Enter password:");
+function Login(props) {
 
   // Initialize form state;
   const [formState, inputHandler] = useForm({
@@ -31,11 +27,6 @@ function Login() {
   },
   false
 );
-
-  // const onChange = () => {
-  //   setUsername(props.username);
-  //   setPassword(props.password);
-  // };
 
   const loginSubmitHandler = e => {
     e.preventDefault();
@@ -58,7 +49,7 @@ function Login() {
           placeholder="Enter username"
           label="Username"
           validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid title."
+          errorText="Please enter a valid username."
           onInput={inputHandler}
         >
         </Input>
@@ -67,8 +58,8 @@ function Login() {
           placeholder="Enter password"
           element="input"
           type="password"
-          label="Secret"
-          validators={[VALIDATOR_REQUIRE()]}
+          label="Password"
+          validators={[VALIDATOR_MINLENGTH(6)]}
           errorText="Please enter a valid password."
           onInput={inputHandler}
         >
@@ -78,7 +69,7 @@ function Login() {
         </Button>
       </form>
     </Card>
-  )
+  );
 }
 
 export default Login;
