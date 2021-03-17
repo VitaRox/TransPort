@@ -1,7 +1,7 @@
 # Transport
 
 ## A travel companion for Transgender Americans
-A travel app to aid and assist in the safe travel of transgender folx in the United States.
+A travel app to aid and assist in the safe and happy travel of transgender folx in the United States.
 
 ## To download, build, and run
 1. Fork or clone this repo: https://github.com/VitaRox/Transport
