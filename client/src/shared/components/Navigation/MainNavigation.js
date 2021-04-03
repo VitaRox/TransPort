@@ -7,7 +7,8 @@ import NavLinks from './NavLinks';
 import SideDrawer from './SideDrawer';
 import Backdrop from '../UIElements/Backdrop.js';
 
-function MainNavigation(props) {
+import Button from '../../components/FormElements/Button';
+function MainNavigation() {
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const openDrawerHandler = () => {
@@ -33,7 +34,7 @@ function MainNavigation(props) {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/">transPORT</Link>
+          <Link to="/">TransPort</Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

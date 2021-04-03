@@ -1,10 +1,12 @@
 // The basics:
 import React, { useState, useRef }  from 'react';
 
-// Resources
+// UI Resources
 import Card from '../shared/components/UIElements/Card.js';
 import Input from '../shared/components/FormElements/Input';
 import Button from '../shared/components/FormElements/Button';
+
+// Business logic resources
 import { useForm } from '../shared/hooks/form-hook.js';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../shared/util/validators';
 
