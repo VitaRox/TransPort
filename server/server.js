@@ -9,3 +9,6 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+// API endpoints;
+app.use(express.static(path.join(__dirname, 'public')))
