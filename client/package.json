@@ -38,11 +38,6 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
     "nodemon": "^2.0.7"
-=======
-    "nodemon": "^2.0.4",
-    "swagger-ui-express": "^4.1.6"
->>>>>>> c1e8bd2aec7d72752f9f2d4961f6f13409ddd1b9
   }
 }

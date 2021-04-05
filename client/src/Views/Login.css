@@ -4,7 +4,7 @@
   font-weight: bold;
   font-optical-sizing: auto;
   width: 200px;
-  height: 150px;
+  height: flex;
   background-color: rgb(87, 11, 158);
 }
 
