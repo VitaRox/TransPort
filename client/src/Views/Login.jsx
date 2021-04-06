@@ -1,5 +1,5 @@
 // The basics:
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // UI Resources
 import Card from '../shared/components/UIElements/Card.js';
@@ -12,7 +12,6 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../shared/util/validator
 
 // Styles
 import './Login.css';
-
 
 function Login(props) {
 
@@ -27,8 +26,9 @@ function Login(props) {
       isValid: false
     },
   },
-  false
-);
+    // Validity of entire form = (validity of username && validity of password);
+    false
+  );
 
   const loginSubmitHandler = e => {
     e.preventDefault();
