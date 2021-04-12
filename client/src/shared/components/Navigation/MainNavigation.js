@@ -1,8 +1,10 @@
 // The basics
 import React, { useState } from 'react';
 
-// UI Resources
+// Styles
 import './MainNavigation.css';
+
+// UI Resources
 import MainHeader from './MainHeader';
 import { Link } from 'react-router-dom';
 import NavLinks from './NavLinks';
