@@ -1,5 +1,5 @@
 // The basics:
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // UI Resources
 import Card from '../shared/components/UIElements/Card.js';
