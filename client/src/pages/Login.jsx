@@ -1,5 +1,5 @@
 // The basics:
-import React from 'react';
+import React, {useState} from 'react';
 
 // UI Resources
 import Card from '../shared/components/UIElements/Card.js';
@@ -13,7 +13,13 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../shared/util/validator
 // Styles
 import './Login.css';
 
-function Login(props) {
+// Begin React functional component
+function Login() {
+
+  // Handle state changes governing whether Login/Signup view is shown;
+  // It defaults to logging in, as this will be the more common behaviour
+  // of regular/frequent end-users;
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
   // Initialize form state;
   const [formState, inputHandler] = useForm({
@@ -30,9 +36,9 @@ function Login(props) {
     false
   );
 
-  const loginSubmitHandler = e => {
-    e.preventDefault();
-    // onChange();
+  // Handle submission of login credentials;
+  const loginSubmitHandler = event => {
+    event.preventDefault();
     console.log(formState.inputs);  // Send to backend this data
     // const data = new FormData(form.current)
     // console.log(data);
@@ -41,6 +47,19 @@ function Login(props) {
     //   .then(json => setUser(json.user))
   };
 
+  // Handles switching this page to the SignUp view
+  // (for users who do not yet have an account and wish to
+  // make one);
+  const switchModeHandler = () => {
+    console.log(`Login mode: ${isLoginMode}`);
+    // Invert the current state when corresponding Button clicked;
+    // Best practice: use prevMode to invert state rather than !stateName
+    setIsLoginMode(prevMode => !prevMode);
+    // Verify state has changed;
+    console.log(`Login mode: ${ isLoginMode }`);
+  };
+
+  // Render the component and its constituent components;
   return (
     <Card className="login-info_">
       <form onSubmit={loginSubmitHandler}>
@@ -67,11 +86,15 @@ function Login(props) {
         >
         </Input>
         <Button type="submit" disabled={!formState.isValid}>
-          Submit
+          {isLoginMode ? 'LOG IN' : 'SIGN UP'}
         </Button>
       </form>
+      <Button inverse onClick={switchModeHandler}>
+        Go to {isLoginMode ? 'SIGN UP' : 'LOG IN'}
+      </Button>
     </Card>
   );
 }
 
 export default Login;
+// End React functional component

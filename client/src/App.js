@@ -8,16 +8,14 @@ import {
 } from 'react-router-dom';
 
 // Containers/high-level interfaces
-import HomeScreen from './Views/HomeScreen';
+import HomeScreen from './pages/HomeScreen';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import InputMap from './shared/components/UIElements/InputMap';
 import OutputMap from './shared/components/UIElements/OutputMap';
 
 // Stylings:
-// import logo from './kitten_blog.jpg';
 import './App.css';
-import Login from './Views/Login';
-
+import Login from './pages/Login';
 
 function App() {
   return (
