@@ -21,6 +21,9 @@ function NavLinks() {
       <li>
         <NavLink to="/users/create" exact>CREATE ACCOUNT</NavLink>
       </li>
+      <li>
+        <NavLink to="/report">REPORT</NavLink>
+      </li>
     </ul>
   );
 }

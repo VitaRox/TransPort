@@ -12,6 +12,7 @@ import HomeScreen from './Views/HomeScreen';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import InputMap from './shared/components/UIElements/InputMap';
 import OutputMap from './shared/components/UIElements/OutputMap';
+import ReportForm from './/shared/components/UIElements/ReportForm'
 
 // Stylings:
 // import logo from './kitten_blog.jpg';
@@ -41,6 +42,9 @@ function App() {
           </Route>
           <Route path='/auth' exact>
             <Login />
+          </Route>
+          <Route path='/report'>
+            <ReportForm />
           </Route>
           <Redirect to='/' />
         </Switch>

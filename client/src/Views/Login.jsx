@@ -28,8 +28,10 @@ function Login(props) {
     },
   },
   false
-);
+  );
 
+  //prevents error message from showing up on initialization
+  //logs inputs to the console 
   const loginSubmitHandler = e => {
     e.preventDefault();
     // onChange();
@@ -41,6 +43,7 @@ function Login(props) {
     //   .then(json => setUser(json.user))
   };
 
+  //
   return (
     <Card className="login-info_">
       <form onSubmit={loginSubmitHandler}>

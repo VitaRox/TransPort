@@ -1,5 +1,6 @@
 import React from 'react';
 import Map from './Map';
+import ReportForm from './/shared/components/UIElements/ReportForm';
 
 import './Map.js';
 
@@ -20,10 +21,16 @@ function InputMap(props) {
     defaultZoom: 12,
   };
 
+  
+
+
   return (
     <div id="map-container">
       <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
-    </div>
+    </div>,
+    <div id="report-container">
+      <ReportForm/>
+    </div> 
   );
 }
 
