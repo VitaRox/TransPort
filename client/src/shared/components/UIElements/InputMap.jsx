@@ -1,6 +1,6 @@
 import React from 'react';
 import Map from './Map';
-import ReportForm from './/shared/components/UIElements/ReportForm';
+import ReportForm from './ReportForm.jsx';
 
 import './Map.js';
 
@@ -28,6 +28,8 @@ function InputMap(props) {
     <div id="map-container">
       <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
     </div>,
+
+    //Possible embed? 
     <div id="report-container">
       <ReportForm/>
     </div> 

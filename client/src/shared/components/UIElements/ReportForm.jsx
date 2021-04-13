@@ -2,12 +2,13 @@
 import React from 'react';
 
 // Resources
-import Card from '../shared/components/UIElements/Card.js';
-import Input from '../shared/components/FormElements/Input';
-import Button from '../shared/components/FormElements/Button';
-import { useForm } from '../shared/hooks/form-hook.js';
+import Card from './Card.js';
+import Input from '../FormElements/Input';
+import Button from '../FormElements/Button';
 
-function Login(props) {
+import { useForm } from '../../hooks/form-hook.js';
+
+function Report(props) {
 
     // Initialize form state;
     const [formState, reportHandler] = useForm({
@@ -67,4 +68,4 @@ function Login(props) {
     );
   }
   
-  export default Login;
+  export default Report;
