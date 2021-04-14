@@ -8,7 +8,7 @@ import Button from '../shared/components/FormElements/Button';
 
 // Business logic resources
 import { useForm } from '../shared/hooks/form-hook.js';
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../shared/util/validators';
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../shared/util/validators';
 
 // Styles
 import './Login.css';
@@ -22,7 +22,7 @@ function Login() {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   // Initialize form state;
-  const [formState, inputHandler] = useForm({
+  const [formState, inputHandler, setFormData] = useForm({
     username: {
       value: '',
       isValid: false
@@ -32,9 +32,42 @@ function Login() {
       isValid: false
     },
   },
-    // Validity of entire form = (validity of username && validity of password);
+    // Validity of entire form = (validity of username && validity of password
+    // && validity of email if in sign up mode);
     false
   );
+
+  // Handles switching this page to the SignUp view
+  // (for users who do not yet have an account and wish to
+  // make one);
+  const switchModeHandler = () => {
+    // If we are switching to login mode:
+    if (!isLoginMode) {
+      // ... reset email to 'undefined' (we don't need to pass this along
+      // because we only need username and password to log in);
+      setFormData(
+        {
+          ...formState.inputs,
+          email: undefined
+        },
+        formState.inputs.username.isValid && formState.inputs.password.isValid
+      );
+    } else {
+      setFormData(
+        {
+          ...formState.inputs,
+          email: {
+            value: '',
+            isValid: false
+          }
+        },
+        false
+      );
+    }
+    // Invert the current state when corresponding Button clicked;
+    // Best practice: use prevMode to invert state rather than !stateName
+    setIsLoginMode(prevMode => !prevMode);
+  };
 
   // Handle submission of login credentials;
   const loginSubmitHandler = event => {
@@ -47,44 +80,43 @@ function Login() {
     //   .then(json => setUser(json.user))
   };
 
-  // Handles switching this page to the SignUp view
-  // (for users who do not yet have an account and wish to
-  // make one);
-  const switchModeHandler = () => {
-    console.log(`Login mode: ${isLoginMode}`);
-    // Invert the current state when corresponding Button clicked;
-    // Best practice: use prevMode to invert state rather than !stateName
-    setIsLoginMode(prevMode => !prevMode);
-    // Verify state has changed;
-    console.log(`Login mode: ${ isLoginMode }`);
-  };
-
   // Render the component and its constituent components;
+  // When creating account, user should also enter their email;
+  // TODO: Confirmation email will be sent to them as another layer of security
   return (
     <Card className="login-info_">
       <form onSubmit={loginSubmitHandler}>
+        {!isLoginMode && (
+          <Input
+            id="email"
+            element="input"
+            type="email"
+            label="E-mail"
+            validators={[VALIDATOR_EMAIL()]}
+            errorText="Please enter a valid email address."
+            onInput={inputHandler}
+          />
+        )}
         <Input
           id="username"
           element="input"
           type="text"
           placeholder="Enter username"
-          label="Username"
+          label="Enter your username here"
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid username."
           onInput={inputHandler}
-        >
-        </Input>
+        />
         <Input
           id="password"
           placeholder="Enter password"
           element="input"
           type="password"
-          label="Password"
+          label="Enter your password here"
           validators={[VALIDATOR_MINLENGTH(6)]}
           errorText="Please enter a valid password."
           onInput={inputHandler}
-        >
-        </Input>
+        />
         <Button type="submit" disabled={!formState.isValid}>
           {isLoginMode ? 'LOG IN' : 'SIGN UP'}
         </Button>
