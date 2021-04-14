@@ -31,7 +31,7 @@ const Input = props => {
   // Object destructuring: we can extract these from their parent objects
   const { id, onInput } = props;
   const { value, isValid } = inputState;
-  
+
   useEffect(() => {
     onInput(id, value, isValid);
   }, [id, value, isValid, onInput]);

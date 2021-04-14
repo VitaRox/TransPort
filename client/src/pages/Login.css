@@ -6,8 +6,5 @@
   width: 200px;
   height: flex;
   background-color: rgb(87, 11, 158);
-}
-
-div {
-  justify-self: right;
+  color: white;
 }
