@@ -1,5 +1,5 @@
 // The basics:
-import React, {useState} from 'react';
+import React, { useState, useContext } from 'react';
 
 // UI Resources
 import Card from '../shared/components/UIElements/Card.js';
@@ -9,12 +9,15 @@ import Button from '../shared/components/FormElements/Button';
 // Business logic resources
 import { useForm } from '../shared/hooks/form-hook.js';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../shared/util/validators';
+import { AuthContext } from '../shared/context/auth-context';
 
 // Styles
 import './Login.css';
 
 // Begin React functional component
 function Login() {
+
+  const auth = useContext(AuthContext);
 
   // Handle state changes governing whether Login/Signup view is shown;
   // It defaults to logging in, as this will be the more common behaviour
@@ -73,6 +76,7 @@ function Login() {
   const loginSubmitHandler = event => {
     event.preventDefault();
     console.log(formState.inputs);  // Send to backend this data
+    auth.login();
     // const data = new FormData(form.current)
     // console.log(data);
     // fetch('/api', { method: 'POST', body: data })
