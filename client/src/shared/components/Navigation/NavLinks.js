@@ -31,6 +31,11 @@ function NavLinks() {
           <NavLink to="/users/:userId" exact>YOUR ACCOUNT</NavLink>
         </li>
       )}
+      {auth.isLoggedIn && (
+        <li>
+          <NavLink to="/auth" exact>SIGN OUT</NavLink>
+        </li>
+      )}
     </ul>
   );
 }

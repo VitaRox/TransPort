@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { AuthContext } from '../../context/auth-context';
 import Map from './Map';
 
 import './Map.js';
@@ -10,6 +11,9 @@ import './Map.js';
  * as well input fields for user input (eventually);
  */
 function InputMap(props) {
+
+  const auth = useContext(AuthContext);
+
 
   props = {
     defaultClass: "__input",
