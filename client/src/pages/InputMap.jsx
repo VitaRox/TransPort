@@ -1,8 +1,14 @@
+<<<<<<< HEAD:client/src/shared/components/UIElements/InputMap.jsx
 import React, { Fragment } from 'react';
 import Map from './Map';
 import ReportForm from './ReportForm.jsx';
+=======
+import React from 'react';
+import Map from '../shared/components/UIElements/Map';
+>>>>>>> upstream/main:client/src/pages/InputMap.jsx
 
-import './Map.js';
+// Styles
+import './InputMap.css';
 
 /**
  * InputMap is the visual interface thru which the apps takes in Reviews
