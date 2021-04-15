@@ -84,12 +84,6 @@ function Login() {
     //   .then(json => setUser(json.user))
   };
 
-  const logoutSubmitHandler = event => {
-    event.preventDefault();
-    console.log("Logging out now: ");
-    auth.logout();
-  };
-
   // Render the component and its constituent components;
   // When creating account, user should also enter their email;
   // TODO: Confirmation email will be sent to them as another layer of security

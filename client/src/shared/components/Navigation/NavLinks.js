@@ -18,9 +18,11 @@ function NavLinks() {
       <li>
         <NavLink to="/data/view" exact>VIEW OUTPUT MAP</NavLink>
       </li>
-      <li>
-        <NavLink to="/data/new">VIEW INPUT MAP</NavLink>
-      </li>
+      {auth.isLoggedIn && (
+        <li>
+          <NavLink to="/data/new">VIEW INPUT MAP</NavLink>
+        </li>
+      )}
       {!auth.isLoggedIn && (
         <li>
           <NavLink to="/auth">LOG IN</NavLink>
@@ -33,7 +35,7 @@ function NavLinks() {
       )}
       {auth.isLoggedIn && (
         <li>
-          <NavLink to="/auth" exact>SIGN OUT</NavLink>
+          <button onClick={auth.logout}>SIGN OUT</button>
         </li>
       )}
     </ul>
