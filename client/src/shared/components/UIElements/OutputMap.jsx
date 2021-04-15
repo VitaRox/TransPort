@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import Map from './Map';
-import Button from '../FormElements/Button';
 
+// Styles
 import './OutputMap.css';
 
 /**
@@ -10,13 +9,6 @@ import './OutputMap.css';
  * which will be used to visualize data;
  */
 function OutputMap(props) {
-
-  // // State management;
-  // const [showMap, setShowMap] = useState(true);
-
-  // //
-  // const openMapHandler = () => setShowMap(true);
-  // const closeMapHandler = () => setShowMap(false);
 
   props = {
     defaultClass: "__output",

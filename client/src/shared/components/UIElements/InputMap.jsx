@@ -1,7 +1,8 @@
 import React from 'react';
 import Map from './Map';
 
-import './Map.js';
+// Styles
+import './InputMap.css';
 
 /**
  * InputMap is the visual interface thru which the apps takes in Reviews
