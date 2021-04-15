@@ -43,9 +43,6 @@ function App() {
           <Route path='/auth' exact>
             <Login />
           </Route>
-          <Route path='/report'>
-            <ReportForm />
-          </Route>
           <Redirect to='/' />
         </Switch>
       </main>

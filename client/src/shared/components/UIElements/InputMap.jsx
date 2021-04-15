@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Map from './Map';
 import ReportForm from './ReportForm.jsx';
 
@@ -25,14 +25,15 @@ function InputMap(props) {
 
 
   return (
-    <div id="map-container">
-      <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
-    </div>,
-
-    //Possible embed? 
-    <div id="report-container">
-      <ReportForm/>
-    </div> 
+    <React.Fragment>
+      <div id="map-container">
+        <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
+      </div>,
+ 
+      <div id="report-container">
+        <ReportForm/>
+      </div> 
+    </React.Fragment>
   );
 }
 

@@ -1,14 +1,13 @@
-.login-info_ {
-    box-shadow: inset;
-    text-align: center;
-    font-weight: bold;
-    font-optical-sizing: auto;
-    width: 200px;
-    height: 150px;
-    background-color: rgb(87, 11, 158);
-  }
-  
-  div {
-    justify-self: right;
-  }
-  
+.report-info_ {
+  box-shadow: inset;
+  text-align: center;
+  font-weight: bold;
+  font-optical-sizing: auto;
+  width: 200px;
+  height: 150px;
+  background-color: rgb(87, 11, 158);
+}
+
+div {
+  justify-self: right;
+}
