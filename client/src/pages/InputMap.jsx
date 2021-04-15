@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from './Map';
+import Map from '../shared/components/UIElements/Map';
 
 // Styles
 import './InputMap.css';
