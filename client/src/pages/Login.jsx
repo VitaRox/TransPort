@@ -36,7 +36,7 @@ function Login() {
     },
   },
     // Validity of entire form = (validity of username && validity of password
-    // && validity of email if in sign up mode);
+    // && validity of email if in sign-up mode);
     false
   );
 
@@ -77,8 +77,6 @@ function Login() {
     event.preventDefault();
     console.log(formState.inputs);  // Send to backend this data
     auth.login();
-    // const data = new FormData(form.current)
-    // console.log(data);
     // fetch('/api', { method: 'POST', body: data })
     //   .then(res => res.json())
     //   .then(json => setUser(json.user))
@@ -96,6 +94,7 @@ function Login() {
             element="input"
             type="email"
             label="E-mail"
+            placeholder="example@email.com"
             validators={[VALIDATOR_EMAIL()]}
             errorText="Please enter a valid email address."
             onInput={inputHandler}
