@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// Dummy userId data for test
-const userId = 1;
-
 // Dummy User account data
 const DUMMY_USERS = [
   {
@@ -53,7 +50,6 @@ router.get(`/`, (req, res, next) => {
 });
 
 // Fetches an existing User account by userId;
-// DOESN'T WORK ("cannot GET")
 router.get(`/:userId`, (req, res, next) => {
   console.log("GET request made to fetch a User by their userId");
   const userId = req.params.userId;
