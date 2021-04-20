@@ -15,5 +15,4 @@ router.get('/new', (req, res, next) => {
   res.json({ message: "GET /data/new appears to be working!!" });
 });
 
-
 module.exports = router;
