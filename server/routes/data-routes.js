@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+// Maps routes
+
 // This will go from the app.use "filtering" method in server.js
 // to here; 'view' will be appended to the filtering path in
 // server.js ('/data');
@@ -15,5 +17,6 @@ router.get('/new', (req, res, next) => {
   res.json({ message: "GET /data/new appears to be working!!" });
 });
 
+// Report routes
 
 module.exports = router;
