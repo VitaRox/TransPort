@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const HttpError = require('../models/http-error');
+
 // Dummy User account data
 const DUMMY_USERS = [
   {
@@ -52,16 +54,25 @@ router.get(`/`, (req, res, next) => {
 // Fetches an existing User account by userId;
 router.get(`/:userId`, (req, res, next) => {
   console.log("GET request made to fetch a User by their userId");
+
   const userId = req.params.userId;
   const user = DUMMY_USERS.find(u => {
     return u.id === userId;
   });
+
+  if (!user) {
+    return next(
+      new HttpError('User not found.', 404)
+    );
+  }
   res.json({ user });
 });
 
-// Creates a new User account with info from response body
+// Creates a new User account with input from response body
 router.post(`/`, (req, res, next) => {
   console.log("POST request made to create a new User!");
+  // TODO: Parse json input and create new User instance
+  // TODO: Store User instance in database
   res.json({ message: "POST new user is working dandy." });
 });
 

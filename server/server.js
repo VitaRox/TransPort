@@ -29,6 +29,15 @@ app.use('/users', userRoutes);
 // Send requests to appropriate middleware for signing in, signing out
 app.use('/auth', authRoutes);
 
+// Error handling
+app.use((error, req, res, next) => {
+  if (res.headerSent) {
+    return next(error);
+  }
+  res.status(error.code || 500)
+    .json({message: error.message || "An error occurred."});
+});
+
 // Listens on the port of choice
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
