@@ -8,9 +8,13 @@ const port = 4000 || process.env.PORT;
 const bodyParser = require('body-parser');
 
 // Routing middleware;
+const staticRoutes = require('./routes/static-routes');
 const dataRoutes = require('./routes/data-routes');
 const userRoutes = require('./routes/user-routes');
 const authRoutes = require('./routes/auth-routes');
+
+// Static routes middleware
+app.use('/', staticRoutes);
 
 // This will filter to only pass requests made to paths beginning with '/'
 // to the router middleware in ./routes/data-routes;
