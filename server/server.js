@@ -8,7 +8,7 @@ const port = 4000 || process.env.PORT;
 const bodyParser = require('body-parser');
 
 // Routing middleware;
-const staticRoutes = require('./routes/static-routes');
+const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
 const dataRoutes = require('./routes/data-routes');
 const userRoutes = require('./routes/user-routes');
 const authRoutes = require('./routes/auth-routes');
@@ -40,7 +40,7 @@ app.use((error, req, res, next) => {
     );
 });
 
-// Listens on the port of choice
+// Listens on an available port
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
