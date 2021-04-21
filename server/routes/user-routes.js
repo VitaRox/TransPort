@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+// This represents our custom Error subclass instance
 const HttpError = require('../models/http-error');
 
 // Dummy User account data
@@ -54,23 +55,34 @@ router.get(`/`, (req, res, next) => {
 // Fetches an existing User account by userId;
 router.get(`/:userId`, (req, res, next) => {
   console.log("GET request made to fetch a User by their userId");
-
+  // Find user with matching userId
   const userId = req.params.userId;
   const user = DUMMY_USERS.find(u => {
     return u.id === userId;
   });
-
+  // Handle "User not found" error
   if (!user) {
     return next(
       new HttpError('User not found.', 404)
     );
   }
+  // Return query results
   res.json({ user });
 });
 
 // Creates a new User account with input from response body
-router.post(`/`, (req, res, next) => {
+// TODO: verify this is working with Postman or something
+router.post(`/`, (err, req, res, next) => {
   console.log("POST request made to create a new User!");
+  // TODO: create new User instance from req.body
+  // const newUser = {
+  //   id: "7",
+  // };
+  if (err) {
+    return next(
+      new HttpError('Create User operation failed.', 500)
+    );
+  }
   // TODO: Parse json input and create new User instance
   // TODO: Store User instance in database
   res.json({ message: "POST new user is working dandy." });
