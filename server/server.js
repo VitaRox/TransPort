@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 
 // Routing middleware;
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
-const dataRoutes = require('./routes/data-routes');
+const reportRoutes = require('./routes/report-routes');
 const userRoutes = require('./routes/user-routes');
 const authRoutes = require('./routes/auth-routes');
 
@@ -18,9 +18,9 @@ app.use('/', staticRoutes);
 
 // This will filter to only pass requests made to paths beginning with '/'
 // to the router middleware in ./routes/data-routes;
-// dataRoutes will be used to route requests/responses to and from /data/view
+// reportRoutes will be used to route requests/responses to and from /data/view
 // and /data/new (if user is logged in)
-app.use('/data', dataRoutes);
+app.use('/data', reportRoutes);
 
 // This will filter requests to user-related paths
 // (e.g. creating a User Account, viewing User Account, signing out)

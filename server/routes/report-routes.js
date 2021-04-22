@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // CONTROLLERS
-const reportControllers = require('../controllers/reports-controllers');
+const reportControllers = require('../controllers/report-controllers');
 
 // ROUTES
 
