@@ -1,11 +1,7 @@
-<<<<<<< HEAD:client/src/shared/components/UIElements/InputMap.jsx
+
 import React, { Fragment } from 'react';
-import Map from './Map';
-import ReportForm from './ReportForm.jsx';
-=======
-import React from 'react';
-import Map from '../shared/components/UIElements/Map';
->>>>>>> upstream/main:client/src/pages/InputMap.jsx
+import ReportForm from '../shared/components/UIElements/ReportForm.jsx';
+import Map from '../shared/components/UIElements/Map.js';
 
 // Styles
 import './InputMap.css';

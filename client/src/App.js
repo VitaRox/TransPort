@@ -10,15 +10,9 @@ import {
 // Containers/high-level interfaces
 import HomeScreen from './pages/HomeScreen';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
-<<<<<<< HEAD
-import InputMap from './shared/components/UIElements/InputMap';
-import OutputMap from './shared/components/UIElements/OutputMap';
-import ReportForm from './/shared/components/UIElements/ReportForm'
-=======
 import InputMap from './pages/InputMap';
 import OutputMap from './pages/OutputMap';
 import Login from './pages/Login';
->>>>>>> upstream/main
 
 // Helpers
 import { AuthContext } from './shared/context/auth-context';

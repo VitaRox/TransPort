@@ -3,11 +3,11 @@
   text-align: center;
   font-weight: bold;
   font-optical-sizing: auto;
-  width: 200px;
-  height: 150px;
+  width: 500px;
+  height: 250px;
   background-color: rgb(87, 11, 158);
 }
 
 div {
-  justify-self: right;
+  justify-self: center;
 }

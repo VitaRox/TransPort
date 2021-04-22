@@ -6,9 +6,15 @@ import Card from './Card.js';
 import Input from '../FormElements/Input';
 import Button from '../FormElements/Button';
 
+// Business Logic
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../../util/validators';
+
+// Styles
+import './ReportForm.css';
+
 import { useForm } from '../../hooks/form-hook.js';
 
-function Report(props) {
+function ReportForm(props) {
 
     // Initialize form state;
     const [formState, reportHandler] = useForm({
@@ -26,13 +32,7 @@ function Report(props) {
   
     const reportSubmitHandler = e => {
       e.preventDefault();
-      // onChange();
       console.log(formState.inputs);  // Send to backend this data
-      // const data = new FormData(form.current)
-      // console.log(data);
-      // fetch('/api', { method: 'POST', body: data })
-      //   .then(res => res.json())
-      //   .then(json => setUser(json.user))
     };
   
     return (
@@ -44,8 +44,8 @@ function Report(props) {
             type="text"
             placeholder="What's the location you're writing about?"
             label="Location"
-            //validators={[VALIDATOR_REQUIRE()]}
-            errorText="GET TO DE CHOPPA."
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText="Please enter a valid string."
             onInput={reportHandler}
           >
           </Input>
@@ -55,8 +55,8 @@ function Report(props) {
             element="input"
             type="text"
             label="Report"
-            //validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter a valid assword."
+            validators={[VALIDATOR_MINLENGTH(6)]}
+            errorText="Please enter a valid password."
             onInput={reportHandler}
           >
           </Input>
@@ -68,4 +68,4 @@ function Report(props) {
     );
   }
   
-  export default Report;
+  export default ReportForm;
