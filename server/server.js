@@ -7,6 +7,8 @@ const port = 4000 || process.env.PORT;
 // bodyParser is a method for parsing the bodies of requests & responses;
 const bodyParser = require('body-parser');
 
+const HttpError = require(`./models/http-error`);
+
 // Routing middleware;
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
 const reportRoutes = require('./routes/report-routes');
@@ -33,7 +35,13 @@ app.use('/users', userRoutes);
 // Send requests to appropriate middleware for signing in, signing out
 app.use('/auth', authRoutes);
 
-// Error handling
+// Handle case in which path doesn't exist
+app.use((req, res, next) => {
+  const error = new HttpError('could not find this route', 404);
+  throw error;
+});
+
+// Default error handler
 app.use((error, req, res, next) => {
   if (res.headerSent) {
     return next(error);

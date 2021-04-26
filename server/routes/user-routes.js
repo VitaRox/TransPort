@@ -8,11 +8,16 @@ const userControllers = require('../controllers/user-controllers');
 // TODO: remove this before production build!!!!!!!
 router.get(`/`, userControllers.getAllUsers);
 
+// Creates a new User account with input from response body
+// TODO: verify this is working with Postman or something
+router.post(`/signup`, userControllers.createNewUser);
+
+// Begin login to existing User account process
+// router.post(`/login`, userControllers.loginUser);
+
 // Fetches an existing User account by userId;
 router.get(`/:userId`, userControllers.getUserById);
 
-// Creates a new User account with input from response body
-// TODO: verify this is working with Postman or something
-router.post(`/`, userControllers.createNewUser);
+
 
 module.exports = router;

@@ -1,8 +1,8 @@
 const HttpError = require('../models/http-error');
 const { v4: uuid } = require("uuid");
 
-// Dummy Report data
-const DUMMY_REPORTS = [
+// DUMMY Report data
+let DUMMY_REPORTS = [
   {
     id: '1',
     authorId: '4',
@@ -19,7 +19,7 @@ const DUMMY_REPORTS = [
       lat: '47.66144545096609',
       lng: '-122.3369235730304'
     },
-    dateTime: '04-11-2020'
+    date: '04-11-2020'
   },
   {
     id: '2',
@@ -37,7 +37,7 @@ const DUMMY_REPORTS = [
       lat: '47.69149124976197',
       lng: '-122.35759765892428'
     },
-    dateTime: '01-02-2019'
+    date: '01-02-2019'
   },
   {
     id: '3',
@@ -55,7 +55,7 @@ const DUMMY_REPORTS = [
       lat: '47.63969492855474',
       lng: '-122.35594603425109'
     },
-    dateTime: '05-20-2017'
+    date: '05-20-2017'
   },
 ];
 
@@ -64,7 +64,7 @@ const getAllReports = (req, res, next) => {
   console.log("Getting all Reports");
   const reports = DUMMY_REPORTS;
   try {
-    /* TODO: Put equivalent code operation to line 117 here in final product.
+    /*
       This code will GET from the MongoDB database;
     */
     console.log("Successfully fetched all Reports");
@@ -111,6 +111,7 @@ const postNewReport = (req, res, next) => {
     location,
     date: newDate.toUTCString()
   };
+
   // Add to "database"
   DUMMY_REPORTS.push(newReport);
   // Return an http status to the client
@@ -130,7 +131,7 @@ const getAllReportsByUserId = (req, res, next) => {
   // Get all Reports such that thisReport.authorId === userId
   console.log(`Getting all Reports by User ID: ${userId}`);
   const reports = DUMMY_REPORTS.filter(report => report.authorId === userId);
-  if (!reports) {
+  if (!reports || reports.length === 0) {
     return next(
       new HttpError("This User hasn't posted any Reports yet.", 404)
     );

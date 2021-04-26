@@ -1,7 +1,8 @@
 const HttpError = require('../models/http-error');
+const { v4: uuid } = require("uuid");
 
 // DUMMY USER DATA
-const DUMMY_USERS = [
+let DUMMY_USERS = [
   {
     id: '1',
     username: 'flexingAardvark',
@@ -60,21 +61,23 @@ const getUserById = (req, res, next) => {
   res.json({ user });
 };
 
-// Create new User account from data submitted in form
-const createNewUser = (err, req, res, next) => {
+// Create new User account from data submitted in form, auto-generated id
+const createNewUser = (req, res, next) => {
   console.log("POST request made to create a new User!");
-  // TODO: create new User instance from req.body
-  // const newUser = {
-  //   id: "7",
-  // };
-  if (err) {
-    return next(
-      new HttpError('Create User operation failed.', 500)
-    );
-  }
-  // TODO: Parse json input and create new User instance
-  // TODO: Store User instance in database
-  res.json({ message: "POST new user is working dandy." });
+  // Parse json input and create new User instance
+  const { username, email, password, phone } = req.body;
+  const newUser = {
+    id: uuid(),
+    username,
+    email,
+    password,
+    phone,
+  };
+
+  // Store User instance in database
+  DUMMY_USERS.push(newUser);
+  // Send a response to client
+  res.status(201).json({ user: newUser });
 };
 
 // TODO: remove from production build
