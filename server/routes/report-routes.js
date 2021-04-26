@@ -28,6 +28,4 @@ router.get('/new', reportControllers.getInputMap);
 // TODO: make it send data from ReportForm in the request body; handle errors
 router.post('/new', reportControllers.postNewReport);
 
-
-
 module.exports = router;

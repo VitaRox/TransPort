@@ -1,4 +1,5 @@
 const HttpError = require('../models/http-error');
+const { v4: uuid } = require("uuid");
 
 // Dummy Report data
 const DUMMY_REPORTS = [
@@ -93,11 +94,28 @@ const getReportById = (req, res, next) => {
   res.json({ report });
 };
 
+// Post a new Report (User must be logged-in)
 const postNewReport = (req, res, next) => {
   console.log("POST request made to post new Report");
-  res.json({ message: "Posted new Report!" });
+  // Use object destructuring to obtain contents of request body
+  // Id will be generated, authorId will be extracted from userId
+  const { authorId, title, reportText, address, location } = req.body;
+  // Create new Date object from vanilla JS for auto-setting the current UTC date
+  const newDate = new Date();
+  const newReport = {
+    id: uuid(),
+    authorId,
+    title,
+    reportText,
+    address,
+    location,
+    date: newDate.toUTCString()
+  };
+  // Add to "database"
+  DUMMY_REPORTS.push(newReport);
+  // Return an http status to the client
+  res.status(201).json({ report: newReport });
 };
-
 
 // Get all Reports by one User
 const getAllReportsByUserId = (req, res, next) => {
