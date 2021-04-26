@@ -153,6 +153,7 @@ const getInputMap = (req, res, next) => {
   res.json({ message: "GET /data/new appears to be working!!" });
 };
 
+// Module exports
 exports.getAllReports = getAllReports;
 exports.getReportById = getReportById;
 exports.getOutputMap = getOutputMap;

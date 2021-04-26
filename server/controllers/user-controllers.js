@@ -64,14 +64,21 @@ const getUserById = (req, res, next) => {
 // Create new User account from data submitted in form, auto-generated id
 const createNewUser = (req, res, next) => {
   console.log("POST request made to create a new User!");
-  // Parse json input and create new User instance
-  const { username, email, password, phone } = req.body;
+  // Parse json input (i.e. login credentials)
+  const { username, email, password } = req.body;
+
+  // Check for case in which an account associated with this email already exists;
+  // this is to prevent the creation of duplicate accounts
+  const hasAccount = DUMMY_USERS.find(u => u.email === email);
+  if (hasAccount) {
+    throw new HttpError('Account associated with this email already exists', 422);
+  }
+  // Create new User instance
   const newUser = {
     id: uuid(),
     username,
     email,
     password,
-    phone,
   };
 
   // Store User instance in database
@@ -87,6 +94,7 @@ const getAllUsers = (req, res, next) => {
   res.json(DUMMY_USERS);
 };
 
+// Module exports
 exports.getUserById = getUserById;
 exports.createNewUser = createNewUser;
 exports.getAllUsers = getAllUsers;
