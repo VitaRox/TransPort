@@ -94,7 +94,7 @@ const getReportById = (req, res, next) => {
   res.json({ report });
 };
 
-// Update one Report if report.authorId === User.id
+// Update one Report by reportId if report.authorId === User.id
 const updateReport = (res, req, next) => {
   // Find Report by reportId
   // If not found:
@@ -105,6 +105,17 @@ const updateReport = (res, req, next) => {
   //        Parse changes
   //          If changes are okay/valid:
   //            update Report
+};
+
+// Delete one Report by reportId if report.authorId === User.id
+const deleteReport = (res, req, next) => {
+  // Find Report by reportId
+  // If not found:
+  //    throw new HttpError('This Report doesn't seem to exist', 404);
+  // else: (If exists):
+  //    is user logged in?
+  //      is userId === report.authorId?
+  //        Delete the report
 };
 
 // Post a new Report (User must be logged-in)
@@ -170,6 +181,7 @@ const getInputMap = (req, res, next) => {
 exports.getAllReports = getAllReports;
 exports.getReportById = getReportById;
 exports.updateReport = updateReport;
+exports.deleteReport = deleteReport;
 exports.getOutputMap = getOutputMap;
 exports.getInputMap = getInputMap;
 exports.getAllReportsByUserId = getAllReportsByUserId;
