@@ -17,15 +17,19 @@ router.get('/view/reports', reportControllers.getAllReports);
 // Get one Report by reportId
 router.get('/view/reports/:reportId', reportControllers.getReportById);
 
+
 // Get all Reports by a given User
 router.get('/view/reports/user/:userId', reportControllers.getAllReportsByUserId);
+
+// Allows User to edit/update and existing Report they've posted
+router.patch(`/view/reports/:reportId`, reportControllers.updateReport);
 
 // This will load the InputMap (Map and a ReportForm) for the user to create a Report;
 // TODO: handle error where map cannot be loaded
 router.get('/new', reportControllers.getInputMap);
 
 // Post a new Report
-// TODO: make it send data from ReportForm in the request body; handle errors
+// TODO: make it receive data from ReportForm in the request body; handle errors
 router.post('/new', reportControllers.postNewReport);
 
 module.exports = router;

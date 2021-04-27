@@ -94,6 +94,19 @@ const getReportById = (req, res, next) => {
   res.json({ report });
 };
 
+// Update one Report if report.authorId === User.id
+const updateReport = (res, req, next) => {
+  // Find Report by reportId
+  // If not found:
+  //    throw new HttpError('This Report doesn't seem to exist', 404);
+  // else: (If exists):
+  //    is user logged in?
+  //      is userId === report.authorId?
+  //        Parse changes
+  //          If changes are okay/valid:
+  //            update Report
+};
+
 // Post a new Report (User must be logged-in)
 const postNewReport = (req, res, next) => {
   console.log("POST request made to post new Report");
@@ -156,6 +169,7 @@ const getInputMap = (req, res, next) => {
 // Module exports
 exports.getAllReports = getAllReports;
 exports.getReportById = getReportById;
+exports.updateReport = updateReport;
 exports.getOutputMap = getOutputMap;
 exports.getInputMap = getInputMap;
 exports.getAllReportsByUserId = getAllReportsByUserId;
