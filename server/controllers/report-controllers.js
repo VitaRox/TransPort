@@ -1,51 +1,8 @@
-const express = require('express');
-const router = express.Router();
-
-// This represents our custom Error subclass instance
 const HttpError = require('../models/http-error');
+const { v4: uuid } = require("uuid");
 
-// Dummy User data
-const DUMMY_USERS = [
-  {
-    id: '1',
-    username: 'flexingAardvark',
-    email: 'aVark@email.com',
-    password: 'pass'
-  },
-  {
-    id: '2',
-    username: 'sparkleBoi420',
-    email: 'sp420@ourmail.com',
-    password: 'badonk'
-  },
-  {
-    id: '3',
-    username: 'Princess_CremeDeMenthe',
-    email: 'skaarsgard@biffMail.com',
-    password: 'crimsonturkey'
-  },
-  {
-    id: '4',
-    username: 'Clifford_Notes',
-    email: 'student@lawyer.com',
-    password: 'chipperSun'
-  },
-  {
-    id: '5',
-    username: 'Doge_Fan_9',
-    email: 'mymail@yourmail.com',
-    password: 'quipSprackter'
-  },
-  {
-    id: '6',
-    username: 'Jinx_Monsoon',
-    email: 'artspore@address.org',
-    password: 'yupYesYeah'
-  },
-];
-
-// Dummy Report data
-const DUMMY_REPORTS = [
+// DUMMY Report data
+let DUMMY_REPORTS = [
   {
     id: '1',
     authorId: '4',
@@ -62,7 +19,7 @@ const DUMMY_REPORTS = [
       lat: '47.66144545096609',
       lng: '-122.3369235730304'
     },
-    dateTime: '04-11-2020'
+    date: '04-11-2020'
   },
   {
     id: '2',
@@ -80,7 +37,7 @@ const DUMMY_REPORTS = [
       lat: '47.69149124976197',
       lng: '-122.35759765892428'
     },
-    dateTime: '01-02-2019'
+    date: '01-02-2019'
   },
   {
     id: '3',
@@ -98,27 +55,16 @@ const DUMMY_REPORTS = [
       lat: '47.63969492855474',
       lng: '-122.35594603425109'
     },
-    dateTime: '05-20-2017'
+    date: '05-20-2017'
   },
 ];
 
-
-// Routes
-
-// This will go from the app.use "filtering" method in server.js
-// to here; 'view' will be appended to the filtering path in
-// server.js ('/data');
-router.get('/view', (req, res, next) => {
-  console.log("GET request made to fetch OutputMap");
-  res.json({ message: "GET /data/view appears to be working!!!!!" });
-});
-
-// Get ALL Reports
-router.get('/view/reports', (req, res, next) => {
+// Get all posted Reports
+const getAllReports = (req, res, next) => {
   console.log("Getting all Reports");
   const reports = DUMMY_REPORTS;
   try {
-    /* TODO: Put equivalent code operation to line 117 here in final product.
+    /*
       This code will GET from the MongoDB database;
     */
     console.log("Successfully fetched all Reports");
@@ -127,11 +73,11 @@ router.get('/view/reports', (req, res, next) => {
       new HttpError(error.message, 404)
     );
   }
-  res.json(reports);
-});
+  res.json({ reports });
+};
 
-// Get one Report by reportId
-router.get('/view/reports/:reportId', (req, res, next) => {
+// Get one Report by Id
+const getReportById = (req, res, next) => {
   // Search for Reports with a reportId matching that in the request
   console.log("Fetching one Report by reportId...");
   const reportId = req.params.reportId;
@@ -146,11 +92,34 @@ router.get('/view/reports/:reportId', (req, res, next) => {
   }
   // Return results of query
   res.json({ report });
-});
+};
 
-// Get all Reports by a given User
-// TODO: put dummy data in it's own file and import so can use both USERS and REPORTS
-router.get('/view/reports/user/:userId', (req, res, next) => {
+// Post a new Report (User must be logged-in)
+const postNewReport = (req, res, next) => {
+  console.log("POST request made to post new Report");
+  // Use object destructuring to obtain contents of request body
+  // Id will be generated, authorId will be extracted from userId
+  const { authorId, title, reportText, address, location } = req.body;
+  // Create new Date object from vanilla JS for auto-setting the current UTC date
+  const newDate = new Date();
+  const newReport = {
+    id: uuid(),
+    authorId,
+    title,
+    reportText,
+    address,
+    location,
+    date: newDate.toUTCString()
+  };
+
+  // Add to "database"
+  DUMMY_REPORTS.push(newReport);
+  // Return an http status to the client
+  res.status(201).json({ report: newReport });
+};
+
+// Get all Reports by one User
+const getAllReportsByUserId = (req, res, next) => {
   // Get account of User associated with this userId
   console.log("Getting User by ID");
   const userId = req.params.userId;
@@ -162,30 +131,32 @@ router.get('/view/reports/user/:userId', (req, res, next) => {
   // Get all Reports such that thisReport.authorId === userId
   console.log(`Getting all Reports by User ID: ${userId}`);
   const reports = DUMMY_REPORTS.filter(report => report.authorId === userId);
-  if (!reports) {
+  if (!reports || reports.length === 0) {
     return next(
       new HttpError("This User hasn't posted any Reports yet.", 404)
     );
   }
   // Return results of query
   res.json({ reports });
-});
+};
 
-// This will load the InputMap (Map and a ReportForm) for the user to create a Report;
-// TODO: handle error where map cannot be loaded
-router.get('/new', (req, res, next) => {
+// Get OutputMap
+const getOutputMap = (req, res, next) => {
+  console.log("GET request made to fetch OutputMap");
+  res.json({ message: "GET /data/view appears to be working!!!!!" });
+};
+
+// Get the InputMap (interface through which User makes Report)
+const getInputMap = (req, res, next) => {
   console.log("GET request made to fetch InputMap");
   // TODO: insert code here to actually render InputMap from /client
   res.json({ message: "GET /data/new appears to be working!!" });
-});
+};
 
-// Post a new Report
-// TODO: make it send data from ReportForm in the request body; handle errors
-router.post('/new', (req, res, next) => {
-  console.log("POST request made to post new Report");
-  res.json({ message: "Posted new Report!" });
-});
-
-
-
-module.exports = router;
+// Module exports
+exports.getAllReports = getAllReports;
+exports.getReportById = getReportById;
+exports.getOutputMap = getOutputMap;
+exports.getInputMap = getInputMap;
+exports.getAllReportsByUserId = getAllReportsByUserId;
+exports.postNewReport = postNewReport;
