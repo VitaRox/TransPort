@@ -94,6 +94,48 @@ const getReportById = (req, res, next) => {
   res.json({ report });
 };
 
+// Update one Report by reportId if report.authorId === User.id
+const updateReport = (req, res, next) => {
+  console.log(`Attempting to update Report`);
+  const reportId = req.params.reportId;
+  const { title, reportText } = req.body;
+  // Get a pointer to the original report with fields copied over
+  const updatedReport = { ...DUMMY_REPORTS.find(r => r.id === reportId) };
+  // Get the index of the Report we are modifying
+  const reportIndex = DUMMY_REPORTS.findIndex(r => r.id === reportId);
+  // Update the info that is updatable
+  updatedReport.title = title;
+  updatedReport.reportText = reportText;
+  // Update the storage
+  DUMMY_REPORTS[reportIndex] = updatedReport;
+  // Send response
+  res.status(200).json({ report: updatedReport });
+  // Find Report by reportId
+  // If not found:
+  //    throw new HttpError('This Report doesn't seem to exist', 404);
+  // else: (If exists):
+  //    is user logged in?
+  //      is userId === report.authorId?
+  //        Parse changes
+  //          If changes are okay/valid:
+  //            update Report
+};
+
+// Delete one Report by reportId if report.authorId === User.id
+const deleteReport = (req, res, next) => {
+  const reportId = req.params.reportId;
+  console.log(`Deleting report ${reportId}`);
+  DUMMY_REPORTS = DUMMY_REPORTS.filter(r => r.id !== reportId);
+  // Find Report by reportId
+  // If not found:
+  //    throw new HttpError('This Report doesn't seem to exist', 404);
+  // else: (If exists):
+  //    is user logged in?
+  //      is userId === report.authorId?
+  //        Delete the report
+  res.status(200).json({ reports: DUMMY_REPORTS });
+};
+
 // Post a new Report (User must be logged-in)
 const postNewReport = (req, res, next) => {
   console.log("POST request made to post new Report");
@@ -137,7 +179,7 @@ const getAllReportsByUserId = (req, res, next) => {
     );
   }
   // Return results of query
-  res.json({ reports });
+  res.status(200).json({ reports });
 };
 
 // Get OutputMap
@@ -156,6 +198,8 @@ const getInputMap = (req, res, next) => {
 // Module exports
 exports.getAllReports = getAllReports;
 exports.getReportById = getReportById;
+exports.updateReport = updateReport;
+exports.deleteReport = deleteReport;
 exports.getOutputMap = getOutputMap;
 exports.getInputMap = getInputMap;
 exports.getAllReportsByUserId = getAllReportsByUserId;

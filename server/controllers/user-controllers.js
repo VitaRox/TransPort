@@ -73,12 +73,16 @@ const createNewUser = (req, res, next) => {
   if (hasAccount) {
     throw new HttpError('Account associated with this email already exists', 422);
   }
+
+  // Create Date object to timestamp new User creation (dateJoined)
+  const dateJoined = new Date();
   // Create new User instance
   const newUser = {
     id: uuid(),
     username,
     email,
     password,
+    dateJoined: dateJoined.toUTCString()
   };
 
   // Store User instance in database

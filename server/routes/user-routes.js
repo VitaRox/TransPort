@@ -12,12 +12,7 @@ router.get(`/`, userControllers.getAllUsers);
 // TODO: verify this is working with Postman or something
 router.post(`/signup`, userControllers.createNewUser);
 
-// Begin login to existing User account process
-// router.post(`/login`, userControllers.loginUser);
-
 // Fetches an existing User account by userId;
 router.get(`/:userId`, userControllers.getUserById);
-
-
 
 module.exports = router;

@@ -17,6 +17,12 @@ router.get('/view/reports', reportControllers.getAllReports);
 // Get one Report by reportId
 router.get('/view/reports/:reportId', reportControllers.getReportById);
 
+// Allows User to edit/update and existing Report they've posted
+router.patch('/view/reports/:reportId', reportControllers.updateReport);
+
+// Allows a User to delete a Report they have posted
+router.delete('/view/reports/:reportId', reportControllers.deleteReport);
+
 // Get all Reports by a given User
 router.get('/view/reports/user/:userId', reportControllers.getAllReportsByUserId);
 
@@ -25,7 +31,7 @@ router.get('/view/reports/user/:userId', reportControllers.getAllReportsByUserId
 router.get('/new', reportControllers.getInputMap);
 
 // Post a new Report
-// TODO: make it send data from ReportForm in the request body; handle errors
+// TODO: make it receive data from ReportForm in the request body; handle errors
 router.post('/new', reportControllers.postNewReport);
 
 module.exports = router;
