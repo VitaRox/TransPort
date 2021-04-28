@@ -1,15 +1,13 @@
 const express = require('express');
 const app = express();
 
-// port will either be 4000 by default or, if 4000 is in-use, another available port;
+// Port will either be 4000 by default or, if 4000 is in-use, another available port;
 const port = 4000 || process.env.PORT;
 
-// bodyParser is a method for parsing the bodies of requests & responses;
-const bodyParser = require('body-parser');
-
+// Import our custom Error subclass
 const HttpError = require(`./models/http-error`);
 
-// Routing middleware;
+// Routing middleware imports
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
 const reportRoutes = require('./routes/report-routes');
 const userRoutes = require('./routes/user-routes');
@@ -17,7 +15,7 @@ const authRoutes = require('./routes/auth-routes');
 
 // Middleware to parse bodies of JSON requests made to the API
 // TODO: swap out bodyParser.json for express.json() (bodyParser is now deprecated)
-app.use(express.json())
+app.use(express.json());
 
 // Static routes middleware
 app.use('/', staticRoutes);
