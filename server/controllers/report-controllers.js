@@ -97,12 +97,12 @@ const getReportById = (req, res, next) => {
 // Update one Report by reportId if report.authorId === User.id
 const updateReport = (req, res, next) => {
   console.log(`Attempting to update Report`);
-  const { title, reportText } = req.body;
   const reportId = req.params.reportId;
+  const { title, reportText } = req.body;
   // Get a pointer to the original report with fields copied over
-  const updatedReport = { ...DUMMY_REPORTS.find(p => p.id === reportId) };
+  const updatedReport = { ...DUMMY_REPORTS.find(r => r.id === reportId) };
   // Get the index of the Report we are modifying
-  const reportIndex = DUMMY_REPORTS.findIndex(p => p.id === reportId);
+  const reportIndex = DUMMY_REPORTS.findIndex(r => r.id === reportId);
   // Update the info that is updatable
   updatedReport.title = title;
   updatedReport.reportText = reportText;
@@ -122,7 +122,10 @@ const updateReport = (req, res, next) => {
 };
 
 // Delete one Report by reportId if report.authorId === User.id
-const deleteReport = (res, req, next) => {
+const deleteReport = (req, res, next) => {
+  const reportId = req.params.reportId;
+  console.log(`Deleting report ${reportId}`);
+  DUMMY_REPORTS = DUMMY_REPORTS.filter(r => r.id !== reportId);
   // Find Report by reportId
   // If not found:
   //    throw new HttpError('This Report doesn't seem to exist', 404);
@@ -130,6 +133,7 @@ const deleteReport = (res, req, next) => {
   //    is user logged in?
   //      is userId === report.authorId?
   //        Delete the report
+  res.status(200).json({ reports: DUMMY_REPORTS });
 };
 
 // Post a new Report (User must be logged-in)
