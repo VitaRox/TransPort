@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-// Logging in;
-router.post('/login', (req, res, next) => {
-  console.log("POST request made to /auth/login: call me Kenny Loggins, because we're logging on in!");
-});
+// CONTROLLERS
+const authControllers = require('../controllers/auth-controllers');
 
-// Logging out;
-router.post('/logout', (req, res, next) => {
-  console.log("POST request made to /auth/logout: logging User out.");
-});
+// Logging in
+router.post('/login', authControllers.login);
+
+// Logging out
+router.post('/logout', authControllers.logout);
 
 module.exports = router;
