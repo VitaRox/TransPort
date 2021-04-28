@@ -17,7 +17,7 @@ const authRoutes = require('./routes/auth-routes');
 
 // Middleware to parse bodies of JSON requests made to the API
 // TODO: swap out bodyParser.json for express.json() (bodyParser is now deprecated)
-app.use(bodyParser.json())
+app.use(express.json())
 
 // Static routes middleware
 app.use('/', staticRoutes);

@@ -95,7 +95,21 @@ const getReportById = (req, res, next) => {
 };
 
 // Update one Report by reportId if report.authorId === User.id
-const updateReport = (res, req, next) => {
+const updateReport = (req, res, next) => {
+  console.log(`Attempting to update Report`);
+  const { title, reportText } = req.body;
+  const reportId = req.params.reportId;
+  // Get a pointer to the original report with fields copied over
+  const updatedReport = { ...DUMMY_REPORTS.find(p => p.id === reportId) };
+  // Get the index of the Report we are modifying
+  const reportIndex = DUMMY_REPORTS.findIndex(p => p.id === reportId);
+  // Update the info that is updatable
+  updatedReport.title = title;
+  updatedReport.reportText = reportText;
+  // Update the storage
+  DUMMY_REPORTS[reportIndex] = updatedReport;
+  // Send response
+  res.status(200).json({ report: updatedReport });
   // Find Report by reportId
   // If not found:
   //    throw new HttpError('This Report doesn't seem to exist', 404);
