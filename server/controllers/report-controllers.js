@@ -179,7 +179,7 @@ const getAllReportsByUserId = (req, res, next) => {
     );
   }
   // Return results of query
-  res.json({ reports });
+  res.status(200).json({ reports });
 };
 
 // Get OutputMap
