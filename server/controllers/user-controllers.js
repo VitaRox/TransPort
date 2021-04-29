@@ -99,10 +99,46 @@ const createNewUser = (req, res, next) => {
 // For devs/admins only: get all Users
 const getAllUsers = (req, res, next) => {
   console.log("Fetch all Users' data");
-  res.status(200).json(DUMMY_USERS);
+  res.status(200).json({ users: DUMMY_USERS });
 };
+
+// Update User data, provided account exists and User is logged-in
+const updateUser = (req, res, next) => {
+  console.log(`Attempting to locate User account...`);
+  const userId = req.params.userId;
+  const { username, email, password } = req.body;
+  // Get a pointer to the original report with fields copied over
+  const updatedUser = { ...DUMMY_USERS.find(u => u.id === userId) };
+  // Get the index of the Report we are modifying
+  const userIndex = DUMMY_USERS.findIndex(u => u.id === userId);
+  // Update whatever needs updating; leave everything else as previously defined
+  console.log("Updating all non-empty values provided by user...");
+  if (username.length > 0) {
+    updatedUser.username = username;
+  }
+  if (email.length > 0) {
+    updatedUser.email = email;
+  }
+  if (password.length > 0) {
+    updatedUser.password = password;
+  }
+  // Update the storage
+  DUMMY_USERS[userIndex] = updatedUser;
+  res.status(200).json({ users: DUMMY_USERS });
+};
+
+// Delete User account (must be logged-in)
+const deleteUser = (req, res, next) => {
+  const userId = req.params.userId;
+  console.log(`Deleting user ${userId}`);
+  DUMMY_USERS = DUMMY_USERS.filter(u => u.id !== userId);
+  res.status(200).json({ users: DUMMY_USERS });
+};
+
 
 // Module exports
 exports.getUserById = getUserById;
 exports.createNewUser = createNewUser;
+exports.updateUser = updateUser;
+exports.deleteUser = deleteUser;
 exports.getAllUsers = getAllUsers;

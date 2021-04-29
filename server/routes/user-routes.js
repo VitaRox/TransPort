@@ -21,4 +21,10 @@ router.post(
 // Fetches an existing User account by userId;
 router.get(`/:userId`, userControllers.getUserById);
 
+// Allows User to update their account info
+router.patch(`/:userId`, userControllers.updateUser);
+
+// Allows User to delete their account
+router.delete(`/:userId`, userControllers.deleteUser);
+
 module.exports = router;

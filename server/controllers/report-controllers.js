@@ -106,8 +106,12 @@ const updateReport = (req, res, next) => {
   // Get the index of the Report we are modifying
   const reportIndex = DUMMY_REPORTS.findIndex(r => r.id === reportId);
   // Update the info that is updatable
-  updatedReport.title = title;
-  updatedReport.reportText = reportText;
+  if (title.length > 0) {
+    updatedReport.title = title;
+  }
+  if (reportText.length > 0) {
+    updatedReport.reportText = reportText;
+  }
   // Update the storage
   DUMMY_REPORTS[reportIndex] = updatedReport;
   // Send response
