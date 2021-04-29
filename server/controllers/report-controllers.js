@@ -1,5 +1,7 @@
 const HttpError = require('../models/http-error');
 const { v4: uuid } = require("uuid");
+const { validationResult } = require('express-validator');
+
 
 // DUMMY Report data
 let DUMMY_REPORTS = [
@@ -73,7 +75,7 @@ const getAllReports = (req, res, next) => {
       new HttpError(error.message, 404)
     );
   }
-  res.json({ reports });
+  res.status(200).json({ reports });
 };
 
 // Get one Report by Id
@@ -91,7 +93,7 @@ const getReportById = (req, res, next) => {
     );
   }
   // Return results of query
-  res.json({ report });
+  res.status(200).json({ report });
 };
 
 // Update one Report by reportId if report.authorId === User.id
@@ -140,8 +142,13 @@ const deleteReport = (req, res, next) => {
 const postNewReport = (req, res, next) => {
   console.log("POST request made to post new Report");
   // Use object destructuring to obtain contents of request body
-  // Id will be generated, authorId will be extracted from userId
+  // TODO: authorId will be extracted from userId
   const { authorId, title, reportText, address, location } = req.body;
+  const errors = (validationResult(req));
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    throw new HttpError("Report can't have empty title, text, or address", 422);
+  }
   // Create new Date object from vanilla JS for auto-setting the current UTC date
   const newDate = new Date();
   const newReport = {
@@ -153,7 +160,6 @@ const postNewReport = (req, res, next) => {
     location,
     date: newDate.toUTCString()
   };
-
   // Add to "database"
   DUMMY_REPORTS.push(newReport);
   // Return an http status to the client

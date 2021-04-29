@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-// CONTROLLERS
+const { check } = require('express-validator');
 const reportControllers = require('../controllers/report-controllers');
 
 // ROUTES
@@ -26,12 +25,20 @@ router.delete('/view/reports/:reportId', reportControllers.deleteReport);
 // Get all Reports by a given User
 router.get('/view/reports/user/:userId', reportControllers.getAllReportsByUserId);
 
-// This will load the InputMap (Map and a ReportForm) for the user to create a Report;
+// This will load the InputMap (Map and a ReportForm) for the user to create a Report
 // TODO: handle error where map cannot be loaded
 router.get('/new', reportControllers.getInputMap);
 
 // Post a new Report
 // TODO: make it receive data from ReportForm in the request body; handle errors
-router.post('/new', reportControllers.postNewReport);
+router.post(
+  '/new',
+  [
+    check('title').not().isEmpty(),
+    check('reportText').isLength({ min: 5 }),
+    check('address').not().isEmpty()
+  ],
+  reportControllers.postNewReport
+);
 
 module.exports = router;

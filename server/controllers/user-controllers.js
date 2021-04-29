@@ -1,5 +1,6 @@
 const HttpError = require('../models/http-error');
 const { v4: uuid } = require("uuid");
+const { validationResult } = require('express-validator');
 
 // DUMMY USER DATA
 let DUMMY_USERS = [
@@ -58,22 +59,26 @@ const getUserById = (req, res, next) => {
     );
   }
   // Return query results
-  res.json({ user });
+  res.status(200).json({ user });
 };
 
 // Create new User account from data submitted in form, auto-generated id
 const createNewUser = (req, res, next) => {
   console.log("POST request made to create a new User!");
-  // Parse json input (i.e. login credentials)
+  // Parse json input (i.e. new User signup data)
   const { username, email, password } = req.body;
-
+  // Validate user input
+  const errors = (validationResult(req));
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    throw new HttpError("Must use a strong password, unique username, and valid email address", 422);
+  }
   // Check for case in which an account associated with this email already exists;
   // this is to prevent the creation of duplicate accounts
   const hasAccount = DUMMY_USERS.find(u => u.email === email);
   if (hasAccount) {
     throw new HttpError('Account associated with this email already exists', 422);
   }
-
   // Create Date object to timestamp new User creation (dateJoined)
   const dateJoined = new Date();
   // Create new User instance
@@ -84,7 +89,6 @@ const createNewUser = (req, res, next) => {
     password,
     dateJoined: dateJoined.toUTCString()
   };
-
   // Store User instance in database
   DUMMY_USERS.push(newUser);
   // Send a response to client
@@ -95,7 +99,7 @@ const createNewUser = (req, res, next) => {
 // For devs/admins only: get all Users
 const getAllUsers = (req, res, next) => {
   console.log("Fetch all Users' data");
-  res.json(DUMMY_USERS);
+  res.status(200).json(DUMMY_USERS);
 };
 
 // Module exports
