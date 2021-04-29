@@ -14,7 +14,6 @@ const userRoutes = require('./routes/user-routes');
 const authRoutes = require('./routes/auth-routes');
 
 // Middleware to parse bodies of JSON requests made to the API
-// TODO: swap out bodyParser.json for express.json() (bodyParser is now deprecated)
 app.use(express.json());
 
 // Static routes middleware
@@ -27,7 +26,7 @@ app.use('/', staticRoutes);
 app.use('/data', reportRoutes);
 
 // This will filter requests to user-related paths
-// (e.g. creating a User Account, viewing User Account, signing out)
+// (e.g. creating a User Account, viewing User Account)
 app.use('/users', userRoutes);
 
 // Send requests to appropriate middleware for signing in, signing out
