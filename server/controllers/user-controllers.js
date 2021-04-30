@@ -134,6 +134,10 @@ const updateUser = (req, res, next) => {
 // Delete User account (must be logged-in)
 const deleteUser = (req, res, next) => {
   const userId = req.params.userId;
+  console.log(`Looking for user ${userId}...`);
+  if (!DUMMY_USERS.find(u => u.id === userId)) {
+    throw new HttpError("User not found.", 404);
+  }
   console.log(`Deleting user ${userId}`);
   DUMMY_USERS = DUMMY_USERS.filter(u => u.id !== userId);
   res.status(200).json({ users: DUMMY_USERS });
