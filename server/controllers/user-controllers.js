@@ -107,6 +107,10 @@ const updateUser = (req, res, next) => {
   console.log(`Attempting to locate User account...`);
   const userId = req.params.userId;
   const { username, email, password } = req.body;
+  if (!DUMMY_USERS.find(u => u.id === userId)) {
+    throw new HttpError('This User cannot be found.', 404);
+  }
+  console.log("User account successfully fetched");
   // Get a pointer to the original report with fields copied over
   const updatedUser = { ...DUMMY_USERS.find(u => u.id === userId) };
   // Get the index of the Report we are modifying

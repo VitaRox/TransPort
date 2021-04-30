@@ -1,6 +1,7 @@
 const HttpError = require('../models/http-error');
 const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
+const { report } = require('../routes/user-routes');
 
 
 // DUMMY Report data
@@ -101,6 +102,12 @@ const updateReport = (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
   const { title, reportText } = req.body;
+  // Throw error if Report no longer exists
+  if (!DUMMY_REPORTS.find(r => r.id === reportId)) {
+    throw new HttpError('This Report cannot be found', 404);
+  }
+    // TODO   is user logged in?
+  //      is userId === report.authorId?
   // Get a pointer to the original report with fields copied over
   const updatedReport = { ...DUMMY_REPORTS.find(r => r.id === reportId) };
   // Get the index of the Report we are modifying
@@ -115,26 +122,22 @@ const updateReport = (req, res, next) => {
   // Update the storage
   DUMMY_REPORTS[reportIndex] = updatedReport;
   // Send response
-  res.status(200).json({ report: updatedReport });
-  // Find Report by reportId
-  // If not found:
-  //    throw new HttpError('This Report doesn't seem to exist', 404);
-  // else: (If exists):
-  //    is user logged in?
-  //      is userId === report.authorId?
-  //        Parse changes
-  //          If changes are okay/valid:
-  //            update Report
+  res.status(200).json({ reports: DUMMY_REPORTS });
+
+
+
 };
 
 // Delete one Report by reportId if report.authorId === User.id
 const deleteReport = (req, res, next) => {
   const reportId = req.params.reportId;
   console.log(`Deleting report ${reportId}`);
+  if (!DUMMY_REPORTS.find(r => r.id === reportId)) {
+    throw new HttpError("This Report doesn't seem to exist", 404);
+  }
   DUMMY_REPORTS = DUMMY_REPORTS.filter(r => r.id !== reportId);
-  // Find Report by reportId
-  // If not found:
-  //    throw new HttpError('This Report doesn't seem to exist', 404);
+
+  //
   // else: (If exists):
   //    is user logged in?
   //      is userId === report.authorId?

@@ -11,7 +11,7 @@ router.get(`/`, userControllers.getAllUsers);
 router.post(
   `/signup`,
   [
-    check('email').isEmail(),
+    check('email').normalizeEmail().isEmail(),
     check('username').not().isEmpty(),
     check('password').isStrongPassword()
   ],
