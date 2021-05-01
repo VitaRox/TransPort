@@ -1,5 +1,6 @@
 const HttpError = require('../models/http-error');
 const { v4: uuid } = require("uuid");
+const { validationResult } = require('express-validator');
 
 // DUMMY USER DATA
 let DUMMY_USERS = [
@@ -58,22 +59,26 @@ const getUserById = (req, res, next) => {
     );
   }
   // Return query results
-  res.json({ user });
+  res.status(200).json({ user });
 };
 
 // Create new User account from data submitted in form, auto-generated id
 const createNewUser = (req, res, next) => {
   console.log("POST request made to create a new User!");
-  // Parse json input (i.e. login credentials)
+  // Validate user input
+  const errors = (validationResult(req));
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(new HttpError("Must use a strong password, unique username, and valid email address", 422));
+  }
+  // Parse json input (i.e. new User signup data)
   const { username, email, password } = req.body;
-
   // Check for case in which an account associated with this email already exists;
   // this is to prevent the creation of duplicate accounts
   const hasAccount = DUMMY_USERS.find(u => u.email === email);
   if (hasAccount) {
-    throw new HttpError('Account associated with this email already exists', 422);
+    return next(new HttpError('Account associated with this email already exists', 422));
   }
-
   // Create Date object to timestamp new User creation (dateJoined)
   const dateJoined = new Date();
   // Create new User instance
@@ -84,7 +89,6 @@ const createNewUser = (req, res, next) => {
     password,
     dateJoined: dateJoined.toUTCString()
   };
-
   // Store User instance in database
   DUMMY_USERS.push(newUser);
   // Send a response to client
@@ -95,10 +99,54 @@ const createNewUser = (req, res, next) => {
 // For devs/admins only: get all Users
 const getAllUsers = (req, res, next) => {
   console.log("Fetch all Users' data");
-  res.json(DUMMY_USERS);
+  res.status(200).json({ users: DUMMY_USERS });
 };
+
+// Update User data, provided account exists and User is logged-in
+const updateUser = (req, res, next) => {
+  console.log(`Attempting to locate User account...`);
+  const userId = req.params.userId;
+  const { username, email, password } = req.body;
+  if (!DUMMY_USERS.find(u => u.id === userId)) {
+    throw new HttpError('This User cannot be found.', 404);
+  }
+  console.log("User account successfully fetched");
+  // Get a pointer to the original report with fields copied over
+  const updatedUser = { ...DUMMY_USERS.find(u => u.id === userId) };
+  // Get the index of the Report we are modifying
+  const userIndex = DUMMY_USERS.findIndex(u => u.id === userId);
+  // Update whatever needs updating; leave everything else as previously defined
+  console.log("Updating all non-empty values provided by user...");
+  if (username.length > 0) {
+    updatedUser.username = username;
+  }
+  if (email.length > 0) {
+    updatedUser.email = email;
+  }
+  if (password.length > 0) {
+    updatedUser.password = password;
+  }
+  // Update the storage
+  DUMMY_USERS[userIndex] = updatedUser;
+  res.status(200).json({ users: DUMMY_USERS });
+};
+
+// Delete User account (must be logged-in)
+const deleteUser = (req, res, next) => {
+  const userId = req.params.userId;
+  console.log(`Looking for user ${userId}...`);
+  if (!DUMMY_USERS.find(u => u.id === userId)) {
+    throw new HttpError("User not found.", 404);
+  }
+  console.log(`Deleting user ${userId}`);
+  DUMMY_USERS = DUMMY_USERS.filter(u => u.id !== userId);
+  res.status(200).json({ users: DUMMY_USERS });
+};
+
 
 // Module exports
 exports.getUserById = getUserById;
 exports.createNewUser = createNewUser;
+exports.updateUser = updateUser;
+exports.deleteUser = deleteUser;
 exports.getAllUsers = getAllUsers;

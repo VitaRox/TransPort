@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-// CONTROLLERS
+const { check } = require('express-validator');
 const userControllers = require('../controllers/user-controllers');
 
 // Admin-only route for dev purposes: show all Users' data
@@ -9,10 +8,23 @@ const userControllers = require('../controllers/user-controllers');
 router.get(`/`, userControllers.getAllUsers);
 
 // Creates a new User account with input from response body
-// TODO: verify this is working with Postman or something
-router.post(`/signup`, userControllers.createNewUser);
+router.post(
+  `/signup`,
+  [
+    check('email').normalizeEmail().isEmail(),
+    check('username').not().isEmpty(),
+    check('password').isStrongPassword()
+  ],
+  userControllers.createNewUser
+);
 
 // Fetches an existing User account by userId;
 router.get(`/:userId`, userControllers.getUserById);
+
+// Allows User to update their account info
+router.patch(`/:userId`, userControllers.updateUser);
+
+// Allows User to delete their account
+router.delete(`/:userId`, userControllers.deleteUser);
 
 module.exports = router;
