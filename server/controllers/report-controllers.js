@@ -62,7 +62,7 @@ let DUMMY_REPORTS = [
 ];
 
 // Get all posted Reports
-const getAllReports = (req, res, next) => {
+const getAllReports = async (req, res, next) => {
   console.log("Getting all Reports");
   const reports = DUMMY_REPORTS;
   try {
@@ -79,7 +79,7 @@ const getAllReports = (req, res, next) => {
 };
 
 // Get one Report by Id
-const getReportById = (req, res, next) => {
+const getReportById = async (req, res, next) => {
   // Search for Reports with a reportId matching that in the request
   console.log("Fetching one Report by reportId...");
   const reportId = req.params.reportId;
@@ -98,7 +98,7 @@ const getReportById = (req, res, next) => {
 
 // Update one Report by reportId if report.authorId === User.id
 // TODO: convert to async-await
-const updateReport = (req, res, next) => {
+const updateReport = async (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
   const { title, reportText } = req.body;
@@ -112,11 +112,17 @@ const updateReport = (req, res, next) => {
   const updatedReport = { ...DUMMY_REPORTS.find(r => r.id === reportId) };
   // Get the index of the Report we are modifying
   const reportIndex = DUMMY_REPORTS.findIndex(r => r.id === reportId);
-  // Update the info that is updatable
-  if (title.length > 0) {
+  // If: title not supplied....
+  if (!title || title.length <= 0) {
+    // ....keep old title value
+    updatedReport.title = updatedReport.title;
+    // else: update the title
+  } else {
     updatedReport.title = title;
   }
-  if (reportText.length > 0) {
+  if (!reportText || reportText.length <= 0) {
+    updatedReport.reportText = updatedReport.reportText;
+  } else {
     updatedReport.reportText = reportText;
   }
   // Update the storage
@@ -203,16 +209,16 @@ const getAllReportsByUserId = (req, res, next) => {
 };
 
 // Get OutputMap
-const getOutputMap = (req, res, next) => {
+const getOutputMap = async (req, res, next) => {
   console.log("GET request made to fetch OutputMap");
-  res.json({ message: "GET /data/view appears to be working!!!!!" });
+  res.status(200).json({ message: "GET /data/view appears to be working!!!!!" });
 };
 
 // Get the InputMap (interface through which User makes Report)
-const getInputMap = (req, res, next) => {
+const getInputMap = async (req, res, next) => {
   console.log("GET request made to fetch InputMap");
   // TODO: insert code here to actually render InputMap from /client
-  res.json({ message: "GET /data/new appears to be working!!" });
+  res.status(200).json({ message: "GET /data/new appears to be working!!" });
 };
 
 // Module exports
