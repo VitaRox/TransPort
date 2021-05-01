@@ -1,8 +1,7 @@
 const HttpError = require('../models/http-error');
 const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
-const { report } = require('../routes/user-routes');
-
+const getCoordsFromAddress = require('../util/location');
 
 // DUMMY Report data
 let DUMMY_REPORTS = [
@@ -98,13 +97,14 @@ const getReportById = (req, res, next) => {
 };
 
 // Update one Report by reportId if report.authorId === User.id
+// TODO: convert to async-await
 const updateReport = (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
   const { title, reportText } = req.body;
   // Throw error if Report no longer exists
   if (!DUMMY_REPORTS.find(r => r.id === reportId)) {
-    throw new HttpError('This Report cannot be found', 404);
+    return next(new HttpError('This Report cannot be found', 404));
   }
     // TODO   is user logged in?
   //      is userId === report.authorId?
@@ -123,9 +123,6 @@ const updateReport = (req, res, next) => {
   DUMMY_REPORTS[reportIndex] = updatedReport;
   // Send response
   res.status(200).json({ reports: DUMMY_REPORTS });
-
-
-
 };
 
 // Delete one Report by reportId if report.authorId === User.id
@@ -133,7 +130,7 @@ const deleteReport = (req, res, next) => {
   const reportId = req.params.reportId;
   console.log(`Deleting report ${reportId}`);
   if (!DUMMY_REPORTS.find(r => r.id === reportId)) {
-    throw new HttpError("This Report doesn't seem to exist", 404);
+    return next(new HttpError("This Report doesn't seem to exist", 404));
   }
   DUMMY_REPORTS = DUMMY_REPORTS.filter(r => r.id !== reportId);
 
@@ -146,16 +143,25 @@ const deleteReport = (req, res, next) => {
 };
 
 // Post a new Report (User must be logged-in)
-const postNewReport = (req, res, next) => {
+const postNewReport = async (req, res, next) => {
   console.log("POST request made to post new Report");
-  // Use object destructuring to obtain contents of request body
-  // TODO: authorId will be extracted from userId
-  const { authorId, title, reportText, address, location } = req.body;
   const errors = (validationResult(req));
   if (!errors.isEmpty()) {
     console.log(errors);
-    throw new HttpError("Report can't have empty title, text, or address", 422);
+    return next(new HttpError("Report can't have empty title, text, or address", 422));
   }
+  // Use object destructuring to obtain contents of request body
+  // TODO: authorId will be extracted from userId
+  const { authorId, title, reportText, address } = req.body;
+
+  // Convert address to geocoordinates
+  let coordinates;
+  try {
+    coordinates = await getCoordsFromAddress(address);
+  } catch (error) {
+    return next(error);
+  }
+
   // Create new Date object from vanilla JS for auto-setting the current UTC date
   const newDate = new Date();
   const newReport = {
@@ -164,9 +170,10 @@ const postNewReport = (req, res, next) => {
     title,
     reportText,
     address,
-    location,
+    location: coordinates,
     date: newDate.toUTCString()
   };
+  console.log(newReport);
   // Add to "database"
   DUMMY_REPORTS.push(newReport);
   // Return an http status to the client
