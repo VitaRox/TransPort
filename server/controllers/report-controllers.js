@@ -65,11 +65,12 @@ let DUMMY_REPORTS = [
 // Get all posted Reports
 const getAllReports = async (req, res, next) => {
   console.log("Getting all Reports");
-  const reports = DUMMY_REPORTS;
+  let reports;
   try {
     /*
       This code will GET from the MongoDB database;
     */
+    reports = await Report.find();
     console.log("Successfully fetched all Reports");
   } catch (error) {
     return next(
@@ -83,22 +84,29 @@ const getAllReports = async (req, res, next) => {
 const getReportById = async (req, res, next) => {
   // Search for Reports with a reportId matching that in the request
   console.log("Fetching one Report by reportId...");
-  const reportId = req.params.reportId;
-  const report = DUMMY_REPORTS.find(r => {
-    return r.id === reportId;
-  });
+  // TODO: REMOVE THIS const reportId = req.params.reportId;
+  let report;
+  try {
+    report = await Report.findById();
+    // Handle problem with GET request generally
+  } catch (err) {
+    return next(new HttpError(
+      "Something went wrong whilst fetching Report...",
+      500)
+    );
+  }
   // Handle "Report Not Found"
   if (!report) {
-    return next(
-      new HttpError("That particular Report cannot be found.", 404)
+    return next(new HttpError(
+      "Something went wrong whilst fetching Report...",
+      500)
     );
   }
   // Return results of query
-  res.status(200).json({ report });
+  res.status(200).json({ report: report.toObject({ getters: true }) });
 };
 
 // Update one Report by reportId if report.authorId === User.id
-// TODO: convert to async-await
 const updateReport = async (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
@@ -126,21 +134,29 @@ const updateReport = async (req, res, next) => {
   } else {
     updatedReport.reportText = reportText;
   }
-  // Update the storage
-  DUMMY_REPORTS[reportIndex] = updatedReport;
+  try {
+    // Update the storage
+    DUMMY_REPORTS[reportIndex] = updatedReport;
+  } catch (err) {
+    const error = new HttpError("Update Report failed", 500);
+    return next(error);
+  }
   // Send response
   res.status(200).json({ reports: DUMMY_REPORTS });
 };
 
 // Delete one Report by reportId if report.authorId === User.id
-const deleteReport = (req, res, next) => {
+const deleteReport = async (req, res, next) => {
   const reportId = req.params.reportId;
   console.log(`Deleting report ${reportId}`);
   if (!DUMMY_REPORTS.find(r => r.id === reportId)) {
     return next(new HttpError("This Report doesn't seem to exist", 404));
   }
-  DUMMY_REPORTS = DUMMY_REPORTS.filter(r => r.id !== reportId);
-
+  try {
+    DUMMY_REPORTS = DUMMY_REPORTS.filter(r => r.id !== reportId);
+  } catch (error) {
+    return next(error);
+  }
   //
   // else: (If exists):
   //    is user logged in?
@@ -187,13 +203,12 @@ const postNewReport = async (req, res, next) => {
     const error = new HttpError("Report posting failed", 500);
     return next(error);
   }
-
   // Return an http status to the client
   res.status(201).json({ report: newReport });
 };
 
 // Get all Reports by one User
-const getAllReportsByUserId = (req, res, next) => {
+const getAllReportsByUserId = async (req, res, next) => {
   // Get account of User associated with this userId
   console.log("Getting User by ID");
   const userId = req.params.userId;
@@ -204,14 +219,20 @@ const getAllReportsByUserId = (req, res, next) => {
   }
   // Get all Reports such that thisReport.authorId === userId
   console.log(`Getting all Reports by User ID: ${userId}`);
-  const reports = DUMMY_REPORTS.filter(report => report.authorId === userId);
+  let reports;
+  try {
+    reports = await Report.find({ authorId: userId });
+  } catch (err) {
+    return next(
+      new HttpError('GET request failed, User not found by that userId', 404)
+    )
+  }
   if (!reports || reports.length === 0) {
     return next(
-      new HttpError("This User hasn't posted any Reports yet.", 404)
-    );
+      new HttpError('This User has not posted any Reports yet', 404));
   }
   // Return results of query
-  res.status(200).json({ reports });
+  res.status(200).json({ reports: reports.map(report => report.toObject({ getters: true })) });
 };
 
 // Get OutputMap
