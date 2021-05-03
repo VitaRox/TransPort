@@ -7,6 +7,11 @@ const port = 4000 || process.env.PORT;
 // Import our custom Error subclass
 const HttpError = require(`./models/http-error`);
 
+// Database connection
+const mongoose = require('mongoose');
+
+const url = 'mongodb+srv://vita_admin:7F8A7elLRBl1eYFt@cluster0.y47x0.mongodb.net/reports?authSource=admin&replicaSet=atlas-gpxj7l-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true';
+
 // Routing middleware imports
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
 const reportRoutes = require('./routes/report-routes');
@@ -49,7 +54,15 @@ app.use((error, req, res, next) => {
     );
 });
 
-// Listens on an available port
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+// Connect to database server
+mongoose
+  .connect(url)
+  .then(
+    // Listens on an available port
+    app.listen(port, () => {
+      console.log(`Example app listening at http://localhost:${port}`);
+    })
+  )
+  .catch(error => {
+    console.log(error);
+  });

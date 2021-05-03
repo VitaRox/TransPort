@@ -1,7 +1,8 @@
 const HttpError = require('../models/http-error');
-const { v4: uuid } = require("uuid");
+// const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
 const getCoordsFromAddress = require('../util/location');
+const Report = require('../models/report');
 
 // DUMMY Report data
 let DUMMY_REPORTS = [
@@ -170,18 +171,23 @@ const postNewReport = async (req, res, next) => {
 
   // Create new Date object from vanilla JS for auto-setting the current UTC date
   const newDate = new Date();
-  const newReport = {
-    id: uuid(),
+  const newReport = new Report({
     authorId,
     title,
     reportText,
     address,
     location: coordinates,
     date: newDate.toUTCString()
-  };
-  console.log(newReport);
-  // Add to "database"
-  DUMMY_REPORTS.push(newReport);
+  });
+  // Add to MongoDb database with mongoose save() method
+  // save() also creates a unique id on the object being created
+  try {
+    await newReport.save();
+  } catch (err) {
+    const error = new HttpError("Report posting failed", 500);
+    return next(error);
+  }
+
   // Return an http status to the client
   res.status(201).json({ report: newReport });
 };
