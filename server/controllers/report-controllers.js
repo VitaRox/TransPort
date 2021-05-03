@@ -84,10 +84,7 @@ const getReportById = async (req, res, next) => {
     report = await Report.findById({_id: reportId});
     // Handle problem with GET request generally
   } catch (err) {
-    return next(new HttpError(
-      "Something went wrong whilst fetching Report...",
-      500)
-    );
+    return next(new HttpError("Something went wrong whilst fetching Report...", 500));
   }
   // Return results of query
   res.status(200).json({ report: report.toObject({ getters: true }) });
@@ -109,6 +106,7 @@ const updateReport = async (req, res, next) => {
   }
   // Determine which values to update:
   // If: title not supplied....
+  // TODO convert to use validators; this info will never be blank, as all values should begin with original values
   if (!title || title.length <= 0) {
     // ....keep old title value
     report.title = report.title;
@@ -136,7 +134,7 @@ const deleteReport = async (req, res, next) => {
   const reportId = req.params.reportId;
   console.log(`Deleting report ${reportId}`);
   let report;
-  // try to find Report by id
+  // Try to find Report by id
   try {
     report = await Report.findById(reportId);
   } catch (error) {
@@ -150,8 +148,7 @@ const deleteReport = async (req, res, next) => {
   }
   //    is user logged in?
   //      is userId === report.authorId?
-  //        Delete the report
-  res.status(200).json({ reports: DUMMY_REPORTS });
+  res.status(200).json({ message: `Successfully deleted Report ${reportId}` });
 };
 
 // Post a new Report (User must be logged-in)
