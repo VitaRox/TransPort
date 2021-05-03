@@ -67,36 +67,23 @@ const getAllReports = async (req, res, next) => {
   console.log("Getting all Reports");
   let reports;
   try {
-    /*
-      This code will GET from the MongoDB database;
-    */
     reports = await Report.find();
     console.log("Successfully fetched all Reports");
   } catch (error) {
-    return next(
-      new HttpError(error.message, 404)
-    );
+    return next(new HttpError(error.message, 404));
   }
-  res.status(200).json({ reports });
+  res.status(200).json({ reports: reports.map(report => report.toObject({ getters: true })) });
 };
 
 // Get one Report by Id
 const getReportById = async (req, res, next) => {
-  // Search for Reports with a reportId matching that in the request
   console.log("Fetching one Report by reportId...");
-  // TODO: REMOVE THIS const reportId = req.params.reportId;
+  const reportId = req.params.reportId;
   let report;
   try {
-    report = await Report.findById();
+    report = await Report.findById({_id: reportId});
     // Handle problem with GET request generally
   } catch (err) {
-    return next(new HttpError(
-      "Something went wrong whilst fetching Report...",
-      500)
-    );
-  }
-  // Handle "Report Not Found"
-  if (!report) {
     return next(new HttpError(
       "Something went wrong whilst fetching Report...",
       500)
@@ -111,38 +98,37 @@ const updateReport = async (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
   const { title, reportText } = req.body;
-  // Throw error if Report no longer exists
-  if (!DUMMY_REPORTS.find(r => r.id === reportId)) {
-    return next(new HttpError('This Report cannot be found', 404));
-  }
     // TODO   is user logged in?
   //      is userId === report.authorId?
-  // Get a pointer to the original report with fields copied over
-  const updatedReport = { ...DUMMY_REPORTS.find(r => r.id === reportId) };
-  // Get the index of the Report we are modifying
-  const reportIndex = DUMMY_REPORTS.findIndex(r => r.id === reportId);
+  // Try to get Report that is to be updated from database
+  let report;
+  try {
+    report = await Report.findById(reportId);
+  } catch (err) {
+    return next(new HttpError('Could not find this Report', 404));
+  }
+  // Determine which values to update:
   // If: title not supplied....
   if (!title || title.length <= 0) {
     // ....keep old title value
-    updatedReport.title = updatedReport.title;
+    report.title = report.title;
     // else: update the title
   } else {
-    updatedReport.title = title;
+    report.title = title;
   }
   if (!reportText || reportText.length <= 0) {
-    updatedReport.reportText = updatedReport.reportText;
+    report.reportText = report.reportText;
   } else {
-    updatedReport.reportText = reportText;
+    report.reportText = reportText;
   }
   try {
-    // Update the storage
-    DUMMY_REPORTS[reportIndex] = updatedReport;
+    // Update the database
+    await report.save();
   } catch (err) {
-    const error = new HttpError("Update Report failed", 500);
-    return next(error);
+    return next(new HttpError("Update Report failed", 500));
   }
   // Send response
-  res.status(200).json({ reports: DUMMY_REPORTS });
+  res.status(200).json({ report: report.toObject({ getters: true }) });
 };
 
 // Delete one Report by reportId if report.authorId === User.id
