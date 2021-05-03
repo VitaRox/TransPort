@@ -135,16 +135,19 @@ const updateReport = async (req, res, next) => {
 const deleteReport = async (req, res, next) => {
   const reportId = req.params.reportId;
   console.log(`Deleting report ${reportId}`);
-  if (!DUMMY_REPORTS.find(r => r.id === reportId)) {
+  let report;
+  // try to find Report by id
+  try {
+    report = await Report.findById(reportId);
+  } catch (error) {
     return next(new HttpError("This Report doesn't seem to exist", 404));
   }
+  // Try to delete Report we found
   try {
-    DUMMY_REPORTS = DUMMY_REPORTS.filter(r => r.id !== reportId);
-  } catch (error) {
-    return next(error);
+    await report.remove();
+  } catch (err) {
+    return next(new HttpError('Delete Report failed', 500));
   }
-  //
-  // else: (If exists):
   //    is user logged in?
   //      is userId === report.authorId?
   //        Delete the report
