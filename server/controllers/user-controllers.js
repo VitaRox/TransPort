@@ -1,6 +1,8 @@
 const HttpError = require('../models/http-error');
 const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
+const User = require(`../models/user`);
+
 
 // DUMMY USER DATA
 let DUMMY_USERS = [
@@ -63,7 +65,7 @@ const getUserById = (req, res, next) => {
 };
 
 // Create new User account from data submitted in form, auto-generated id
-const createNewUser = (req, res, next) => {
+const createNewUser = async (req, res, next) => {
   console.log("POST request made to create a new User!");
   // Validate user input
   const errors = (validationResult(req));
@@ -75,22 +77,32 @@ const createNewUser = (req, res, next) => {
   const { username, email, password } = req.body;
   // Check for case in which an account associated with this email already exists;
   // this is to prevent the creation of duplicate accounts
-  const hasAccount = DUMMY_USERS.find(u => u.email === email);
-  if (hasAccount) {
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    return next(new HttpError('findOne operation failed', 500));
+  }
+  if (existingUser) {
     return next(new HttpError('Account associated with this email already exists', 422));
   }
   // Create Date object to timestamp new User creation (dateJoined)
   const dateJoined = new Date();
   // Create new User instance
-  const newUser = {
-    id: uuid(),
+  const newUser = new User({
     username,
     email,
     password,
-    dateJoined: dateJoined.toUTCString()
-  };
-  // Store User instance in database
-  DUMMY_USERS.push(newUser);
+    dateJoined: dateJoined.toUTCString(),
+    reports
+  });
+  // Add to MongoDb database with mongoose save() method
+  // save() also creates a unique id on the object being created
+  try {
+    await newUser.save();
+  } catch (err) {
+    return next(new HttpError("Storing new User to database failed", 422));
+  }
   // Send a response to client
   res.status(201).json({ user: newUser });
 };

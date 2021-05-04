@@ -1,66 +1,65 @@
 const HttpError = require('../models/http-error');
-// const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
 const getCoordsFromAddress = require('../util/location');
 const Report = require('../models/report');
 
 // DUMMY Report data
-let DUMMY_REPORTS = [
-  {
-    id: '1',
-    authorId: '4',
-    title: "Fuel Coffee",
-    reportText: "I liked this place a lot. Great cold brew!",
-    address: {
-      street1: "1705 N 45th St",
-      street2: '',
-      city: "Seattle",
-      state: "WA",
-      zipcode: "98103"
-    },
-    location: {
-      lat: '47.66144545096609',
-      lng: '-122.3369235730304'
-    },
-    date: '04-11-2020'
-  },
-  {
-    id: '2',
-    authorId: '4',
-    title: 'Urban Systems Design',
-    reportText: "I got my systems designed here and was happy about it.",
-    address: {
-      street1: "115 N 85th St",
-      street2: '202',
-      city: "Seattle",
-      state: "WA",
-      zipcode: "98103"
-    },
-    location: {
-      lat: '47.69149124976197',
-      lng: '-122.35759765892428'
-    },
-    date: '01-02-2019'
-  },
-  {
-    id: '3',
-    authorId: '2',
-    title: 'Family Dental',
-    reportText: "I like my teeth, and so do they for some reason.",
-    address: {
-      street1: "14 Boston St",
-      street2: '',
-      city: "Seattle",
-      state: "WA",
-      zipcode: "98109"
-    },
-    location: {
-      lat: '47.63969492855474',
-      lng: '-122.35594603425109'
-    },
-    date: '05-20-2017'
-  },
-];
+// let DUMMY_REPORTS = [
+//   {
+//     id: '1',
+//     authorId: '4',
+//     title: "Fuel Coffee",
+//     reportText: "I liked this place a lot. Great cold brew!",
+//     address: {
+//       street1: "1705 N 45th St",
+//       street2: '',
+//       city: "Seattle",
+//       state: "WA",
+//       zipcode: "98103"
+//     },
+//     location: {
+//       lat: '47.66144545096609',
+//       lng: '-122.3369235730304'
+//     },
+//     date: '04-11-2020'
+//   },
+//   {
+//     id: '2',
+//     authorId: '4',
+//     title: 'Urban Systems Design',
+//     reportText: "I got my systems designed here and was happy about it.",
+//     address: {
+//       street1: "115 N 85th St",
+//       street2: '202',
+//       city: "Seattle",
+//       state: "WA",
+//       zipcode: "98103"
+//     },
+//     location: {
+//       lat: '47.69149124976197',
+//       lng: '-122.35759765892428'
+//     },
+//     date: '01-02-2019'
+//   },
+//   {
+//     id: '3',
+//     authorId: '2',
+//     title: 'Family Dental',
+//     reportText: "I like my teeth, and so do they for some reason.",
+//     address: {
+//       street1: "14 Boston St",
+//       street2: '',
+//       city: "Seattle",
+//       state: "WA",
+//       zipcode: "98109"
+//     },
+//     location: {
+//       lat: '47.63969492855474',
+//       lng: '-122.35594603425109'
+//     },
+//     date: '05-20-2017'
+//   },
+// ];
 
 // Get all posted Reports
 const getAllReports = async (req, res, next) => {
@@ -170,7 +169,6 @@ const postNewReport = async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
-
   // Create new Date object from vanilla JS for auto-setting the current UTC date
   const newDate = new Date();
   const newReport = new Report({
@@ -186,8 +184,7 @@ const postNewReport = async (req, res, next) => {
   try {
     await newReport.save();
   } catch (err) {
-    const error = new HttpError("Report posting failed", 500);
-    return next(error);
+    return next(new HttpError("Report posting failed", 422));
   }
   // Return an http status to the client
   res.status(201).json({ report: newReport });

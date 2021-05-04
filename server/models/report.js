@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
+// Define our Report data entity
 const reportSchema = new Schema({
   title: { type: String, required: true },
   reportText: { type: String, required: true },
