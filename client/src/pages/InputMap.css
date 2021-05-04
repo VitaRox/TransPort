@@ -8,8 +8,8 @@
 
 #report-container {
   height: 500px;
-  width: 100%;
-  position: bottom;
+  width: 300%;
+  position: bottom, center;
   display: block;
   box-shadow: 2px;
 }

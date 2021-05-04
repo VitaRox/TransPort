@@ -1,5 +1,5 @@
 // Basic imports:
-import React from 'react';
+import React, {useState, useContext} from 'react';
 
 // Resources
 import Card from './Card.js';
@@ -7,56 +7,77 @@ import Input from '../FormElements/Input';
 import Button from '../FormElements/Button';
 
 // Business Logic
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../../util/validators';
+import { VALIDATOR_MINLENGTH, VALIDATOR_ADDRESS} from '../../util/validators';
 
 // Styles
 import './ReportForm.css';
 
 import { useForm } from '../../hooks/form-hook.js';
 
+//Begin React functional component 
 function ReportForm(props) {
 
     // Initialize form state;
     const [formState, reportHandler] = useForm({
-      location: {
+      title: {
         value: '',
         isValid: false
       },
-      report: {
+      reportText: {
         value: '',
         isValid: false
       },
+      address: {
+        value: '',
+        isValid: false
+      }
     },
+    // Validity of entire form = (validity of title && validity of report
+    // && validity of address);
     false
     );
-  
-    const reportSubmitHandler = e => {
-      e.preventDefault();
+    
+
+    // Handles submission of report information;
+    const reportSubmitHandler = event => {
+      event.preventDefault();
       console.log(formState.inputs);  // Send to backend this data
     };
   
+    // Render the component and consituent components; 
     return (
       <Card className="report-info_">
         <form onSubmit={reportSubmitHandler}>
           <Input
-            id="location"
+            id="title"
             element="input"
             type="text"
-            placeholder="What's the location you're writing about?"
-            label="Location"
-            validators={[VALIDATOR_REQUIRE()]}
+            placeholder="Think of a catchy title for your report!"
+            label="Title   "
+            validators={[VALIDATOR_MINLENGTH(6)]}
             errorText="Please enter a valid string."
             onInput={reportHandler}
           >
           </Input>
           <Input
-            id="report"
+            id="reportText"
             placeholder="File a Report"
             element="input"
             type="text"
             label="Report"
             validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter a valid password."
+            errorText="Something is not right"
+            onInput={reportHandler}
+          >
+          </Input>
+          <Input
+            id="address"
+            placeholder="Input the address of the location you're reporting on"
+            element="input"
+            type="text"
+            label="Address   "
+            validators={[VALIDATOR_MINLENGTH(12)]}
+            errorText="That is not a valid address"
             onInput={reportHandler}
           >
           </Input>
