@@ -5,3 +5,11 @@
   display: block;
   box-shadow: 2px;
 }
+
+#report-container {
+  height: 500px;
+  width: 300%;
+  position: bottom, center;
+  display: block;
+  box-shadow: 2px;
+}
