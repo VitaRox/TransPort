@@ -93,7 +93,7 @@ const getReportById = async (req, res, next) => {
 const updateReport = async (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
-  const { title, reportText } = req.body;
+  const { newTitle, newReportText } = req.body;
     // TODO   is user logged in?
   //      is userId === report.authorId?
   // Try to get Report that is to be updated from database
@@ -103,20 +103,19 @@ const updateReport = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError('Could not find this Report', 404));
   }
-  // Determine which values to update:
-  // If: title not supplied....
-  // TODO convert to use validators; this info will never be blank, as all values should begin with original values
-  if (!title || title.length <= 0) {
-    // ....keep old title value
-    report.title = report.title;
-    // else: update the title
-  } else {
-    report.title = title;
+  // Check for errors in what is passed
+  const errors = (validationResult(req));
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(new HttpError("Report can't have empty title, text, or address", 422));
   }
-  if (!reportText || reportText.length <= 0) {
-    report.reportText = report.reportText;
-  } else {
-    report.reportText = reportText;
+  // Update any values when updated values are provided by user,
+  // otherwise keep the old values the Report had when fetched
+  if (newTitle) {
+    report.title = newTitle;
+  }
+  if (newReportText) {
+    report.reportText = newReportText;
   }
   try {
     // Update the database
@@ -187,7 +186,7 @@ const postNewReport = async (req, res, next) => {
     return next(new HttpError("Report posting failed", 422));
   }
   // Return an http status to the client
-  res.status(201).json({ report: newReport });
+  res.status(201).json({ report: newReport.toObject({ getters: true })});
 };
 
 // Get all Reports by one User

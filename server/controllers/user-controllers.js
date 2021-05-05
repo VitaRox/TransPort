@@ -94,17 +94,18 @@ const createNewUser = async (req, res, next) => {
     email,
     password,
     dateJoined: dateJoined.toUTCString(),
-    reports
+    reports: ''
   });
+  console.log(newUser);
   // Add to MongoDb database with mongoose save() method
   // save() also creates a unique id on the object being created
   try {
     await newUser.save();
   } catch (err) {
-    return next(new HttpError("Storing new User to database failed", 422));
+    return next(new HttpError("Signup failed", 422));
   }
   // Send a response to client
-  res.status(201).json({ user: newUser });
+  res.status(201).json({ user: newUser.toObject({ getters: true })});
 };
 
 // TODO: remove from production build
