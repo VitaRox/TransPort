@@ -1,5 +1,7 @@
-import React from 'react';
-import Map from '../shared/components/UIElements/Map';
+
+import React, { Fragment } from 'react';
+import ReportForm from '../shared/components/UIElements/ReportForm.jsx';
+import Map from '../shared/components/UIElements/Map.js';
 
 // Styles
 import './InputMap.css';
@@ -21,10 +23,19 @@ function InputMap(props) {
     defaultZoom: 12,
   };
 
+  
+
+
   return (
-    <div id="map-container">
-      <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
-    </div>
+    <React.Fragment>
+      <div id="map-container">
+        <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
+      </div>,
+ 
+      <div id="report-container">
+        <ReportForm/>
+      </div> 
+    </React.Fragment>
   );
 }
 
