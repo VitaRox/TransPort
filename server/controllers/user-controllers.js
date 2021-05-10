@@ -123,32 +123,46 @@ const getAllUsers = async (req, res, next) => {
 };
 
 // Update User data, provided account exists and User is logged-in
-const updateUser = (req, res, next) => {
-  console.log(`Attempting to locate User account...`);
+const updateUser = async (req, res, next) => {
+  console.log(`Attempting to update User account...`);
   const userId = req.params.userId;
-  const { username, email, password } = req.body;
-  if (!DUMMY_USERS.find(u => u.id === userId)) {
-    throw new HttpError('This User cannot be found.', 404);
+  const { newUsername, newEmail, newPassword } = req.body;
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (error) {
+    return next(new HttpError('This User cannot be found.', 404));
+  }
+  // Check for errors in what is passed
+  const errors = (validationResult(req));
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(new HttpError("User can't have empty username, email, or password", 422));
   }
   console.log("User account successfully fetched");
+  console.log(newUsername);
+  console.log(newEmail);
+  console.log(newPassword);
   // Get a pointer to the original report with fields copied over
-  const updatedUser = { ...DUMMY_USERS.find(u => u.id === userId) };
-  // Get the index of the Report we are modifying
-  const userIndex = DUMMY_USERS.findIndex(u => u.id === userId);
-  // Update whatever needs updating; leave everything else as previously defined
-  console.log("Updating all non-empty values provided by user...");
-  if (username.length > 0) {
-    updatedUser.username = username;
+  // Update any values when updated values are provided by user,
+  // otherwise keep the old values the Report had when fetched
+  if (newUsername) {
+    user.username = newUsername;
   }
-  if (email.length > 0) {
-    updatedUser.email = email;
+  if (newEmail) {
+    user.email = newEmail;
   }
-  if (password.length > 0) {
-    updatedUser.password = password;
+  if (newPassword) {
+    user.password = newPassword;
   }
-  // Update the storage
-  DUMMY_USERS[userIndex] = updatedUser;
-  res.status(200).json({ users: DUMMY_USERS });
+  try {
+    // Update the database
+    await user.save();
+  } catch (err) {
+    return next(new HttpError("Update User failed", 500));
+  }
+  // Send response
+  res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
 // Delete User account (must be logged-in)
