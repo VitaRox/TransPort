@@ -110,9 +110,16 @@ const createNewUser = async (req, res, next) => {
 
 // TODO: remove from production build
 // For devs/admins only: get all Users
-const getAllUsers = (req, res, next) => {
+const getAllUsers = async (req, res, next) => {
   console.log("Fetch all Users' data");
-  res.status(200).json({ users: DUMMY_USERS });
+  let users;
+  try {
+    users = await User.find();
+    console.log("Successfully fetched all Users");
+  } catch (error) {
+    return next(new HttpError(error.message, 404));
+  }
+  res.status(200).json({ users: users.map(user => user.toObject({ getters: true })) });
 };
 
 // Update User data, provided account exists and User is logged-in
