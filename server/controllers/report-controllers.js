@@ -1,65 +1,9 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const getCoordsFromAddress = require('../util/location');
+const mongoose = require('mongoose');
 const Report = require('../models/report');
-
-// DUMMY Report data
-// let DUMMY_REPORTS = [
-//   {
-//     id: '1',
-//     authorId: '4',
-//     title: "Fuel Coffee",
-//     reportText: "I liked this place a lot. Great cold brew!",
-//     address: {
-//       street1: "1705 N 45th St",
-//       street2: '',
-//       city: "Seattle",
-//       state: "WA",
-//       zipcode: "98103"
-//     },
-//     location: {
-//       lat: '47.66144545096609',
-//       lng: '-122.3369235730304'
-//     },
-//     date: '04-11-2020'
-//   },
-//   {
-//     id: '2',
-//     authorId: '4',
-//     title: 'Urban Systems Design',
-//     reportText: "I got my systems designed here and was happy about it.",
-//     address: {
-//       street1: "115 N 85th St",
-//       street2: '202',
-//       city: "Seattle",
-//       state: "WA",
-//       zipcode: "98103"
-//     },
-//     location: {
-//       lat: '47.69149124976197',
-//       lng: '-122.35759765892428'
-//     },
-//     date: '01-02-2019'
-//   },
-//   {
-//     id: '3',
-//     authorId: '2',
-//     title: 'Family Dental',
-//     reportText: "I like my teeth, and so do they for some reason.",
-//     address: {
-//       street1: "14 Boston St",
-//       street2: '',
-//       city: "Seattle",
-//       state: "WA",
-//       zipcode: "98109"
-//     },
-//     location: {
-//       lat: '47.63969492855474',
-//       lng: '-122.35594603425109'
-//     },
-//     date: '05-20-2017'
-//   },
-// ];
+const User = require('../models/user');
 
 // Get all posted Reports
 const getAllReports = async (req, res, next) => {
@@ -168,6 +112,7 @@ const postNewReport = async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
+
   // Create new Date object from vanilla JS for auto-setting the current UTC date
   const newDate = new Date();
   const newReport = new Report({
@@ -178,12 +123,30 @@ const postNewReport = async (req, res, next) => {
     location: coordinates,
     date: newDate.toUTCString()
   });
-  // Add to MongoDb database with mongoose save() method
-  // save() also creates a unique id on the object being created
+
+  let user;
   try {
-    await newReport.save();
+    user = await User.findById(authorId);
   } catch (err) {
-    return next(new HttpError("Report posting failed", 422));
+    return next(new HttpError("postNewReport failed", 500));
+  }
+
+  if (!user) {
+    const error = new HttpError('Could not find user for provided id', 404);
+    return next(error);
+  }
+
+  console.log(`User: ${user}`);
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await newReport.save({ session: sess });
+    user.reports.push(newReport);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(new HttpError("Report posting failed", 500));
   }
   // Return an http status to the client
   res.status(201).json({ report: newReport.toObject({ getters: true })});

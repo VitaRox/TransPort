@@ -1,48 +1,48 @@
 const HttpError = require('../models/http-error');
-const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
 const User = require(`../models/user`);
+const Report = require('../models/report');
 
 
-// DUMMY USER DATA
-let DUMMY_USERS = [
-  {
-    id: '1',
-    username: 'flexingAardvark',
-    email: 'aVark@email.com',
-    password: 'pass'
-  },
-  {
-    id: '2',
-    username: 'sparkleBoi420',
-    email: 'sp420@ourmail.com',
-    password: 'badonk'
-  },
-  {
-    id: '3',
-    username: 'Princess_CremeDeMenthe',
-    email: 'skaarsgard@biffMail.com',
-    password: 'crimsonturkey'
-  },
-  {
-    id: '4',
-    username: 'Clifford_Notes',
-    email: 'student@lawyer.com',
-    password: 'chipperSun'
-  },
-  {
-    id: '5',
-    username: 'Doge_Fan_9',
-    email: 'mymail@yourmail.com',
-    password: 'quipSprackter'
-  },
-  {
-    id: '6',
-    username: 'Jinx_Monsoon',
-    email: 'artspore@address.org',
-    password: 'yupYesYeah'
-  },
-];
+// // DUMMY USER DATA
+// let DUMMY_USERS = [
+//   {
+//     id: '1',
+//     username: 'flexingAardvark',
+//     email: 'aVark@email.com',
+//     password: 'pass'
+//   },
+//   {
+//     id: '2',
+//     username: 'sparkleBoi420',
+//     email: 'sp420@ourmail.com',
+//     password: 'badonk'
+//   },
+//   {
+//     id: '3',
+//     username: 'Princess_CremeDeMenthe',
+//     email: 'skaarsgard@biffMail.com',
+//     password: 'crimsonturkey'
+//   },
+//   {
+//     id: '4',
+//     username: 'Clifford_Notes',
+//     email: 'student@lawyer.com',
+//     password: 'chipperSun'
+//   },
+//   {
+//     id: '5',
+//     username: 'Doge_Fan_9',
+//     email: 'mymail@yourmail.com',
+//     password: 'quipSprackter'
+//   },
+//   {
+//     id: '6',
+//     username: 'Jinx_Monsoon',
+//     email: 'artspore@address.org',
+//     password: 'yupYesYeah'
+//   },
+// ];
 
 // METHODS
 
@@ -94,7 +94,7 @@ const createNewUser = async (req, res, next) => {
     email,
     password,
     dateJoined: dateJoined.toUTCString(),
-    reports: ''
+    reports: []
   });
   console.log(newUser);
   // Add to MongoDb database with mongoose save() method
@@ -114,7 +114,7 @@ const getAllUsers = async (req, res, next) => {
   console.log("Fetch all Users' data");
   let users;
   try {
-    users = await User.find();
+    users = await User.find({}, '-password');
     console.log("Successfully fetched all Users");
   } catch (error) {
     return next(new HttpError(error.message, 404));
@@ -130,7 +130,8 @@ const updateUser = async (req, res, next) => {
   let user;
   try {
     user = await User.findById(userId);
-  } catch (error) {
+    console.log(`User found is: ${user}`);
+  } catch (err) {
     return next(new HttpError('This User cannot be found.', 404));
   }
   // Check for errors in what is passed
@@ -147,12 +148,15 @@ const updateUser = async (req, res, next) => {
   // Update any values when updated values are provided by user,
   // otherwise keep the old values the Report had when fetched
   if (newUsername) {
+    console.log(`username: ${user.username}`);
     user.username = newUsername;
   }
   if (newEmail) {
+    console.log(`email: ${user.email}`);
     user.email = newEmail;
   }
   if (newPassword) {
+    console.log(`password: ${user.password}`);
     user.password = newPassword;
   }
   try {
@@ -165,7 +169,7 @@ const updateUser = async (req, res, next) => {
   res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
-// Delete User account (must be logged-in)
+// TODO: Delete User account (must be logged-in)
 const deleteUser = (req, res, next) => {
   const userId = req.params.userId;
   console.log(`Looking for user ${userId}...`);
