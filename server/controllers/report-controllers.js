@@ -73,18 +73,32 @@ const updateReport = async (req, res, next) => {
 
 // Delete one Report by reportId if report.authorId === User.id
 const deleteReport = async (req, res, next) => {
+
   const reportId = req.params.reportId;
   console.log(`Deleting report ${reportId}`);
+
   let report;
-  // Try to find Report by id
+  // Try to find Report by id; handle server/database error
   try {
-    report = await Report.findById(reportId);
+    report = await Report.findById(reportId).populate('authorId');
   } catch (error) {
-    return next(new HttpError("This Report doesn't seem to exist", 404));
+    return next(new HttpError("Something went wrong deleting this Report.", 500));
   }
+
+  // Handle instance in which Report not found
+  if (!report) {
+    return next(new HttpError("We could not find a Report with this ID", 404));
+  }
+
   // Try to delete Report we found
   try {
-    await report.remove();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await report.remove({ session: sess });
+    // Remove the Id corresponding to this Report from User's list of posted Reports
+    report.authorId.reports.pull(report);
+    await report.authorId.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
     return next(new HttpError('Delete Report failed', 500));
   }
@@ -154,14 +168,17 @@ const postNewReport = async (req, res, next) => {
 
 // Get all Reports by one User
 const getAllReportsByUserId = async (req, res, next) => {
+
   // Get account of User associated with this userId
   console.log("Getting User by ID");
   const userId = req.params.userId;
+
   if (!userId) {
     return next(
       new HttpError("That User cannot be found.", 404)
     );
   }
+
   // Get all Reports such that thisReport.authorId === userId
   console.log(`Getting all Reports by User ID: ${userId}`);
   let reports;
@@ -169,9 +186,10 @@ const getAllReportsByUserId = async (req, res, next) => {
     reports = await Report.find({ authorId: userId });
   } catch (err) {
     return next(
-      new HttpError('GET request failed, User not found by that userId', 404)
+      new HttpError('GET request failed', 500)
     )
   }
+
   if (!reports || reports.length === 0) {
     return next(
       new HttpError('This User has not posted any Reports yet', 404));
