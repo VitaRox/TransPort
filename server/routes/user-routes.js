@@ -27,7 +27,19 @@ router.post(
 router.get(`/:userId`, userControllers.getUserById);
 
 // Allows User to update their account info
-router.patch(`/:userId`, userControllers.updateUser);
+router.patch(`/:userId`,
+  [
+    check('email')
+      .normalizeEmail()
+      .isEmail(),
+    check('username')
+      .not()
+      .isEmpty(),
+    check('password')
+      .isStrongPassword()
+  ],
+  userControllers.updateUser
+);
 
 // Allows User to delete their account
 router.delete(`/:userId`, userControllers.deleteUser);
