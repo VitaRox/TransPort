@@ -33,13 +33,11 @@ const getReportById = async (req, res, next) => {
   res.status(200).json({ report: report.toObject({ getters: true }) });
 };
 
-// Update one Report by reportId if report.authorId === User.id
+// Update one Report by reportId
 const updateReport = async (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
   const { newTitle, newReportText } = req.body;
-    // TODO   is user logged in?
-  //      is userId === report.authorId?
   // Try to get Report that is to be updated from database
   let report;
   try {
@@ -102,8 +100,6 @@ const deleteReport = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError('Delete Report failed', 500));
   }
-  //    is user logged in?
-  //      is userId === report.authorId?
   res.status(200).json({ message: `Successfully deleted Report ${reportId}` });
 };
 
@@ -115,8 +111,7 @@ const postNewReport = async (req, res, next) => {
     console.log(errors);
     return next(new HttpError("Report can't have empty title, text, or address", 422));
   }
-  // Use object destructuring to obtain contents of request body
-  // TODO: authorId will be extracted from userId
+
   const { authorId, title, reportText, address } = req.body;
 
   // Convert address to geocoordinates
@@ -179,7 +174,6 @@ const getAllReportsByUserId = async (req, res, next) => {
     );
   }
 
-  // Get all Reports such that thisReport.authorId === userId
   console.log(`Getting all Reports by User ID: ${userId}`);
   let reports;
   try {

@@ -1,48 +1,6 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const User = require(`../models/user`);
-const Report = require('../models/report');
-
-
-// // DUMMY USER DATA
-// let DUMMY_USERS = [
-//   {
-//     id: '1',
-//     username: 'flexingAardvark',
-//     email: 'aVark@email.com',
-//     password: 'pass'
-//   },
-//   {
-//     id: '2',
-//     username: 'sparkleBoi420',
-//     email: 'sp420@ourmail.com',
-//     password: 'badonk'
-//   },
-//   {
-//     id: '3',
-//     username: 'Princess_CremeDeMenthe',
-//     email: 'skaarsgard@biffMail.com',
-//     password: 'crimsonturkey'
-//   },
-//   {
-//     id: '4',
-//     username: 'Clifford_Notes',
-//     email: 'student@lawyer.com',
-//     password: 'chipperSun'
-//   },
-//   {
-//     id: '5',
-//     username: 'Doge_Fan_9',
-//     email: 'mymail@yourmail.com',
-//     password: 'quipSprackter'
-//   },
-//   {
-//     id: '6',
-//     username: 'Jinx_Monsoon',
-//     email: 'artspore@address.org',
-//     password: 'yupYesYeah'
-//   },
-// ];
 
 // METHODS
 
@@ -132,6 +90,9 @@ const updateUser = async (req, res, next) => {
     user = await User.findById(userId);
     console.log(`User found is: ${user}`);
   } catch (err) {
+    return next(new HttpError('Something went wrong.', 500));
+  }
+  if (!user) {
     return next(new HttpError('This User cannot be found.', 404));
   }
   // Check for errors in what is passed
@@ -141,22 +102,16 @@ const updateUser = async (req, res, next) => {
     return next(new HttpError("User can't have empty username, email, or password", 422));
   }
   console.log("User account successfully fetched");
-  console.log(newUsername);
-  console.log(newEmail);
-  console.log(newPassword);
-  // Get a pointer to the original report with fields copied over
-  // Update any values when updated values are provided by user,
+  // Get a pointer to the original report with fields copied over;
+  // update any values when updated values are provided by user,
   // otherwise keep the old values the Report had when fetched
   if (newUsername) {
-    console.log(`username: ${user.username}`);
     user.username = newUsername;
   }
   if (newEmail) {
-    console.log(`email: ${user.email}`);
     user.email = newEmail;
   }
   if (newPassword) {
-    console.log(`password: ${user.password}`);
     user.password = newPassword;
   }
   try {

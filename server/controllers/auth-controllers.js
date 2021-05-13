@@ -1,47 +1,6 @@
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
 
-
-// DUMMY User data
-let DUMMY_USERS = [
-  {
-    id: '1',
-    username: 'flexingAardvark',
-    email: 'aVark@email.com',
-    password: 'pass'
-  },
-  {
-    id: '2',
-    username: 'sparkleBoi420',
-    email: 'sp420@ourmail.com',
-    password: 'badonk'
-  },
-  {
-    id: '3',
-    username: 'Princess_CremeDeMenthe',
-    email: 'skaarsgard@biffMail.com',
-    password: 'crimsonturkey'
-  },
-  {
-    id: '4',
-    username: 'Clifford_Notes',
-    email: 'student@lawyer.com',
-    password: 'chipperSun'
-  },
-  {
-    id: '5',
-    username: 'Doge_Fan_9',
-    email: 'mymail@yourmail.com',
-    password: 'quipSprackter'
-  },
-  {
-    id: '6',
-    username: 'Jinx_Monsoon',
-    email: 'artspore@address.org',
-    password: 'yupYesYeah'
-  },
-];
-
 // Login to existing User account
 const login = async (req, res, next) => {
   console.log("POST request made to /auth/login: call me Kenny Loggins, because we're logging on in!");

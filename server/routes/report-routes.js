@@ -17,7 +17,20 @@ router.get('/view/reports', reportControllers.getAllReports);
 router.get('/view/reports/:reportId', reportControllers.getReportById);
 
 // Allows User to edit/update and existing Report they've posted
-router.patch('/view/reports/:reportId', reportControllers.updateReport);
+router.patch(
+  '/view/reports/:reportId',
+  [
+  check('title')
+    .not()
+    .isEmpty(),
+  check('reportText')
+      .isLength({ min: 5 }),
+  check('address')
+     .not()
+     .isEmpty()
+  ],
+  reportControllers.updateReport
+ );
 
 // Allows a User to delete a Report they have posted
 router.delete('/view/reports/:reportId', reportControllers.deleteReport);
@@ -26,11 +39,10 @@ router.delete('/view/reports/:reportId', reportControllers.deleteReport);
 router.get('/view/reports/user/:userId', reportControllers.getAllReportsByUserId);
 
 // This will load the InputMap (Map and a ReportForm) for the user to create a Report
-// TODO: handle error where map cannot be loaded
 router.get('/new', reportControllers.getInputMap);
 
 // Post a new Report
-// TODO: make it receive data from ReportForm in the request body; handle errors
+// TODO: make it receive data from ReportForm in the request body;
 router.post(
   '/new',
   [
