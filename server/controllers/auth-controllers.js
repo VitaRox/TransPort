@@ -11,7 +11,7 @@ const login = async (req, res, next) => {
   } catch (err) {
     throw next(new HttpError('Something went wrong, try again later', 500));
   }
-  // Check credentails (username and password);
+  // Check credentials (username and password);
   if (!identifiedUser) {
     return next(new HttpError(`No User by this username`, 404));
   }
@@ -22,6 +22,7 @@ const login = async (req, res, next) => {
 };
 
 // Log User out of their account
+// TODO: implement this with authN
 const logout = async (req, res, next) => {
   console.log("POST request made to /auth/logout: logging User out.");
 };

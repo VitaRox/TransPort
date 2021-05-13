@@ -24,7 +24,7 @@ const getReportById = async (req, res, next) => {
   const reportId = req.params.reportId;
   let report;
   try {
-    report = await Report.findById({_id: reportId});
+    report = await Report.findById(reportId);
     // Handle problem with GET request generally
   } catch (err) {
     return next(new HttpError("Something went wrong whilst fetching Report...", 500));
@@ -45,12 +45,7 @@ const updateReport = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError('Could not find this Report', 404));
   }
-  // Check for errors in what is passed
-  const errors = (validationResult(req));
-  if (!errors.isEmpty()) {
-    console.log(errors);
-    return next(new HttpError("Report can't have empty title, text, or address", 422));
-  }
+
   // Update any values when updated values are provided by user,
   // otherwise keep the old values the Report had when fetched
   if (newTitle) {
