@@ -1,57 +1,25 @@
 const HttpError = require('../models/http-error');
-const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
-
-// DUMMY USER DATA
-let DUMMY_USERS = [
-  {
-    id: '1',
-    username: 'flexingAardvark',
-    email: 'aVark@email.com',
-    password: 'pass'
-  },
-  {
-    id: '2',
-    username: 'sparkleBoi420',
-    email: 'sp420@ourmail.com',
-    password: 'badonk'
-  },
-  {
-    id: '3',
-    username: 'Princess_CremeDeMenthe',
-    email: 'skaarsgard@biffMail.com',
-    password: 'crimsonturkey'
-  },
-  {
-    id: '4',
-    username: 'Clifford_Notes',
-    email: 'student@lawyer.com',
-    password: 'chipperSun'
-  },
-  {
-    id: '5',
-    username: 'Doge_Fan_9',
-    email: 'mymail@yourmail.com',
-    password: 'quipSprackter'
-  },
-  {
-    id: '6',
-    username: 'Jinx_Monsoon',
-    email: 'artspore@address.org',
-    password: 'yupYesYeah'
-  },
-];
+const mongoose = require('mongoose');
+const User = require(`../models/user`);
 
 // METHODS
 
 // Get one User by userId
-const getUserById = (req, res, next) => {
-  console.log("GET request made to fetch a User by their userId");
+const getUserById = async (req, res, next) => {
   // Find user with matching userId
   const userId = req.params.userId;
-  const user = DUMMY_USERS.find(u => {
-    return u.id === userId;
-  });
+  console.log(`Fetching User ${userId}`);
+
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(new HttpError(
+      `I promise, this kind of thing has never happened before!`,
+      500)
+    );
+  }
   // Handle "User not found" error
   if (!user) {
     return next(
@@ -59,11 +27,11 @@ const getUserById = (req, res, next) => {
     );
   }
   // Return query results
-  res.status(200).json({ user });
+  res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
 // Create new User account from data submitted in form, auto-generated id
-const createNewUser = (req, res, next) => {
+const createNewUser = async (req, res, next) => {
   console.log("POST request made to create a new User!");
   // Validate user input
   const errors = (validationResult(req));
@@ -75,74 +43,118 @@ const createNewUser = (req, res, next) => {
   const { username, email, password } = req.body;
   // Check for case in which an account associated with this email already exists;
   // this is to prevent the creation of duplicate accounts
-  const hasAccount = DUMMY_USERS.find(u => u.email === email);
-  if (hasAccount) {
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    return next(new HttpError('findOne operation failed', 500));
+  }
+  if (existingUser) {
     return next(new HttpError('Account associated with this email already exists', 422));
   }
   // Create Date object to timestamp new User creation (dateJoined)
   const dateJoined = new Date();
   // Create new User instance
-  const newUser = {
-    id: uuid(),
+  const newUser = new User({
     username,
     email,
     password,
-    dateJoined: dateJoined.toUTCString()
-  };
-  // Store User instance in database
-  DUMMY_USERS.push(newUser);
+    dateJoined: dateJoined.toUTCString(),
+    reports: []
+  });
+  console.log(newUser);
+  // Add to MongoDb database with mongoose save() method
+  // save() also creates a unique id on the object being created
+  try {
+    await newUser.save();
+  } catch (err) {
+    return next(new HttpError("Signup failed", 422));
+  }
   // Send a response to client
-  res.status(201).json({ user: newUser });
+  res.status(201).json({ user: newUser.toObject({ getters: true })});
 };
 
-// TODO: remove from production build
 // For devs/admins only: get all Users
-const getAllUsers = (req, res, next) => {
+const getAllUsers = async (req, res, next) => {
   console.log("Fetch all Users' data");
-  res.status(200).json({ users: DUMMY_USERS });
+  let users;
+  try {
+    users = await User.find({}, '-password');
+    console.log("Successfully fetched all Users");
+  } catch (error) {
+    return next(new HttpError(error.message, 404));
+  }
+  res.status(200).json({ users: users.map(user => user.toObject({ getters: true })) });
 };
 
 // Update User data, provided account exists and User is logged-in
-const updateUser = (req, res, next) => {
-  console.log(`Attempting to locate User account...`);
+const updateUser = async (req, res, next) => {
+  console.log(`Attempting to update User account...`);
   const userId = req.params.userId;
-  const { username, email, password } = req.body;
-  if (!DUMMY_USERS.find(u => u.id === userId)) {
-    throw new HttpError('This User cannot be found.', 404);
+  const { newUsername, newEmail, newPassword } = req.body;
+  let user;
+  try {
+    user = await User.findById(userId);
+    console.log(`User found is: ${user}`);
+  } catch (err) {
+    return next(new HttpError('Something went wrong.', 500));
+  }
+  if (!user) {
+    return next(new HttpError('This User cannot be found.', 404));
   }
   console.log("User account successfully fetched");
-  // Get a pointer to the original report with fields copied over
-  const updatedUser = { ...DUMMY_USERS.find(u => u.id === userId) };
-  // Get the index of the Report we are modifying
-  const userIndex = DUMMY_USERS.findIndex(u => u.id === userId);
-  // Update whatever needs updating; leave everything else as previously defined
-  console.log("Updating all non-empty values provided by user...");
-  if (username.length > 0) {
-    updatedUser.username = username;
+  // Get a pointer to the original report with fields copied over;
+  // update any values when updated values are provided by user,
+  // otherwise keep the old values the Report had when fetched
+  if (newUsername) {
+    user.username = newUsername;
   }
-  if (email.length > 0) {
-    updatedUser.email = email;
+  if (newEmail) {
+    user.email = newEmail;
   }
-  if (password.length > 0) {
-    updatedUser.password = password;
+  if (newPassword) {
+    user.password = newPassword;
   }
-  // Update the storage
-  DUMMY_USERS[userIndex] = updatedUser;
-  res.status(200).json({ users: DUMMY_USERS });
+  try {
+    // Update the database
+    await user.save();
+  } catch (err) {
+    return next(new HttpError("Update User failed", 500));
+  }
+  // Send response
+  res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
-// Delete User account (must be logged-in)
-const deleteUser = (req, res, next) => {
+// Delete User account
+const deleteUser = async (req, res, next) => {
   const userId = req.params.userId;
   console.log(`Looking for user ${userId}...`);
-  if (!DUMMY_USERS.find(u => u.id === userId)) {
-    throw new HttpError("User not found.", 404);
-  }
-  console.log(`Deleting user ${userId}`);
-  DUMMY_USERS = DUMMY_USERS.filter(u => u.id !== userId);
-  res.status(200).json({ users: DUMMY_USERS });
-};
 
+  let user;
+  // Try to find User by id; handle server/database error
+  try {
+    user = await User.findById(userId);
+  } catch (error) {
+    return next(new HttpError("Something went wrong fetching the User to delete.", 500));
+  }
+
+  // Handle instance in which User not found
+  if (!user) {
+    return next(new HttpError("We could not find a User with this ID", 404));
+  }
+
+  // Try to delete User we found
+  try {
+    console.log(`Deleting user ${userId}`);
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await user.remove({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(new HttpError('Delete User failed', 500));
+  }
+  res.status(200).json({ message: `Successfully deleted User ${userId}` });
+};
 
 // Module exports
 exports.getUserById = getUserById;

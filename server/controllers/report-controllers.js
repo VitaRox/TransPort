@@ -1,66 +1,9 @@
 const HttpError = require('../models/http-error');
-// const { v4: uuid } = require("uuid");
 const { validationResult } = require('express-validator');
 const getCoordsFromAddress = require('../util/location');
+const mongoose = require('mongoose');
 const Report = require('../models/report');
-
-// DUMMY Report data
-let DUMMY_REPORTS = [
-  {
-    id: '1',
-    authorId: '4',
-    title: "Fuel Coffee",
-    reportText: "I liked this place a lot. Great cold brew!",
-    address: {
-      street1: "1705 N 45th St",
-      street2: '',
-      city: "Seattle",
-      state: "WA",
-      zipcode: "98103"
-    },
-    location: {
-      lat: '47.66144545096609',
-      lng: '-122.3369235730304'
-    },
-    date: '04-11-2020'
-  },
-  {
-    id: '2',
-    authorId: '4',
-    title: 'Urban Systems Design',
-    reportText: "I got my systems designed here and was happy about it.",
-    address: {
-      street1: "115 N 85th St",
-      street2: '202',
-      city: "Seattle",
-      state: "WA",
-      zipcode: "98103"
-    },
-    location: {
-      lat: '47.69149124976197',
-      lng: '-122.35759765892428'
-    },
-    date: '01-02-2019'
-  },
-  {
-    id: '3',
-    authorId: '2',
-    title: 'Family Dental',
-    reportText: "I like my teeth, and so do they for some reason.",
-    address: {
-      street1: "14 Boston St",
-      street2: '',
-      city: "Seattle",
-      state: "WA",
-      zipcode: "98109"
-    },
-    location: {
-      lat: '47.63969492855474',
-      lng: '-122.35594603425109'
-    },
-    date: '05-20-2017'
-  },
-];
+const User = require('../models/user');
 
 // Get all posted Reports
 const getAllReports = async (req, res, next) => {
@@ -81,7 +24,7 @@ const getReportById = async (req, res, next) => {
   const reportId = req.params.reportId;
   let report;
   try {
-    report = await Report.findById({_id: reportId});
+    report = await Report.findById(reportId);
     // Handle problem with GET request generally
   } catch (err) {
     return next(new HttpError("Something went wrong whilst fetching Report...", 500));
@@ -90,13 +33,11 @@ const getReportById = async (req, res, next) => {
   res.status(200).json({ report: report.toObject({ getters: true }) });
 };
 
-// Update one Report by reportId if report.authorId === User.id
+// Update one Report by reportId
 const updateReport = async (req, res, next) => {
   console.log(`Attempting to update Report`);
   const reportId = req.params.reportId;
-  const { title, reportText } = req.body;
-    // TODO   is user logged in?
-  //      is userId === report.authorId?
+  const { newTitle, newReportText } = req.body;
   // Try to get Report that is to be updated from database
   let report;
   try {
@@ -104,20 +45,14 @@ const updateReport = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError('Could not find this Report', 404));
   }
-  // Determine which values to update:
-  // If: title not supplied....
-  // TODO convert to use validators; this info will never be blank, as all values should begin with original values
-  if (!title || title.length <= 0) {
-    // ....keep old title value
-    report.title = report.title;
-    // else: update the title
-  } else {
-    report.title = title;
+
+  // Update any values when updated values are provided by user,
+  // otherwise keep the old values the Report had when fetched
+  if (newTitle) {
+    report.title = newTitle;
   }
-  if (!reportText || reportText.length <= 0) {
-    report.reportText = report.reportText;
-  } else {
-    report.reportText = reportText;
+  if (newReportText) {
+    report.reportText = newReportText;
   }
   try {
     // Update the database
@@ -131,23 +66,35 @@ const updateReport = async (req, res, next) => {
 
 // Delete one Report by reportId if report.authorId === User.id
 const deleteReport = async (req, res, next) => {
+
   const reportId = req.params.reportId;
   console.log(`Deleting report ${reportId}`);
+
   let report;
-  // Try to find Report by id
+  // Try to find Report by id; handle server/database error
   try {
-    report = await Report.findById(reportId);
+    report = await Report.findById(reportId).populate('authorId');
   } catch (error) {
-    return next(new HttpError("This Report doesn't seem to exist", 404));
+    return next(new HttpError("Something went wrong deleting this Report.", 500));
   }
+
+  // Handle instance in which Report not found
+  if (!report) {
+    return next(new HttpError("We could not find a Report with this ID", 404));
+  }
+
   // Try to delete Report we found
   try {
-    await report.remove();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await report.remove({ session: sess });
+    // Remove the Id corresponding to this Report from User's list of posted Reports
+    report.authorId.reports.pull(report);
+    await report.authorId.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
     return next(new HttpError('Delete Report failed', 500));
   }
-  //    is user logged in?
-  //      is userId === report.authorId?
   res.status(200).json({ message: `Successfully deleted Report ${reportId}` });
 };
 
@@ -159,8 +106,7 @@ const postNewReport = async (req, res, next) => {
     console.log(errors);
     return next(new HttpError("Report can't have empty title, text, or address", 422));
   }
-  // Use object destructuring to obtain contents of request body
-  // TODO: authorId will be extracted from userId
+
   const { authorId, title, reportText, address } = req.body;
 
   // Convert address to geocoordinates
@@ -181,38 +127,58 @@ const postNewReport = async (req, res, next) => {
     location: coordinates,
     date: newDate.toUTCString()
   });
-  // Add to MongoDb database with mongoose save() method
-  // save() also creates a unique id on the object being created
+
+  let user;
   try {
-    await newReport.save();
+    user = await User.findById(authorId);
   } catch (err) {
-    const error = new HttpError("Report posting failed", 500);
+    return next(new HttpError("postNewReport failed", 500));
+  }
+
+  if (!user) {
+    const error = new HttpError('Could not find user for provided id', 404);
     return next(error);
   }
+
+  console.log(`User: ${user}`);
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await newReport.save({ session: sess });
+    user.reports.push(newReport);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(new HttpError("Report posting failed", 500));
+  }
   // Return an http status to the client
-  res.status(201).json({ report: newReport });
+  res.status(201).json({ report: newReport.toObject({ getters: true })});
 };
 
 // Get all Reports by one User
 const getAllReportsByUserId = async (req, res, next) => {
+
   // Get account of User associated with this userId
   console.log("Getting User by ID");
   const userId = req.params.userId;
+
   if (!userId) {
     return next(
       new HttpError("That User cannot be found.", 404)
     );
   }
-  // Get all Reports such that thisReport.authorId === userId
+
   console.log(`Getting all Reports by User ID: ${userId}`);
   let reports;
   try {
     reports = await Report.find({ authorId: userId });
   } catch (err) {
     return next(
-      new HttpError('GET request failed, User not found by that userId', 404)
+      new HttpError('GET request failed', 500)
     )
   }
+
   if (!reports || reports.length === 0) {
     return next(
       new HttpError('This User has not posted any Reports yet', 404));

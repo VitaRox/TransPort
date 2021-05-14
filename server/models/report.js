@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
+// Define our Report data entity
 const reportSchema = new Schema({
   title: { type: String, required: true },
   reportText: { type: String, required: true },
@@ -10,7 +10,7 @@ const reportSchema = new Schema({
     lat: { type: Number, required: true },
     lng: {type: Number, required: true}
   },
-  authorId: {type: String, required: true}
+  authorId: {type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 });
 
 module.exports = mongoose.model('Report', reportSchema);
