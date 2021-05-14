@@ -55,6 +55,7 @@ app.use((error, req, res, next) => {
 });
 
 // Connect to database server
+mongoose.set('useUnifiedTopology', true);
 mongoose
   .connect(url)
   .then(
