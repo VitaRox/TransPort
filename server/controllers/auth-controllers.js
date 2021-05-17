@@ -13,7 +13,7 @@ const login = async (req, res, next) => {
   }
   // Check credentials (username and password);
   if (!identifiedUser) {
-    return next(new HttpError(`No User by this username`, 404));
+    return next(new HttpError(`No user by this username`, 404));
   }
   if (identifiedUser.password !== password) {
     return next(new HttpError(`Password is incorrect`, 401));
