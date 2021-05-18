@@ -10,7 +10,7 @@ const HttpError = require(`./models/http-error`);
 // Database connection
 const mongoose = require('mongoose');
 
-const url = 'mongodb+srv://vita_admin:7F8A7elLRBl1eYFt@cluster0.y47x0.mongodb.net/reports?authSource=admin&replicaSet=atlas-gpxj7l-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true';
+const url = 'mongodb+srv://vita_admin:7F8A7elLRBl1eYFt@cluster0.y47x0.mongodb.net/transport?authSource=admin&replicaSet=atlas-gpxj7l-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true';
 
 // Routing middleware imports
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
@@ -20,6 +20,16 @@ const authRoutes = require('./routes/auth-routes');
 
 // Middleware to parse bodies of JSON requests made to the API
 app.use(express.json());
+
+// Set headers on all responses
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  next();
+});
 
 // Static routes middleware
 app.use('/', staticRoutes);
