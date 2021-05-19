@@ -16,11 +16,11 @@ function NavLinks() {
         <NavLink to="/" exact>HOME</NavLink>
       </li>
       <li>
-        <NavLink to="/data/view" exact>VIEW OUTPUT MAP</NavLink>
+        <NavLink to="/data/view" exact>View Reports</NavLink>
       </li>
       {auth.isLoggedIn && (
         <li>
-          <NavLink to="/data/new">VIEW INPUT MAP</NavLink>
+          <NavLink to="/data/new">Make a Report</NavLink>
         </li>
       )}
       {!auth.isLoggedIn && (
@@ -30,7 +30,7 @@ function NavLinks() {
       )}
       {auth.isLoggedIn && (
         <li>
-          <NavLink to="/users/:userId" exact>YOUR ACCOUNT</NavLink>
+          <NavLink to="/users/:userId" exact>Your Account</NavLink>
         </li>
       )}
       {auth.isLoggedIn && (

@@ -10,9 +10,10 @@ import {
 // Containers/high-level interfaces
 import HomeScreen from './pages/HomeScreen';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
-import InputMap from './pages/InputMap';
-import OutputMap from './pages/OutputMap';
+import MakeReport from './pages/MakeReport';
+import ViewReports from './pages/ViewReports';
 import Login from './pages/Login';
+import UserAccount from './pages/UserAccount';
 
 // Helpers
 import { AuthContext } from './shared/context/auth-context';
@@ -46,14 +47,15 @@ function App() {
           Display a map for entering data, as well as text inputs.
           Clicking the map creates a Google Maps Marker to be attached to the post
           for associating the data with location.
-          <InputMap />
+          <MakeReport />
         </Route>
         <Route path='/data/view' exact>
           Display a map component for viewing data.
           Will include filters and a Submit button for filtering map data results.
-          <OutputMap />
+          <ViewReports />
         </Route>
         <Route path='/users/:userId'>
+          <UserAccount />
           {/* This will render the user account component */}
         </Route>
       <Redirect to='/' />
@@ -68,7 +70,7 @@ function App() {
         <Route path='/data/view' exact>
           Display a map component for viewing data.
           Will include filters and a Submit button for filtering map data results.
-          <OutputMap />
+          <ViewReports />
         </Route>
         <Route path='/auth' exact>
           <Login />

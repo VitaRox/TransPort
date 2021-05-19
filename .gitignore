@@ -82,6 +82,8 @@ typings/
 .nuxt
 dist
 
+# Postman files
+*.postman_collection.*
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and *not* Next.js
@@ -108,3 +110,4 @@ dist
 
 # Notes, screenshots, etc.
 *.png
+*.txt

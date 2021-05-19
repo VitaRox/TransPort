@@ -29,7 +29,7 @@ function Login() {
 
   // Provide user feedback about errors that take place
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
 
   // Initialize form state;
   const [formState, inputHandler, setFormData] = useForm({

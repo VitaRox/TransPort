@@ -32,20 +32,20 @@ app.use((req, res, next) => {
 });
 
 // Static routes middleware
-app.use('/', staticRoutes);
+app.use('/api', staticRoutes);
 
 // This will filter to only pass requests made to paths beginning with '/'
 // to the router middleware in ./routes/data-routes;
 // reportRoutes will be used to route requests/responses to and from /data/view
 // and /data/new (if user is logged in)
-app.use('/data', reportRoutes);
+app.use('/api/data', reportRoutes);
 
 // This will filter requests to user-related paths
 // (e.g. creating a User Account, viewing User Account)
-app.use('/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 // Send requests to appropriate middleware for signing in, signing out
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
 // Handle case in which path doesn't exist
 app.use((req, res, next) => {

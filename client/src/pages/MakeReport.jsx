@@ -1,10 +1,10 @@
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReportForm from '../shared/components/UIElements/ReportForm.jsx';
 import Map from '../shared/components/UIElements/Map.js';
 
 // Styles
-import './InputMap.css';
+import './MakeReport.css';
 
 /**
  * InputMap is the visual interface thru which the apps takes in Reviews
@@ -12,7 +12,7 @@ import './InputMap.css';
  * This represents the parent-container of a Map to be used for input,
  * as well input fields for user input (eventually);
  */
-function InputMap(props) {
+function MakeReport(props) {
 
   props = {
     defaultClass: "__input",
@@ -23,20 +23,17 @@ function InputMap(props) {
     defaultZoom: 12,
   };
 
-  
-
-
   return (
     <React.Fragment>
       <div id="map-container">
         <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
       </div>,
- 
-      <div id="report-container">
+
+      <div id="report-form-container">
         <ReportForm/>
-      </div> 
+      </div>
     </React.Fragment>
   );
 }
 
-export default InputMap;
+export default MakeReport;
