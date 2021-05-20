@@ -12,6 +12,7 @@ import LoadingSpinner from '../shared/components/UIElements/LoadingSpinner.js';
 import { useForm } from '../shared/hooks/form-hook.js';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../shared/util/validators';
 import { AuthContext } from '../shared/context/auth-context';
+import { useHttpClient } from '../shared/hooks/http-hook';
 
 // Styles
 import './Login.css';
@@ -28,8 +29,7 @@ function Login() {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   // Provide user feedback about errors that take place
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const { error, isLoading, sendRequest, clearError } = useHttpClient();
 
   // Initialize form state;
   const [formState, inputHandler, setFormData] = useForm({
@@ -82,64 +82,51 @@ function Login() {
   // Handle submission of login credentials or signup credentials
   const authSubmitHandler = async event => {
     event.preventDefault();
-    setIsLoading(true);
+
     if (isLoginMode) {
       try {
-        const response = await fetch('http://localhost:4000/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: formState.inputs.username.value,
-            password: formState.inputs.password.value
-          })
-        });
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
+        await sendRequest('http://localhost:4000/api/auth/login',
+        'POST',
+        JSON.stringify({
+          username: formState.inputs.username.value,
+          password: formState.inputs.password.value
+        }),
+        {
+          'Content-Type': 'application/json'
         }
-        setIsLoading(false);
-        auth.login();
+      );
+      auth.login();
       } catch (err) {
-        setIsLoading(false);
-        setError(err.message || 'Something went wrong.');
+        console.log(err.message);
       }
+
     } else {
       try {
-        const response = await fetch('http://localhost:4000/api/users/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        await sendRequest(
+          'http://localhost:4000/api/users/signup',
+          'POST',
+          JSON.stringify({
             username: formState.inputs.username.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
-          })
-        });
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        setIsLoading(false);
+          }),
+          {
+            'Content-Type': 'application/json',
+          }
+        );
         auth.login();
       } catch (err) {
-        setIsLoading(false);
-        setError(err.message || 'Something went wrong.');
+        console.log(err.message);
       }
     }
   };
 
-  const errorHandler = () => {
-    setError(null);
-  };
   // Render the component and its constituent components;
   // When creating account, user should also enter their email;
   // TODO: Confirmation email will be sent to them as another layer of security
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       <Card className="login-info_">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
