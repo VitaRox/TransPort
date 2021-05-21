@@ -25,7 +25,7 @@ import { useHttpClient } from '../shared/hooks/http-hook';
 // ]
 
 
-// This is responsible for creating the UserItem/"Your Account" page
+// This is responsible for creating the "Your Account" page, which displays UserItem
 const UserAccount = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUsers, setLoadedUsers] = useState();

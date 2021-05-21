@@ -11,7 +11,7 @@ const UserItem = props => {
       <Card className="user-item__content">
         <Link to={`/${props.id}/reports`}>
           <div className="user-item__info">
-            <h2>{props.name}</h2>
+            <h2>Username: {props.username} <br/>Email: {props.email}</h2>
             <h3>
               {props.reportCount} {props.reportCount === 1 ? 'Report' : 'Reports'}
             </h3>

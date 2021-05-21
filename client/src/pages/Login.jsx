@@ -85,7 +85,7 @@ function Login() {
 
     if (isLoginMode) {
       try {
-        await sendRequest('http://localhost:4000/api/auth/login',
+        const responseData = await sendRequest('http://localhost:4000/api/auth/login',
         'POST',
         JSON.stringify({
           username: formState.inputs.username.value,
@@ -95,14 +95,14 @@ function Login() {
           'Content-Type': 'application/json'
         }
       );
-      auth.login();
+      auth.login(responseData.user.id);
       } catch (err) {
         console.log(err.message);
       }
 
     } else {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           'http://localhost:4000/api/users/signup',
           'POST',
           JSON.stringify({
@@ -114,7 +114,7 @@ function Login() {
             'Content-Type': 'application/json',
           }
         );
-        auth.login();
+        auth.login(responseData.user.id);
       } catch (err) {
         console.log(err.message);
       }

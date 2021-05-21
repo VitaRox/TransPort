@@ -1,7 +1,17 @@
-
 import React from 'react';
-import ReportForm from '../shared/components/UIElements/ReportForm.jsx';
+
+// UI elements
+import ReportForm from './components/ReportForm.jsx';
 import Map from '../shared/components/UIElements/Map.js';
+import Input from '../shared/components/FormElements/Input';
+import Button from '../shared/components/FormElements/Button';
+
+// Helpers
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH
+} from '../shared/util/validators';
+import { useForm } from '../shared/hooks/form-hook';
 
 // Styles
 import './MakeReport.css';
@@ -27,11 +37,11 @@ function MakeReport(props) {
     <React.Fragment>
       <div id="map-container">
         <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
-      </div>,
-
-      <div id="report-form-container">
-        <ReportForm/>
+        <div id="report-form-container">
+          <ReportForm />
+        </div>
       </div>
+
     </React.Fragment>
   );
 }
