@@ -7,8 +7,9 @@ import './Report.css';
 const Report = props => {
 
   return (
-    <Card className="report-item__content">
+    <Card className="report-item__">
       <div className="report-item__info">
+        <h1>{props.imageUrl}</h1>
         <h2>{props.title}</h2>
         <h3>{props.address}</h3>
         <p>{props.reportText}</p>

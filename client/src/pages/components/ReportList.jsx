@@ -1,10 +1,14 @@
 import React from 'react';
 
+// UI elements
 import Card from '../../shared/components/UIElements/Card';
 import Report from './Report';
 import Button from '../../shared/components/FormElements/Button';
+
+// Styles
 import './ReportList.css';
 
+// List of Reports
 const ReportList = props => {
   if (props.items.length === 0) {
     return (
