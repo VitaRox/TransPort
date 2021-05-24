@@ -1,0 +1,74 @@
+.report-item__ {
+  margin: 1rem 0;
+  display:grid;
+  border-style: double;
+  box-shadow: inset;
+  text-align: center;
+  font-weight: 500;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: skyblue;
+  color: white;
+}
+
+.report-item__:hover {
+  background-color: #f8df00;
+  color: black;
+}
+
+.report-item__content {
+  padding: 0;
+  width:fit-content;
+}
+
+.report-item__info {
+  padding: 1rem;
+  text-align: center;
+  display: inline-block;
+}
+
+.report-item__image {
+  width: 100%;
+  height: 12.5rem;
+  margin-right: 1.5rem;
+}
+
+.report-item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.report-item__info h2,
+.report-item__info h3,
+.report-item__info p {
+  margin: 0 0 0.5rem 0;
+}
+
+.report-item__actions {
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+.report-item__modal-content {
+  padding: 0;
+}
+
+.report-item__modal-actions {
+  text-align: right;
+}
+
+.report-item__actions button,
+.report-item__actions a {
+  margin: 0.5rem;
+
+}
+
+@media (min-width: 768px) {
+  .report-item__image {
+    height: 20rem;
+  }
+}

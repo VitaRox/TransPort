@@ -1,0 +1,11 @@
+.report-list {
+  align-content: center;
+  border-style:solid;
+  text-align: center;
+  margin: 1rem auto;
+  width: 800px;
+  height: flex;
+  background-color: #c07dc2;;
+  padding: 0;
+  max-width: 40rem;
+}

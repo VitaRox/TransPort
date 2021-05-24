@@ -9,7 +9,7 @@ const login = async (req, res, next) => {
   try {
     identifiedUser = await User.findOne({ username: username });
   } catch (err) {
-    throw next(new HttpError('Something went wrong, try again later', 500));
+    return next(new HttpError('Something went wrong, try again later', 500));
   }
   // Check credentials (username and password);
   if (!identifiedUser) {

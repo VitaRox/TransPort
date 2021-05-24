@@ -3,7 +3,7 @@
   text-align: center;
   font-weight: bold;
   font-optical-sizing: auto;
-  width: flex;
+  width: inherit;
   height: flex;
   background-color: rgb(87, 11, 158);
 }

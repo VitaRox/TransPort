@@ -1,0 +1,14 @@
+#map-container {
+  height: 500px;
+  width: 100%;
+  padding-left: 10%;
+  padding-right: 10%;
+  position: center;
+  display: block;
+  box-shadow: 2px;
+}
+
+#report-form-container {
+  width: inherit;
+  height: flex;
+}
