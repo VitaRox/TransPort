@@ -20,6 +20,7 @@ import { AuthContext } from './shared/context/auth-context';
 
 // Stylings
 import './App.css';
+import MyReports from './pages/MyReports';
 
 // Root-level React component, App
 function App() {
@@ -56,9 +57,11 @@ function App() {
           Will include filters and a Submit button for filtering map data results.
           <ViewReports />
         </Route>
+        <Route path='/users/:userId/reports'>
+          <MyReports />
+        </Route>
         <Route path='/users/:userId'>
           <UserAccount />
-          {/* This will render the user account component */}
         </Route>
       <Redirect to='/' />
       </Switch>
