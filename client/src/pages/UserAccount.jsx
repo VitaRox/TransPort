@@ -15,7 +15,6 @@ const UserAccount = () => {
   const [loadedUsers, setLoadedUsers] = useState();
 
   useEffect(() => {
-
     // use useParams to get userId then getUserById
     const fetchUsers = async () => {
       try {
