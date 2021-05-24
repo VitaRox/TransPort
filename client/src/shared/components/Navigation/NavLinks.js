@@ -30,7 +30,12 @@ function NavLinks() {
       )}
       {auth.isLoggedIn && (
         <li>
-          <NavLink to="/users/:userId" exact>Your Account</NavLink>
+          <NavLink to={`/users/${auth.userId}/reports`}>My Reports</NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && (
+        <li>
+          <NavLink to={`/users/${auth.userId}`} exact>My Account</NavLink>
         </li>
       )}
       {auth.isLoggedIn && (

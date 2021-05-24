@@ -25,6 +25,7 @@ const UsersList = props => {
         <UserItem
           key={user.id}
           id={user.id}
+          image={user.image}
           username={user.username}
           email={user.email}
           reportCount={user.reports.length}
