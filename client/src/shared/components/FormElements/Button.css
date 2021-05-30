@@ -6,7 +6,6 @@
   background: #0563af;
   color: white;
   cursor: pointer;
-  margin-right: 1rem;
   text-decoration: none;
   display: inline-block;
 }
@@ -22,8 +21,8 @@
 }
 
 .button--inverse {
-  background: beige;
-  color: #ff0055;
+  background: #c07dc2;
+  color: white;
 }
 
 .button--inverse:hover,

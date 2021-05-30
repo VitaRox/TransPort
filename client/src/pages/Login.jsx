@@ -129,9 +129,9 @@ function Login() {
       <ErrorModal error={error} onClear={clearError} />
       <Card className="login-info_">
         {isLoading && <LoadingSpinner asOverlay />}
-        <h2>Login Required</h2>
+        <h1>Login Required</h1>
         <hr />
-        <form onSubmit={authSubmitHandler}>
+        <form onSubmit={authSubmitHandler} className="center">
           <Input
             id="username"
             element="input"
@@ -168,9 +168,11 @@ function Login() {
             {isLoginMode ? 'LOG IN' : 'SIGN UP'}
           </Button>
         </form>
+        <hr />
         <Button inverse onClick={switchModeHandler}>
-          Go to {isLoginMode ? 'SIGN UP' : 'LOG IN'}
+          GO TO {isLoginMode ? 'SIGN UP' : 'LOG IN'}
         </Button>
+
         </Card>
       </React.Fragment>
   );

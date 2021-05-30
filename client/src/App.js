@@ -7,22 +7,22 @@ import {
   Switch
 } from 'react-router-dom';
 
-// Containers/high-level interfaces
+// Linked pages
 import HomeScreen from './pages/HomeScreen';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import MakeReport from './pages/MakeReport';
 import ViewReports from './pages/ViewReports';
 import Login from './pages/Login';
 import UserAccount from './pages/UserAccount';
+import MyReports from './pages/MyReports';
 
 // Helpers
 import { AuthContext } from './shared/context/auth-context';
 
 // Stylings
 import './App.css';
-import MyReports from './pages/MyReports';
 
-// Root-level React component, App
+// Root-level React component
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,14 +47,9 @@ function App() {
           <HomeScreen />
         </Route>
         <Route path='/data/new' exact>
-          Display a map for entering data, as well as text inputs.
-          Clicking the map creates a Google Maps Marker to be attached to the post
-          for associating the data with location.
           <MakeReport />
         </Route>
         <Route path='/data/view' exact>
-          Display a map component for viewing data.
-          Will include filters and a Submit button for filtering map data results.
           <ViewReports />
         </Route>
         <Route path='/users/:userId/reports'>
@@ -73,8 +68,6 @@ function App() {
           <HomeScreen />
         </Route>
         <Route path='/data/view' exact>
-          Display a map component for viewing data.
-          Will include filters and a Submit button for filtering map data results.
           <ViewReports />
         </Route>
         <Route path='/auth' exact>
