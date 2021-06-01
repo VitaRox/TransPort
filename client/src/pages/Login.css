@@ -1,21 +1,16 @@
 .login-info_ {
-  box-shadow: inset;
   text-align: center;
   font-weight: bold;
   font-optical-sizing: auto;
-  width: 60%;
+  width: 80%;
   margin: auto;
-  height: 500px;
-  background-color: rgb(87, 11, 158);
+  height: 360px;
+  background-color: black;
   color: white;
   justify-items: auto;
 }
 
-#login-buttons {
-  margin:auto;
-  width:120px;
-  height:50px;
-  text-align:center;
-  line-height:1.1em;
-  font-size:1.1em;
+::placeholder {
+  color: black;
+  opacity: 5;
 }

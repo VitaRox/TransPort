@@ -128,16 +128,16 @@ function Login() {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
       <Card className="login-info_">
-        {isLoading && <LoadingSpinner asOverlay />}
+        {isLoading && <LoadingSpinner asOverlay className="center"/>}
         <h1>Login Required</h1>
         <hr />
-        <form onSubmit={authSubmitHandler} className="center">
+        <form onSubmit={authSubmitHandler}>
           <Input
             id="username"
             element="input"
             type="text"
             placeholder="Enter username"
-            label="Enter your username here"
+            label="Enter your username here:    "
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid username."
             onInput={inputHandler}
@@ -159,20 +159,20 @@ function Login() {
             placeholder="Enter password"
             element="input"
             type="password"
-            label="Enter your password here"
+            label="Enter your password here:    "
             validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter a valid password."
+            errorText="Please enter password with at least one uppercase, lowercase, numeral, symbol."
             onInput={inputHandler}
           />
-          <Button type="submit" disabled={!formState.isValid}>
+          <br />
+          <Button type="submit" disabled={!formState.isValid} size={'big'}>
             {isLoginMode ? 'LOG IN' : 'SIGN UP'}
           </Button>
         </form>
         <hr />
-        <Button inverse onClick={switchModeHandler}>
+        <Button inverse onClick={switchModeHandler} size={'big'}>
           GO TO {isLoginMode ? 'SIGN UP' : 'LOG IN'}
         </Button>
-
         </Card>
       </React.Fragment>
   );

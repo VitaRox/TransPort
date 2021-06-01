@@ -109,7 +109,7 @@ function ReportForm(props) {
             onInput={reportHandler}
           >
           </Input>
-          <Button type="submit" disabled={!formState.isValid}>
+          <Button type="submit" disabled={!formState.isValid} size={'big'}>
             Make New Report!
           </Button>
         </form>
