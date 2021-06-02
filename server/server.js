@@ -10,7 +10,7 @@ const HttpError = require(`./models/http-error`);
 // Database connection
 const mongoose = require('mongoose');
 
-const url = 'mongodb+srv://vita_admin:7F8A7elLRBl1eYFt@cluster0.y47x0.mongodb.net/transport?authSource=admin&replicaSet=atlas-gpxj7l-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true';
+const url = 'mongodb+srv://{ENTER CONNECTION STRING FROM MONGODB HERE}';
 
 // Routing middleware imports
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
