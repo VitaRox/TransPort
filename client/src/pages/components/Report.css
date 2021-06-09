@@ -6,11 +6,11 @@
   box-shadow: 5px 5px 5px 0px #0e0d0e;
   text-align: center;
   font-weight: 500;
-  background-color: skyblue;
+  background-color: #96ded1;
 }
 
 .report-item__:hover {
-  background-color: #f8df00;
+  background-color: #fdf1b1;
   color: black;
 }
 
