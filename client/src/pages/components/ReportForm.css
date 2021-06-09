@@ -1,4 +1,4 @@
-.report-info_ {
+.report-form {
   align-items: right;
   justify-items: center;
   font-weight: bold;
@@ -9,9 +9,4 @@
   color: white;
   text-emphasis-color: #f8df00;
   display: grid;
-}
-
-::placeholder {
-  color: black;
-  opacity: 5;
 }
