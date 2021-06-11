@@ -2,34 +2,36 @@
   font: inherit;
   padding: 0.5rem 1.5rem;
   border: 1px solid #070606;
+  border-bottom: 2px solid #070606;
+  border-right: 2px solid #070606;
   border-radius: 4px;
   background: #0563af;
   color: white;
   cursor: pointer;
-  margin-right: 1rem;
   text-decoration: none;
-  display: inline-block;
+  display: border-box;
 }
 
 .button:focus {
-  outline: none;
+  outline:none;
 }
 
 .button:hover,
 .button:active {
-  background: #ff4382;
-  border-color: #ff4382;
+  background: #f8df00;
+  border-color: #000000;
+  color: black;
 }
 
 .button--inverse {
-  background: beige;
-  color: #ff0055;
+  background: #c07dc2;
+  color: white;
 }
 
 .button--inverse:hover,
 .button--inverse:active {
-  color: white;
-  background: #ff0055;
+  color: black;
+  background: #f8df00;
 }
 
 .button--danger {
@@ -54,8 +56,10 @@
 
 .button--small {
   font-size: 0.8rem;
+  width: 100%;
 }
 
 .button--big {
   font-size: 1.5rem;
+  width: 100%;
 }

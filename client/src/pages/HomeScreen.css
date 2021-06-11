@@ -1,15 +1,22 @@
 .home-screen {
-  height:100%;
-  width:100%;
-}
-
-.greeting-pic {
-  height:100%;
+  height: 100%;
   width:100%;
 }
 
 .greeting-pic-box {
-  box-sizing: border-box;
   background-origin: padding-box;
   position: center;
+}
+
+.__logo {
+  background-color: rgb(238, 188, 205);
+  margin:auto;
+  margin-bottom: 15px;
+  width: 500px;
+  height: 500px;
+  object-fit: fill;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
 }

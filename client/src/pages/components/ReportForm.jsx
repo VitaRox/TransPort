@@ -13,12 +13,12 @@ import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
 import { AuthContext } from '../../shared/context/auth-context';
 
-// Styles
-import './ReportForm.css';
-
 // Hooks
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { useForm } from '../../shared/hooks/form-hook.js';
+
+// Styles
+import './ReportForm.css';
 
 //Begin React functional component
 function ReportForm(props) {
@@ -73,7 +73,7 @@ function ReportForm(props) {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <Card className="report-info_">
+      <Card className="report-form">
         <form onSubmit={reportSubmitHandler}>
           {isLoading && <LoadingSpinner asOverlay />}
           <Input
@@ -109,7 +109,7 @@ function ReportForm(props) {
             onInput={reportHandler}
           >
           </Input>
-          <Button type="submit" disabled={!formState.isValid}>
+          <Button type="submit" disabled={!formState.isValid} size={'big'}>
             Make New Report!
           </Button>
         </form>

@@ -34,11 +34,15 @@ function MyReports() {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      {isLoading &&
+      {
+        isLoading &&
         <div className="center">
           <LoadingSpinner asOverlay />
-        </div>}
-      {!isLoading && loadedReports && <ReportList items={loadedReports} />}
+        </div>
+      }
+      <div>
+        {!isLoading && loadedReports && <ReportList items={loadedReports} />}
+      </div>
     </React.Fragment>
   );
 

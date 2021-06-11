@@ -1,10 +1,16 @@
 .login-info_ {
-  box-shadow: inset;
   text-align: center;
   font-weight: bold;
   font-optical-sizing: auto;
-  width: 200px;
-  height: flex;
-  background-color: rgb(87, 11, 158);
+  width: 80%;
+  margin: auto;
+  height: 360px;
+  background-color: black;
   color: white;
+  justify-items: auto;
+}
+
+::placeholder {
+  color: black;
+  opacity: 5;
 }

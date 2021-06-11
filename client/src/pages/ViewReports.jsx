@@ -8,7 +8,7 @@ import LoadingSpinner from '../shared/components/UIElements/LoadingSpinner';
 import { useHttpClient } from '../shared/hooks/http-hook';
 
 // Styles
-import './ViewReports.css';
+import '../shared/components/UIElements/PageContainers.css';
 
 // The page from which we can view Reports made by all Users
 function ViewReports(props) {
@@ -49,10 +49,10 @@ function ViewReports(props) {
           <LoadingSpinner />
         </div>
       )}
-      <div id="map-container">
-        <Map class={props.defaultClass} center={props.defaultCenter} zoom={props.defaultZoom} />
+      <div className="map-container">
+        <Map center={props.defaultCenter} zoom={props.defaultZoom} />
+        {!isLoading && loadedReports && <ReportList items={loadedReports} />}
       </div>
-      {!isLoading && loadedReports && <ReportList items={loadedReports} />}
     </React.Fragment>
   );
 }

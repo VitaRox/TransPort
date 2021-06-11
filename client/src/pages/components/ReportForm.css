@@ -1,13 +1,12 @@
-.report-info_ {
-  box-shadow: inset;
-  text-align: center;
+.report-form {
+  align-items: right;
+  justify-items: center;
   font-weight: bold;
   font-optical-sizing: auto;
   width: inherit;
-  height: flex;
-  background-color: rgb(87, 11, 158);
-}
-
-div {
-  justify-self: center;
+  margin: auto;
+  background-color: #c07dc2;
+  color: white;
+  text-emphasis-color: #f8df00;
+  display: grid;
 }

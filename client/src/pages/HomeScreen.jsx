@@ -17,7 +17,7 @@ function HomeScreen() {
   };
   return (
     <div className="home-screen">
-      <Card>
+      <Card className={`__logo`}>
         {Logo()}
       </Card>
     </div>

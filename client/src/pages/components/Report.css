@@ -1,20 +1,16 @@
 .report-item__ {
   margin: 1rem 0;
   display:grid;
-  border-style: double;
-  box-shadow: inset;
+  border-style: solid;
+  border-width: thin;
+  box-shadow: 5px 5px 5px 0px #0e0d0e;
   text-align: center;
   font-weight: 500;
-  margin-left: 50px;
-  margin-right: 50px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background-color: skyblue;
-  color: white;
+  background-color: #96ded1;
 }
 
 .report-item__:hover {
-  background-color: #f8df00;
+  background-color: #fdf1b1;
   color: black;
 }
 
