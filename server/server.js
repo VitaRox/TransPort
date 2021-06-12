@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 
 // Port will either be 4000 by default or, if 4000 is in-use, another available port;
 const port = 4000 || process.env.PORT;
@@ -9,8 +10,7 @@ const HttpError = require(`./models/http-error`);
 
 // Database connection
 const mongoose = require('mongoose');
-
-const url = 'mongodb+srv://{ENTER CONNECTION STRING FROM MONGODB HERE}';
+const url = process.env.DB_URL;
 
 // Routing middleware imports
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
@@ -67,7 +67,7 @@ app.use((error, req, res, next) => {
 // Connect to database server
 mongoose.set('useUnifiedTopology', true);
 mongoose
-  .connect(url)
+  .connect(`${url}`)
   .then(
     // Listens on an available port
     app.listen(port, () => {
