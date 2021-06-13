@@ -1,5 +1,5 @@
 .map {
-  margin: auto;
   height: 100%;
-  width: inherit;
+  width: 100%;
+  position: static;
 }

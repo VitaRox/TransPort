@@ -50,7 +50,7 @@
 .button:active:disabled {
   background: #ccc;
   color: #979797;
-  border-color: #ccc;
+  border-color: black;
   cursor: not-allowed;
 }
 
@@ -62,4 +62,9 @@
 .button--big {
   font-size: 1.5rem;
   width: 100%;
+}
+
+.button--report {
+  font-size: 1.5rem;
+  width: 200px;
 }
