@@ -3,11 +3,16 @@
   font-weight: bold;
   font-optical-sizing: auto;
   width: 80%;
+  height: flex 360px;
   margin: auto;
-  height: 360px;
-  background-color: black;
+  background-color: #907fa4;
   color: white;
   justify-items: auto;
+}
+
+label {
+  display: grid;
+  justify-content: center;
 }
 
 ::placeholder {

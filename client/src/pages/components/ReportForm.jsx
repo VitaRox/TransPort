@@ -80,8 +80,8 @@ function ReportForm(props) {
             id="title"
             element="input"
             type="text"
-            placeholder="Think of a catchy title for your report!"
-            label="Title   "
+            placeholder="Enter a descriptive title"
+            label="Title"
             validators={[VALIDATOR_MINLENGTH(6)]}
             errorText="Please enter a valid string."
             onInput={reportHandler}
@@ -89,8 +89,8 @@ function ReportForm(props) {
           </Input>
           <Input
             id="reportText"
-            placeholder="File a Report"
-            element="input"
+            placeholder="Enter your remarks"
+            element="textarea"
             type="text"
             label="Report"
             validators={[VALIDATOR_MINLENGTH(6)]}
@@ -100,16 +100,16 @@ function ReportForm(props) {
           </Input>
           <Input
             id="address"
-            placeholder="Input the address of the location you're reporting on"
+            placeholder="Enter address of locale"
             element="input"
             type="text"
-            label="Address   "
+            label="Address"
             validators={[VALIDATOR_MINLENGTH(12)]}
             errorText="That is not a valid address"
             onInput={reportHandler}
           >
           </Input>
-          <Button type="submit" disabled={!formState.isValid} size={'big'}>
+          <Button type="submit" disabled={!formState.isValid} size={'report'}>
             Make New Report!
           </Button>
         </form>
