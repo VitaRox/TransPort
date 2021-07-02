@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import './SideDrawer.css';
 
 function SideDrawer(props) {
-  const content = useRef[(
+  const content = (
     <CSSTransition
       in={props.show}
       timeout={200}
@@ -15,7 +15,7 @@ function SideDrawer(props) {
     >
       <aside className="side-drawer" onClick={props.onClick}>{props.children}</aside>
     </CSSTransition>
-  )];
+  );
   return ReactDOM.createPortal(content, document.getElementById('drawer-hook'));
 };
 

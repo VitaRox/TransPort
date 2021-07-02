@@ -20,7 +20,7 @@ import MyReports from './pages/MyReports';
 import { AuthContext } from './shared/context/auth-context';
 
 // Stylings
-import './App.css';
+// import './App.css';
 
 // Root-level React component
 function App() {
@@ -92,8 +92,8 @@ function App() {
         <main>
           {routes}
         </main>
-        </Router>
-      </AuthContext.Provider>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 
