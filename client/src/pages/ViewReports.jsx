@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Sticky from 'react-sticky-el';
 
 // Page components
 import ReportList from './components/ReportList';
@@ -51,6 +52,8 @@ function ViewReports(props) {
       )}
       <div className="map-container">
         <Map center={props.defaultCenter} zoom={props.defaultZoom} />
+      </div>
+      <div className="list-container">
         {!isLoading && loadedReports && <ReportList items={loadedReports} />}
       </div>
     </React.Fragment>

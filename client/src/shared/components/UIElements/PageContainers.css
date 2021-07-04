@@ -1,7 +1,21 @@
 .map-container {
   height: 600px;
-  width: 100%;
-  display: flex;
+  width: 50%;
+  position: sticky;
+  top: 0px;
+  bottom: 0px;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-right: 0px;
+}
+
+.list-container {
+  width: 50%;
+  position: static;
+  top: 0px;
+  margin-top: auto;
+  margin-left: auto;
+  padding-top: 0em;
 }
 
 ::placeholder {
