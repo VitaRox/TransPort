@@ -7,13 +7,15 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "google-map-react": "^2.1.5",
+    "google-map-react": "^2.1.10",
     "google-maps-react": "^2.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
-    "react-transition-group": "^4.4.1",
+    "react-sticky-el": "^2.0.9",
+    "react-transition-group": "^4.4.2",
+    "typescript": "^4.3.5",
     "yarn": "^1.22.10"
   },
   "scripts": {
@@ -38,6 +40,6 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.9"
   }
 }
