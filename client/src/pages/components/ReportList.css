@@ -2,11 +2,10 @@
   text-align: center;
   border-style: outset;
   border-width: 2px;
+  border-radius: 6px;
   margin: 1rem auto;
   height: auto;
   width: auto;
-  overflow: scroll;
-  z-index: -999;
   background-color: #c07dc2;
   position: sticky;
   box-sizing: content-box;
