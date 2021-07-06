@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Sticky from 'react-sticky-el';
 
 // Page components
 import ReportList from './components/ReportList';
