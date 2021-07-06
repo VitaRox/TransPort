@@ -2,12 +2,16 @@
   text-align: center;
   border-style: outset;
   border-width: 2px;
+  border-radius: 6px;
   margin: 1rem auto;
-  height: fit-content;
+  height: auto;
+  width: auto;
   background-color: #c07dc2;
-  position: relative;
+  position: sticky;
   box-sizing: content-box;
+  top: 0px;
   margin-top: 0%;
+  margin-right: 0%;
   padding-left: 10%;
   padding-right: 10%;
 }

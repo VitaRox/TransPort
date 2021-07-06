@@ -9,7 +9,9 @@
   color: white;
   text-emphasis-color: #f8df00;
   display: grid;
-  position: static;
+  position: fixed;
+  top: 100px;
+  right: 0px;
 }
 
 .report-form form {
@@ -23,5 +25,6 @@
   width: 200px;
   border-style: inset;
   border-color: black;
+  border-radius: 6px;
   margin-bottom: 0.5rem;
 }

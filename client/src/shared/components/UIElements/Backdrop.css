@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  background: rgba(30, 214, 247, 0.75);
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
   z-index: 10;
 }

@@ -1,7 +1,19 @@
 .map-container {
-  height: 600px;
-  width: 100%;
-  display: flex;
+  height: 500px;
+  width: 50%;
+  position: fixed;
+  top: 100px;
+  margin-top: 0px;
+  margin-right: 0px;
+}
+
+.list-container {
+  width: 50%;
+  position: static;
+  top: 0px;
+  margin-top: auto;
+  margin-left: auto;
+  padding-top: 0em;
 }
 
 ::placeholder {

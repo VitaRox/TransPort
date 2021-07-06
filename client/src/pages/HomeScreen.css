@@ -1,6 +1,6 @@
 .home-screen {
   height: 100%;
-  width:100%;
+  width: 100%;
 }
 
 .greeting-pic-box {
@@ -10,13 +10,14 @@
 
 .__logo {
   background-color: rgb(238, 188, 205);
-  margin:auto;
+  margin: auto;
   margin-bottom: 15px;
   width: 500px;
   height: 500px;
-  object-fit: fill;
+  object-fit:none;
   display: flex;
   justify-content: center;
   align-items: center;
   align-self: center;
+  z-index: -2;
 }

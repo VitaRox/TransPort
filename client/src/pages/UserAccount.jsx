@@ -9,11 +9,12 @@ import LoadingSpinner from '../shared/components/UIElements/LoadingSpinner';
 // Custom hooks
 import { useHttpClient } from '../shared/hooks/http-hook';
 
-// This is responsible for creating the "Your Account" page, which displays UserItem
+// This is responsible for creating the "My Account" page, which displays UserItem
 const UserAccount = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUsers, setLoadedUsers] = useState();
 
+  // TODO: make fetch only one user, display user info for current user only;
   // use useParams to get userId then getUserById
   // const userId = useParams().userId;
 
