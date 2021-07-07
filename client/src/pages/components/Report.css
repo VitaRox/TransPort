@@ -16,7 +16,7 @@
 
 .report-item__content {
   padding: 0;
-  width:auto;
+  width: auto;
 }
 
 .report-item__info {
@@ -60,7 +60,6 @@
 .report-item__actions button,
 .report-item__actions a {
   margin: 0.5rem;
-
 }
 
 @media (min-width: 768px) {
