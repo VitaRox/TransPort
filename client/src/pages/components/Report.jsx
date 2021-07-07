@@ -41,9 +41,16 @@ const Report = props => {
         footerClass="report-item__modal-actions"
         footer={<Button onClick={closeDetailHandler}>CLOSE</Button>}
       >
-        <div className="map-container">
-          <Map center={props.location} zoom={16} />
-        </div>
+        <div className="report-item__content-map">
+            <Map center={props.location} zoom={16} />
+          </div>
+        <Card className="report-item__content">
+          <div className="report-item__info">
+            <h1>{props.imageUrl}</h1>
+            <h3>{props.address}</h3>
+            <p>{props.reportText}</p>
+          </div>
+        </Card>
       </Modal>
       <Modal
         show={showConfirmModal}

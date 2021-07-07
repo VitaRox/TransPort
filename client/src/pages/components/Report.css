@@ -9,6 +9,11 @@
   background-color: #96ded1;
 }
 
+.report-item__content-map {
+  width: 100%;
+  height: 180px;
+}
+
 .report-item__:hover {
   background-color: #fdf1b1;
   color: black;
