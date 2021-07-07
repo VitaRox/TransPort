@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 // UI elements
 import Card from '../../shared/components/UIElements/Card';
@@ -7,8 +7,18 @@ import Button from "../../shared/components/FormElements/Button";
 import Map from '../../shared/components/UIElements/Map';
 import './Report.css';
 
+// Hooks and helpers
+import { AuthContext } from '../../shared/context/auth-context';
+
 // Represents the frontend view of a Report
 const Report = props => {
+
+  // Get userId of currently logged-in User;
+  // Used to conditionally render "Edit" and "Delete" buttons on the detail
+  // view of Reports (when they are clicked);
+  const auth = useContext(AuthContext);
+  const userId = auth.userId;
+
 
   // This controls whether the detail view Modal is showing
   const [showDetail, setShowDetail] = useState(false);

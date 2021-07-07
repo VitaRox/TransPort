@@ -19,9 +19,6 @@ import MyReports from './pages/MyReports';
 // Helpers
 import { AuthContext } from './shared/context/auth-context';
 
-// Stylings
-// import './App.css';
-
 // Root-level React component
 function App() {
 
