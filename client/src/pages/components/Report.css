@@ -16,7 +16,7 @@
 
 .report-item__content {
   padding: 0;
-  width:fit-content;
+  width:auto;
 }
 
 .report-item__info {

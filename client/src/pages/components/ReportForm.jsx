@@ -10,7 +10,7 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 // Business Logic
-import { VALIDATOR_MINLENGTH } from '../../shared/util/validators';
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import { AuthContext } from '../../shared/context/auth-context';
 
 // Hooks
@@ -21,13 +21,13 @@ import { useForm } from '../../shared/hooks/form-hook.js';
 import './ReportForm.css';
 
 //Begin React functional component
-function ReportForm(props) {
+function ReportForm() {
 
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   // Initialize form state;
-  const [formState, reportHandler] = useForm({
+  const [formState, inputHandler] = useForm({
     title: {
       value: '',
       isValid: false
@@ -82,9 +82,9 @@ function ReportForm(props) {
             type="text"
             placeholder="Enter a descriptive title"
             label="Title"
-            validators={[VALIDATOR_MINLENGTH(6)]}
+            validators={[VALIDATOR_REQUIRE]}
             errorText="Please enter a valid string."
-            onInput={reportHandler}
+            onInput={inputHandler}
           >
           </Input>
           <Input
@@ -95,7 +95,7 @@ function ReportForm(props) {
             label="Report"
             validators={[VALIDATOR_MINLENGTH(6)]}
             errorText="Something is not right"
-            onInput={reportHandler}
+            onInput={inputHandler}
           >
           </Input>
           <Input
@@ -104,9 +104,9 @@ function ReportForm(props) {
             element="input"
             type="text"
             label="Address"
-            validators={[VALIDATOR_MINLENGTH(12)]}
+            validators={[VALIDATOR_REQUIRE]}
             errorText="That is not a valid address"
-            onInput={reportHandler}
+            onInput={inputHandler}
           >
           </Input>
           <Button type="submit" disabled={!formState.isValid} size={'report'}>
