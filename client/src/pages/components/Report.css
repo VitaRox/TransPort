@@ -1,6 +1,6 @@
 .report-item__ {
   margin: 1rem 0;
-  display:grid;
+  display: grid;
   border-style: solid;
   border-width: thin;
   box-shadow: 5px 5px 5px 0px #0e0d0e;
@@ -21,13 +21,11 @@
 
 .report-item__content {
   padding: 0;
-  width: auto;
 }
 
 .report-item__info {
   padding: 1rem;
   text-align: center;
-  display: inline-block;
 }
 
 .report-item__image {

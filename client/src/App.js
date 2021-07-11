@@ -15,6 +15,7 @@ import ViewReports from './pages/ViewReports';
 import Login from './pages/Login';
 import UserAccount from './pages/UserAccount';
 import MyReports from './pages/MyReports';
+import UpdateReport from './pages/components/UpdateReport';
 
 // Helpers
 import { AuthContext } from './shared/context/auth-context';
@@ -42,6 +43,9 @@ function App() {
       <Switch>
         <Route path='/' exact>
           <HomeScreen />
+        </Route>
+        <Route path={`/data/view/reports/:reportId`}>
+          <UpdateReport />
         </Route>
         <Route path='/data/new' exact>
           <MakeReport />

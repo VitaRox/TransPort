@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // UI elements, styles
-import Input from '../shared/components/UIElements/Input';
+import Input from '../../shared/components/FormElements/Input';
+import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
-import Button from '../shared/components/UIElements/Button';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import './ReportForm.css';
@@ -147,8 +147,6 @@ function UpdateReport(props) {
       }
     </React.Fragment>
   );
-
-
 }
 
 export default UpdateReport;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 // UI elements
 import Card from '../../shared/components/UIElements/Card';
@@ -9,6 +9,7 @@ import './Report.css';
 
 // Hooks and helpers
 import { AuthContext } from '../../shared/context/auth-context';
+// import { useParams } from 'react-router-dom';
 
 // Represents the frontend view of a Report
 const Report = props => {
@@ -17,13 +18,17 @@ const Report = props => {
   // Used to conditionally render "Edit" and "Delete" buttons on the detail
   // view of Reports (when they are clicked);
   const auth = useContext(AuthContext);
-  const userId = auth.userId;
-
+  const userId = auth.userId || 'guest';
+  const authorId = props.authorId;
+  const reportId = props.reportId;
 
   // This controls whether the detail view Modal is showing
   const [showDetail, setShowDetail] = useState(false);
   // Whether confirmation ("Are you sure?") modal is showing
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  // Determine whether current user is author of Report and, thus,
+  // whether they can update or delete said Report:
+  const [isAuthor, setIsAuthor] = useState(false);
 
   // Detail view handlers
   const showDetailHandler = () => setShowDetail(true);
@@ -41,6 +46,38 @@ const Report = props => {
     console.log("Deleting now...");
   };
 
+  /*
+    Determine whether current user (must be logged-in)
+    is the author of this Report; update whenever userId
+    changes (user logs out/different user logs in) or
+    authorId changes (we are viewing a different Report);
+   */
+  useEffect(() => {
+    const determineAuthor = async () => {
+      try {
+        setIsAuthor(userId === authorId);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    determineAuthor();
+  }, [userId, authorId]);
+
+  // Conditionally determine which buttons are enabled in the Report detail modal
+  const footerContent =
+    <footer>
+      <Button onClick={closeDetailHandler}>
+        CLOSE
+      </Button>
+      <Button disabled={!isAuthor}>
+        UPDATE
+      </Button>
+      <Button danger onClick={showDeleteWarningHandler} disabled={!isAuthor}>
+        DELETE
+      </Button>
+    </footer>
+  ;
+
   return (
     <React.Fragment>
       <Modal
@@ -49,18 +86,16 @@ const Report = props => {
         header={props.title}
         contentClass="report-item__modal-content"
         footerClass="report-item__modal-actions"
-        footer={<Button onClick={closeDetailHandler}>CLOSE</Button>}
+        footer={footerContent}
       >
         <div className="report-item__content-map">
-            <Map center={props.location} zoom={16} />
-          </div>
-        <Card className="report-item__content">
-          <div className="report-item__info">
-            <h1>{props.imageUrl}</h1>
-            <h3>{props.address}</h3>
-            <p>{props.reportText}</p>
-          </div>
-        </Card>
+          <Map center={props.location} zoom={16} />
+        </div>
+        <div className="report-item__info">
+          <h1>{props.imageUrl}</h1>
+          <h3>{props.address}</h3>
+          <p>{props.reportText}</p>
+        </div>
       </Modal>
       <Modal
         show={showConfirmModal}
