@@ -47,7 +47,6 @@
 }
 
 .report-item__actions {
-  padding: 1rem;
   text-align: center;
   border-top: 1px solid #ccc;
 }
@@ -58,11 +57,12 @@
 
 .report-item__modal-actions {
   text-align: right;
+  margin: 0 0 0.5rem 0;
 }
 
 .report-item__actions button,
 .report-item__actions a {
-  margin: 0.5rem;
+  margin: 2.0rem;
 }
 
 @media (min-width: 768px) {

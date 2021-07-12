@@ -26,7 +26,7 @@ const Report = props => {
   const [showDetail, setShowDetail] = useState(false);
   // Whether confirmation ("Are you sure?") modal is showing
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  // Determine whether current user is author of Report and, thus,
+  // Determine whether current user is author of this Report and, thus,
   // whether they can update or delete said Report:
   const [isAuthor, setIsAuthor] = useState(false);
 
@@ -53,7 +53,7 @@ const Report = props => {
     authorId changes (we are viewing a different Report);
    */
   useEffect(() => {
-    const determineAuthor = async () => {
+    const determineAuthor = () => {
       try {
         setIsAuthor(userId === authorId);
       } catch (err) {
@@ -65,17 +65,17 @@ const Report = props => {
 
   // Conditionally determine which buttons are enabled in the Report detail modal
   const footerContent =
-    <footer>
+    <React.Fragment>
       <Button onClick={closeDetailHandler}>
         CLOSE
       </Button>
-      <Button disabled={!isAuthor}>
+      <Button disabled={!isAuthor} onClick={showDetailHandler}>
         UPDATE
       </Button>
       <Button danger onClick={showDeleteWarningHandler} disabled={!isAuthor}>
         DELETE
       </Button>
-    </footer>
+    </React.Fragment>
   ;
 
   return (
