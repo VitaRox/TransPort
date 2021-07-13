@@ -62,7 +62,7 @@
 
 .report-item__actions button,
 .report-item__actions a {
-  margin: 2.0rem;
+  margin-right: 2.0rem;
 }
 
 @media (min-width: 768px) {

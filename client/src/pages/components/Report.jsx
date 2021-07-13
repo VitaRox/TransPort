@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 // UI elements
 import Card from '../../shared/components/UIElements/Card';
@@ -9,6 +10,7 @@ import './Report.css';
 
 // Hooks and helpers
 import { AuthContext } from '../../shared/context/auth-context';
+// import UpdateReport from './UpdateReport';
 // import { useParams } from 'react-router-dom';
 
 // Represents the frontend view of a Report
@@ -20,7 +22,7 @@ const Report = props => {
   const auth = useContext(AuthContext);
   const userId = auth.userId || 'guest';
   const authorId = props.authorId;
-  const reportId = props.reportId;
+  const reportId = props.id;
 
   // This controls whether the detail view Modal is showing
   const [showDetail, setShowDetail] = useState(false);
@@ -46,6 +48,16 @@ const Report = props => {
     console.log("Deleting now...");
   };
 
+  // // Handler for prev default, rendering Link
+  // const updateReportHandler = (event) => {
+  //   event.preventDefault();
+  //   return (
+  //     <Link to={`/data/view/reports/${reportId}`}>
+  //       <UpdateReport />
+  //     </Link>
+  //   );
+  // };
+
   /*
     Determine whether current user (must be logged-in)
     is the author of this Report; update whenever userId
@@ -69,9 +81,11 @@ const Report = props => {
       <Button onClick={closeDetailHandler}>
         CLOSE
       </Button>
-      <Button disabled={!isAuthor} onClick={showDetailHandler}>
-        UPDATE
-      </Button>
+      <Link to={`/data/view/reports/${reportId}`}>
+        <Button disabled={!isAuthor}>
+          UPDATE
+        </Button>
+      </Link>
       <Button danger onClick={showDeleteWarningHandler} disabled={!isAuthor}>
         DELETE
       </Button>
