@@ -20,8 +20,8 @@ router.get('/view/reports/:reportId', reportControllers.getReportById);
 router.patch('/view/reports/:reportId',
   [
     check('title').not().isEmpty(),
-    check('reportText').isLength({ min: 6 }),
-    check('address').not().isEmpty()
+    check('reportText').isLength({ min: 6 })
+
   ],
   reportControllers.updateReport
 );

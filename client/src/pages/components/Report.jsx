@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
 
 // UI elements
 import Card from '../../shared/components/UIElements/Card';
@@ -10,10 +9,8 @@ import './Report.css';
 
 // Hooks and helpers
 import { AuthContext } from '../../shared/context/auth-context';
-// import UpdateReport from './UpdateReport';
-// import { useParams } from 'react-router-dom';
 
-// Represents the frontend view of a Report
+// Begin functional component
 const Report = props => {
 
   // Get userId of currently logged-in User;
@@ -28,9 +25,6 @@ const Report = props => {
   const [showDetail, setShowDetail] = useState(false);
   // Whether confirmation ("Are you sure?") modal is showing
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  // Determine whether current user is author of this Report and, thus,
-  // whether they can update or delete said Report:
-  const [isAuthor, setIsAuthor] = useState(false);
 
   // Detail view handlers
   const showDetailHandler = () => setShowDetail(true);
@@ -48,49 +42,26 @@ const Report = props => {
     console.log("Deleting now...");
   };
 
-  // // Handler for prev default, rendering Link
-  // const updateReportHandler = (event) => {
-  //   event.preventDefault();
-  //   return (
-  //     <Link to={`/data/view/reports/${reportId}`}>
-  //       <UpdateReport />
-  //     </Link>
-  //   );
-  // };
-
-  /*
-    Determine whether current user (must be logged-in)
-    is the author of this Report; update whenever userId
-    changes (user logs out/different user logs in) or
-    authorId changes (we are viewing a different Report);
-   */
-  useEffect(() => {
-    const determineAuthor = () => {
-      try {
-        setIsAuthor(userId === authorId);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    determineAuthor();
-  }, [userId, authorId]);
-
   // Conditionally determine which buttons are enabled in the Report detail modal
-  const footerContent =
+  const footerContent = (
     <React.Fragment>
-      <Button onClick={closeDetailHandler}>
-        CLOSE
-      </Button>
-      <Link to={`/data/view/reports/${reportId}`}>
-        <Button disabled={!isAuthor}>
-          UPDATE
+      <div className="report-item__actions">
+        <Button onClick={closeDetailHandler}>
+          CLOSE
         </Button>
-      </Link>
-      <Button danger onClick={showDeleteWarningHandler} disabled={!isAuthor}>
-        DELETE
-      </Button>
+        {userId === authorId && (
+          <Button type="button" to={`/data/view/reports/${reportId}`} onClick={(event) => event.preventDefault()}>
+            EDIT
+          </Button>
+        )}
+        {userId === authorId && (
+          <Button danger onClick={showDeleteWarningHandler}>
+            DELETE
+          </Button>
+        )}
+      </div>
     </React.Fragment>
-  ;
+  );
 
   return (
     <React.Fragment>
@@ -142,7 +113,7 @@ const Report = props => {
       </li>
     </React.Fragment>
   );
-
 };
 
 export default Report;
+// End functional component;

@@ -29,31 +29,46 @@ const getReportById = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError("Something went wrong whilst fetching Report...", 500));
   }
+
+  if (!report) {
+    return next(new HttpError(
+      "Could not find the Report with the provided ID",
+      404
+    ));
+  }
   // Return results of query
   res.status(200).json({ report: report.toObject({ getters: true }) });
 };
 
 // Update one Report by reportId
 const updateReport = async (req, res, next) => {
+  const errors = validationResult(req);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError('Invalid inputs passed, please check your data.', 422)
+    );
+  }
   console.log(`Attempting to update Report`);
+
+  const { title, reportText } = req.body;
   const reportId = req.params.reportId;
-  const { newTitle, newReportText } = req.body;
+
   // Try to get Report that is to be updated from database
   let report;
   try {
     report = await Report.findById(reportId);
+    console.log(report);
   } catch (err) {
     return next(new HttpError('Could not find this Report', 404));
   }
 
-  // Update any values when updated values are provided by user,
-  // otherwise keep the old values the Report had when fetched
-  if (newTitle) {
-    report.title = newTitle;
-  }
-  if (newReportText) {
-    report.reportText = newReportText;
-  }
+  // Update values
+  console.log(`Updating Report with new values: ${title} and ${reportText}`);
+  report.title = title;
+  report.reportText = reportText;
+
+
   try {
     // Update the database
     await report.save();
