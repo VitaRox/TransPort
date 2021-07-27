@@ -18,8 +18,8 @@ const Report = props => {
   // view of Reports (when they are clicked);
   const auth = useContext(AuthContext);
   const userId = auth.userId || 'guest';
-  const authorId = props.authorId;
-  const reportId = props.id;
+  // const authorId = props.authorId;
+  // const reportId = props.id;
 
   // This controls whether the detail view Modal is showing
   const [showDetail, setShowDetail] = useState(false);
@@ -49,12 +49,12 @@ const Report = props => {
         <Button onClick={closeDetailHandler}>
           CLOSE
         </Button>
-        {userId === authorId && (
-          <Button type="button" to={`/data/view/reports/${reportId}`} onClick={(event) => event.preventDefault()}>
+        {userId === props.authorId && (
+          <Button to={`/data/view/reports/${props.id}`}>
             EDIT
           </Button>
         )}
-        {userId === authorId && (
+        {userId === props.authorId && (
           <Button danger onClick={showDeleteWarningHandler}>
             DELETE
           </Button>

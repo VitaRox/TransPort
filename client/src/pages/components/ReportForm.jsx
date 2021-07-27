@@ -66,7 +66,6 @@ function ReportForm() {
     } catch (err) {
       console.log(err.message);
     }
-
   };
 
   // Render the component and consituent components;

@@ -68,7 +68,6 @@ const updateReport = async (req, res, next) => {
   report.title = title;
   report.reportText = reportText;
 
-
   try {
     // Update the database
     await report.save();

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 // UI elements, styles
@@ -16,14 +16,13 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 
 // Begin React component
-function UpdateReport() {
+const UpdateReport = () => {
 
   const auth = useContext(AuthContext);
   // Provide user feedback about errors that take place
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedReport, setLoadedReport] = useState();
   const reportId = useParams().reportId;
-  const userId = auth.userId;
   const history = useHistory();
 
   // Initialize form state;
@@ -41,7 +40,6 @@ function UpdateReport() {
     false
   );
 
-  console.log("loadedReport is initially " + loadedReport);
   // Fetch report to be updated/edited, populate the ReportForm with values
   useEffect(() => {
     const fetchReport = async () => {
@@ -50,8 +48,8 @@ function UpdateReport() {
           `http://localhost:4000/api/data/view/reports/${reportId}`
         );
         setLoadedReport(responseData.report);
-        console.log(responseData.report);
-        console.log(`reportId is currently: ${reportId}`);
+        // console.log(responseData.report);
+        // console.log(`reportId is currently: ${reportId}`);
         setFormData(
           {
             title: {
@@ -65,10 +63,9 @@ function UpdateReport() {
           },
           true
         );
-        console.log(responseData.report.title + ' ' + responseData.report.address);
+        // console.log(responseData.report.title + ' ' + responseData.report.address);
       } catch (err) {}
     };
-    console.log("Fetching Report now....");
     fetchReport();
   }, [sendRequest, reportId, setFormData]);
 
@@ -87,8 +84,8 @@ function UpdateReport() {
           'Content-Type': 'application/json'
         }
       );
-      history.push(`/users/${userId}/reports`);
-    } catch (err) {}
+      history.push('/users/' + auth.userId + '/reports');
+    } catch (err) { }
   };
 
   if (isLoading) {
@@ -113,8 +110,7 @@ function UpdateReport() {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      {
-        !isLoading && loadedReport &&
+      {!isLoading && loadedReport && (
         <Card className="report-form">
           <form onSubmit={reportUpdateSubmitHandler}>
             <Input
@@ -143,9 +139,9 @@ function UpdateReport() {
             </Button>
           </form>
         </Card>
-      }
+      )}
     </React.Fragment>
   );
-}
+};
 
 export default UpdateReport;

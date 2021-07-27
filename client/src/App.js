@@ -21,7 +21,7 @@ import UpdateReport from './pages/components/UpdateReport';
 import { AuthContext } from './shared/context/auth-context';
 
 // Root-level React component
-function App() {
+const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(false);
@@ -44,9 +44,6 @@ function App() {
         <Route path='/' exact>
           <HomeScreen />
         </Route>
-        <Route path={`/data/view/reports/:reportId`}>
-          <UpdateReport />
-        </Route>
         <Route path='/data/new' exact>
           <MakeReport />
         </Route>
@@ -59,7 +56,10 @@ function App() {
         <Route path='/users/:userId'>
           <UserAccount />
         </Route>
-      <Redirect to='/' />
+        <Route path={`/data/view/reports/:reportId`}>
+          <UpdateReport />
+        </Route>
+        <Redirect to='/' />
       </Switch>
     );
   } else {
@@ -71,7 +71,7 @@ function App() {
         <Route path='/data/view' exact>
           <ViewReports />
         </Route>
-        <Route path='/auth' exact>
+        <Route path='/auth'>
           <Login />
         </Route>
         <Redirect to='/auth' />
@@ -90,12 +90,10 @@ function App() {
     >
       <Router>
         <MainNavigation />
-        <main>
-          {routes}
-        </main>
+        <main>{routes}</main>
       </Router>
     </AuthContext.Provider>
   );
-}
+};
 
 export default App;
