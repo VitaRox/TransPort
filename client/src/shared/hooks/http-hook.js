@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 export const useHttpClient = () => {

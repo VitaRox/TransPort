@@ -19,7 +19,6 @@ import { AuthContext } from '../../shared/context/auth-context';
 const UpdateReport = () => {
 
   const auth = useContext(AuthContext);
-  // Provide user feedback about errors that take place
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedReport, setLoadedReport] = useState();
   const reportId = useParams().reportId;
