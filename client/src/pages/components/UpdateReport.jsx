@@ -10,7 +10,10 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import './ReportForm.css';
 
 // Helpers and hooks
-import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../shared/util/validators';
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH
+} from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
@@ -39,16 +42,14 @@ const UpdateReport = () => {
     false
   );
 
-  // Fetch report to be updated/edited, populate the ReportForm with values
   useEffect(() => {
+    // Fetch report to be updated/edited, populate the ReportForm with values
     const fetchReport = async () => {
       try {
         const responseData = await sendRequest(
           `http://localhost:4000/api/data/view/reports/${reportId}`
         );
         setLoadedReport(responseData.report);
-        // console.log(responseData.report);
-        // console.log(`reportId is currently: ${reportId}`);
         setFormData(
           {
             title: {
@@ -63,9 +64,12 @@ const UpdateReport = () => {
           true
         );
         // console.log(responseData.report.title + ' ' + responseData.report.address);
-      } catch (err) {}
+      } catch (err) { }
     };
     fetchReport();
+    // if (!loadedReport) {
+    //   fetchReport();
+    // }
   }, [sendRequest, reportId, setFormData]);
 
   // Handle submission of PATCH request to update this Report
@@ -109,8 +113,8 @@ const UpdateReport = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      {!isLoading && loadedReport && (
-        <Card className="report-form">
+      <Card className="report-form">
+        {!isLoading && loadedReport && (
           <form onSubmit={reportUpdateSubmitHandler}>
             <Input
               id="title"
@@ -137,8 +141,8 @@ const UpdateReport = () => {
               Update this Report!
             </Button>
           </form>
-        </Card>
-      )}
+        )}
+      </Card>
     </React.Fragment>
   );
 };

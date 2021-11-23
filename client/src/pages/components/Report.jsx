@@ -5,10 +5,13 @@ import Card from '../../shared/components/UIElements/Card';
 import Modal from "../../shared/components/UIElements/Modal";
 import Button from "../../shared/components/FormElements/Button";
 import Map from '../../shared/components/UIElements/Map';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import './Report.css';
 
 // Hooks and helpers
 import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 
 // Begin functional component
 const Report = props => {
@@ -18,8 +21,7 @@ const Report = props => {
   // view of Reports (when they are clicked);
   const auth = useContext(AuthContext);
   const userId = auth.userId || 'guest';
-  // const authorId = props.authorId;
-  // const reportId = props.id;
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   // This controls whether the detail view Modal is showing
   const [showDetail, setShowDetail] = useState(false);
@@ -37,9 +39,15 @@ const Report = props => {
   const cancelDeleteHandler = () => {
     setShowConfirmModal(false);
   };
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async() => {
     setShowConfirmModal(false);
-    console.log("Deleting now...");
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/places/${props.id}`,
+        'DELETE'
+      );
+      props.onDelete(props.id);
+    } catch (err) {}
   };
 
   // Conditionally determine which buttons are enabled in the Report detail modal
@@ -65,6 +73,7 @@ const Report = props => {
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showDetail}
         onCancel={closeDetailHandler}
@@ -103,6 +112,7 @@ const Report = props => {
       </Modal>
       <li className="report-item__" onClick={showDetailHandler}>
         <Card className="report-item__content">
+        {isLoading && <LoadingSpinner asOverlay />}
           <div className="report-item__info">
             <h1>{props.imageUrl}</h1>
             <h2>{props.title}</h2>

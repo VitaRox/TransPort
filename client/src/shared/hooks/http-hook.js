@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 export const useHttpClient = () => {
@@ -48,6 +47,7 @@ export const useHttpClient = () => {
 
   useEffect(() => {
     return () => {
+      // TODO: does the following help async issue?/it was in tutorial version of this and missing prior in mine
       // eslint-disable-next-line react-hooks/exhaustive-deps
       activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
     };

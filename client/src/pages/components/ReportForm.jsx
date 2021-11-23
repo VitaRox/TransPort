@@ -81,7 +81,7 @@ function ReportForm() {
             type="text"
             placeholder="Enter a descriptive title"
             label="Title"
-            validators={[VALIDATOR_REQUIRE]}
+            validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid string."
             onInput={inputHandler}
           >

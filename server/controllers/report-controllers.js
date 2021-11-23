@@ -60,7 +60,9 @@ const updateReport = async (req, res, next) => {
     report = await Report.findById(reportId);
     console.log(report);
   } catch (err) {
-    return next(new HttpError('Could not find this Report', 404));
+    return (
+      next(new HttpError('Something went wrong, could not update place.', 500))
+    );
   }
 
   // Update values
