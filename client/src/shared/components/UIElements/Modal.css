@@ -1,7 +1,7 @@
 .modal {
   z-index: 100;
   position: fixed;
-  top: 22vh;
+  top: 10vh;
   left: 10%;
   width: 80%;
   background: white;
@@ -12,7 +12,7 @@
 .modal__header {
   width: 100%;
   padding: 1rem 0.5rem;
-  background: #2a006e;
+  background: #c07dc2;;
   color: white;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .modal__footer {
-  padding: 1rem 0.5rem;
+  padding: 0.5rem;
 }
 
 @media (min-width: 768px) {

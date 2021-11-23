@@ -9,7 +9,7 @@
   color: white;
   cursor: pointer;
   text-decoration: none;
-  display: border-box;
+  display: inline-block;
 }
 
 .button:focus {

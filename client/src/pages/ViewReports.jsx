@@ -49,15 +49,12 @@ function ViewReports(props) {
           <LoadingSpinner />
         </div>
       )}
-
       <div className="map-container">
         <Map center={props.defaultCenter} zoom={props.defaultZoom} />
       </div>
-
       <div className="list-container">
         {!isLoading && loadedReports && <ReportList items={loadedReports} />}
       </div>
-
     </React.Fragment>
   );
 }
