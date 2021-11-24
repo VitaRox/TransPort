@@ -165,7 +165,7 @@ function Login() {
             errorText="Please enter password with at least one uppercase, lowercase, numeral, symbol."
             onInput={inputHandler}
           />
-          {!isLoginMode && <ImageUpload id="image" />}
+          {!isLoginMode && <ImageUpload center id="image" />}
           <br />
           <Button type="submit" disabled={!formState.isValid} size={'big'}>
             {isLoginMode ? 'LOG IN' : 'SIGN UP'}
