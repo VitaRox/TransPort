@@ -84,8 +84,7 @@ function ReportForm() {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Please enter a valid string."
             onInput={inputHandler}
-          >
-          </Input>
+          />
           <Input
             id="reportText"
             placeholder="Enter your remarks"
@@ -95,8 +94,7 @@ function ReportForm() {
             validators={[VALIDATOR_MINLENGTH(6)]}
             errorText="Something is not right"
             onInput={inputHandler}
-          >
-          </Input>
+          />
           <Input
             id="address"
             placeholder="Enter address of locale"
@@ -106,8 +104,7 @@ function ReportForm() {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="That is not a valid address"
             onInput={inputHandler}
-          >
-          </Input>
+          />
           <Button type="submit" disabled={!formState.isValid} size={'report'}>
             Make New Report!
           </Button>
