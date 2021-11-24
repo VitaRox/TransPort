@@ -5,6 +5,7 @@ import React, { useState, useContext } from 'react';
 import Card from '../shared/components/UIElements/Card.js';
 import Input from '../shared/components/FormElements/Input';
 import Button from '../shared/components/FormElements/Button';
+import ImageUpload from '../shared/components/FormElements/ImageUpload.js';
 import ErrorModal from '../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../shared/components/UIElements/LoadingSpinner.js';
 
@@ -164,6 +165,7 @@ function Login() {
             errorText="Please enter password with at least one uppercase, lowercase, numeral, symbol."
             onInput={inputHandler}
           />
+          {!isLoginMode && <ImageUpload id="image" />}
           <br />
           <Button type="submit" disabled={!formState.isValid} size={'big'}>
             {isLoginMode ? 'LOG IN' : 'SIGN UP'}
