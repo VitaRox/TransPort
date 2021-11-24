@@ -103,7 +103,7 @@ function ReportForm() {
             element="input"
             type="text"
             label="Address"
-            validators={[VALIDATOR_REQUIRE]}
+            validators={[VALIDATOR_REQUIRE()]}
             errorText="That is not a valid address"
             onInput={inputHandler}
           >
