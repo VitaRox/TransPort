@@ -43,7 +43,7 @@ const Report = props => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:5000/api/places/${props.id}`,
+        `http://localhost:4000/api/data/view/reports/${props.id}`,
         'DELETE'
       );
       props.onDelete(props.id);

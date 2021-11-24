@@ -31,6 +31,13 @@ function MyReports() {
     getMyReports();
   }, [sendRequest, userId]);
 
+
+  const reportDeletedHandler = (deletedReportId) => {
+    setLoadedReports(prevReports => prevReports.filter(
+      report => report.id !== deletedReportId)
+    );
+  };
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -41,7 +48,7 @@ function MyReports() {
         </div>
       }
       <div>
-        {!isLoading && loadedReports && <ReportList items={loadedReports} />}
+        {!isLoading && loadedReports && <ReportList items={loadedReports} onDeleteReport={reportDeletedHandler} />}
       </div>
     </React.Fragment>
   );
