@@ -59,7 +59,8 @@ function Login() {
       setFormData(
         {
           ...formState.inputs,
-          email: undefined
+          email: undefined,
+          image: undefined
         },
         formState.inputs.username.isValid && formState.inputs.password.isValid
       );
@@ -69,6 +70,10 @@ function Login() {
           ...formState.inputs,
           email: {
             value: '',
+            isValid: false
+          },
+          image: {
+            value: null,
             isValid: false
           }
         },
@@ -83,15 +88,17 @@ function Login() {
   // Handle submission of login credentials or signup credentials
   const authSubmitHandler = async event => {
     event.preventDefault();
+    console.log(formState.inputs);
 
     if (isLoginMode) {
       try {
-        const responseData = await sendRequest('http://localhost:4000/api/auth/login',
-        'POST',
-        JSON.stringify({
-          username: formState.inputs.username.value,
-          password: formState.inputs.password.value
-        }),
+        const responseData = await sendRequest(
+          'http://localhost:4000/api/auth/login',
+          'POST',
+          JSON.stringify({
+            username: formState.inputs.username.value,
+            password: formState.inputs.password.value
+          }),
         {
           'Content-Type': 'application/json'
         }
@@ -165,7 +172,7 @@ function Login() {
             errorText="Please enter password with at least one uppercase, lowercase, numeral, symbol."
             onInput={inputHandler}
           />
-          {!isLoginMode && <ImageUpload center id="image" />}
+          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
           <br />
           <Button type="submit" disabled={!formState.isValid} size={'big'}>
             {isLoginMode ? 'LOG IN' : 'SIGN UP'}
