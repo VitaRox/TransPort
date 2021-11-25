@@ -43,7 +43,6 @@ app.use('/api/data', reportRoutes);
 // (e.g. creating a User Account, viewing User Account)
 app.use('/api/users', userRoutes);
 
-
 // Handle case in which path doesn't exist
 app.use((req, res, next) => {
   const error = new HttpError('could not find this route', 404);
