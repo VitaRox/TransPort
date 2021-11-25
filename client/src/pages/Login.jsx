@@ -93,7 +93,7 @@ function Login() {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          'http://localhost:4000/api/auth/login',
+          'http://localhost:4000/api/users/login',
           'POST',
           JSON.stringify({
             username: formState.inputs.username.value,

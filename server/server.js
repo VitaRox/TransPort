@@ -16,7 +16,6 @@ const url = process.env.DB_URL;
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
 const reportRoutes = require('./routes/report-routes');
 const userRoutes = require('./routes/user-routes');
-const authRoutes = require('./routes/auth-routes');
 
 // Middleware to parse bodies of JSON requests made to the API
 app.use(express.json());
@@ -44,8 +43,6 @@ app.use('/api/data', reportRoutes);
 // (e.g. creating a User Account, viewing User Account)
 app.use('/api/users', userRoutes);
 
-// Send requests to appropriate middleware for signing in, signing out
-app.use('/api/auth', authRoutes);
 
 // Handle case in which path doesn't exist
 app.use((req, res, next) => {

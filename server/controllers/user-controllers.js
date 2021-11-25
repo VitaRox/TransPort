@@ -5,6 +5,32 @@ const User = require(`../models/user`);
 
 // METHODS
 
+// Login to existing User account
+const login = async (req, res, next) => {
+  console.log("POST request made to api/users/login: call me Kenny Loggins, because we're logging on in!");
+  const { username, password } = req.body;
+  let identifiedUser;
+  try {
+    identifiedUser = await User.findOne({ username: username });
+  } catch (err) {
+    return next(new HttpError('Something went wrong, try again later', 500));
+  }
+  // Check credentials (username and password);
+  if (!identifiedUser) {
+    return next(new HttpError(`No user by this username`, 404));
+  }
+  if (identifiedUser.password !== password) {
+    return next(new HttpError(`Password is incorrect`, 401));
+  }
+  res.json({ message: "Logged in.", user: identifiedUser.toObject({ getters: true })});
+};
+
+// Log User out of their account
+// TODO: implement this with authN
+const logout = async (req, res, next) => {
+  console.log("POST request made to api/users/logout: logging User out.");
+};
+
 // Get one User by userId
 const getUserById = async (req, res, next) => {
   // Find user with matching userId
@@ -162,3 +188,5 @@ exports.createNewUser = createNewUser;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
 exports.getAllUsers = getAllUsers;
+exports.login = login;
+exports.logout = logout;

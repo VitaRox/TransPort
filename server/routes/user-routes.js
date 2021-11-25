@@ -7,6 +7,22 @@ const userControllers = require('../controllers/user-controllers');
 // TODO: remove this before production build!!!!!!!
 router.get(`/`, userControllers.getAllUsers);
 
+// Logging in
+router.post(
+  '/login',
+  check('username')
+    .not()
+    .isEmpty(),
+  check('password')
+    .not()
+    .isEmpty(),
+  userControllers.login
+);
+
+// Logging out
+router.post('/logout', userControllers.logout);
+
+
 // Creates a new User account with input from response body
 router.post(
   `/signup`,
