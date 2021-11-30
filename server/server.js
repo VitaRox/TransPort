@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const path = require('path');
 
 // Port will either be 4000 by default or, if 4000 is in-use, another available port;
 const port = 4000 || process.env.PORT;
@@ -20,6 +21,8 @@ const userRoutes = require('./routes/user-routes');
 
 // Middleware to parse bodies of JSON requests made to the API
 app.use(express.json());
+
+app.use('/uploads/images', express.static((path.join('uploads', 'images'))));
 
 // Set headers on all responses
 app.use((req, res, next) => {

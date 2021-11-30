@@ -8,6 +8,7 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 // Business Logic
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
@@ -39,6 +40,10 @@ function ReportForm() {
     address: {
       value: '',
       isValid: false
+    },
+    image: {
+      value: null,
+      isValid: false
     }
   },
     // Validity of entire form = (validity of title && validity of report
@@ -52,16 +57,13 @@ function ReportForm() {
   const reportSubmitHandler = async event => {
     event.preventDefault();
     try {
-      await sendRequest('http://localhost:4000/api/data/new',
-        'POST',
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          reportText: formState.inputs.reportText.value,
-          address: formState.inputs.address.value,
-          authorId: auth.userId
-        }),
-        { 'Content-Type' : 'application/json' }
-      );
+      const formData = new FormData();
+      formData.append('title', formState.inputs.title.value);
+      formData.append('reportText', formState.inputs.reportText.value);
+      formData.append('address', formState.inputs.address.value);
+      formData.append('authorId', auth.userId);
+      formData.append('image', formState.inputs.image.value);
+      await sendRequest('http://localhost:4000/api/data/new', 'POST', formData);
       history.push('/');
     } catch (err) {
       console.log(err.message);
@@ -104,6 +106,11 @@ function ReportForm() {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="That is not a valid address"
             onInput={inputHandler}
+          />
+          <ImageUpload
+            id="image"
+            onInput={inputHandler}
+            errorText="Please provide an image."
           />
           <Button type="submit" disabled={!formState.isValid} size={'report'}>
             Make New Report!

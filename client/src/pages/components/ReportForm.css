@@ -21,7 +21,7 @@
   margin: auto;
 }
 
-#title, #reportText, #address {
+#title, #reportText, #address,  #image {
   width: 200px;
   border-style: inset;
   border-color: black;

@@ -2,12 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 const reportControllers = require('../controllers/report-controllers');
+const fileUpload = require('../middleware/file-upload');
 
-// ROUTES
 
-// This will go from the app.use "filtering" method in server.js
-// to here; 'view' will be appended to the filtering path in
-// server.js ('/data');
 router.get('/view', reportControllers.getOutputMap);
 
 // Get ALL Reports
@@ -39,9 +36,10 @@ router.get('/new', reportControllers.getInputMap);
 // TODO: make it receive data from ReportForm in the request body;
 router.post(
   '/new',
+  fileUpload.single('image'),
   [
     check('title').not().isEmpty(),
-    check('reportText').isLength({ min: 5 }),
+    check('reportText').isLength({ min: 6 }),
     check('address').not().isEmpty()
   ],
   reportControllers.postNewReport

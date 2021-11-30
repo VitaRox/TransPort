@@ -140,6 +140,7 @@ const postNewReport = async (req, res, next) => {
     title,
     reportText,
     address,
+    image: req.file.path,
     location: coordinates,
     date: newDate.toUTCString()
   });
