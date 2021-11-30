@@ -85,6 +85,7 @@ const createNewUser = async (req, res, next) => {
     username,
     email,
     password,
+    image: req.file.path,
     dateJoined: dateJoined.toUTCString(),
     reports: []
   });

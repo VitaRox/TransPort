@@ -8,9 +8,10 @@ const port = 4000 || process.env.PORT;
 // Import our custom Error subclass
 const HttpError = require(`./models/http-error`);
 
-// Database connection
+// Database connection, file system
 const mongoose = require('mongoose');
 const url = process.env.DB_URL;
+const fs = require('fs');
 
 // Routing middleware imports
 const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
@@ -51,6 +52,11 @@ app.use((req, res, next) => {
 
 // Default error handler
 app.use((error, req, res, next) => {
+  if (res.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
   if (res.headerSent) {
     return next(error);
   }
