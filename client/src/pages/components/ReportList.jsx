@@ -33,6 +33,7 @@ const ReportList = props => {
           address={report.address}
           authorId={report.authorId}
           location={report.location}
+          // should this be report.onDeleteReport?
           onDelete={props.onDeleteReport}
         />
       ))}

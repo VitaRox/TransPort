@@ -15,10 +15,24 @@
 }
 
 .report-form form {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  position: static;
+  top: 0px;
+  padding-top: 0em;
   align-items: center;
   justify-items: center;
   margin: auto;
+}
+
+.list-container {
+  width: 50%;
+  position: static;
+  top: 0px;
+  margin-top: auto;
+  margin-left: auto;
+  padding-top: 0em;
 }
 
 #title, #reportText, #address,  #image {
