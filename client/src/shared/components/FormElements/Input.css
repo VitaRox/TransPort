@@ -1,11 +1,12 @@
 .form-control {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
+  align-content: space-between;
 }
 
 .form-control label,
 .form-control input,
 .form-control textarea {
-  display: block;
+  display: flex;
 }
 
 .form-control label {

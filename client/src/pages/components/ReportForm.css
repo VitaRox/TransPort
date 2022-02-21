@@ -2,37 +2,14 @@
   font-weight: bold;
   font-optical-sizing: auto;
   width: 600px;
+  padding: 0px 50px 0px 50px;
   height: inherit;
-  margin: auto;
-  margin-right: 1.0rem;
   background-color: #907fa4;
   color: white;
   text-emphasis-color: #f8df00;
-  display: grid;
   position: fixed;
-  top: 100px;
+  top: inherit;
   right: 0px;
-}
-
-.report-form form {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  position: static;
-  top: 0px;
-  padding-top: 0em;
-  align-items: center;
-  justify-items: center;
-  margin: auto;
-}
-
-.list-container {
-  width: 50%;
-  position: static;
-  top: 0px;
-  margin-top: auto;
-  margin-left: auto;
-  padding-top: 0em;
 }
 
 #title, #reportText, #address,  #image {
@@ -41,4 +18,7 @@
   border-color: black;
   border-radius: 6px;
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
 }

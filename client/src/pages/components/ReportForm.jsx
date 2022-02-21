@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Resources
-import Card from '../../shared/components/UIElements/Card.js';
+// import Card from '../../shared/components/UIElements/Card.js';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
@@ -74,8 +74,7 @@ function ReportForm() {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <Card className="report-form">
-        <form onSubmit={reportSubmitHandler}>
+        <form className="report-form" onSubmit={reportSubmitHandler}>
           {isLoading && <LoadingSpinner asOverlay />}
           <Input
             id="title"
@@ -112,11 +111,10 @@ function ReportForm() {
             onInput={inputHandler}
             errorText="Please provide an image."
           />
-          <Button type="submit" disabled={!formState.isValid} size={'report'}>
+          <Button type="submit" disabled={!formState.isValid} size={'small'}>
             Make New Report!
           </Button>
         </form>
-      </Card>
     </React.Fragment>
   );
 }
