@@ -13,7 +13,7 @@
 }
 
 .button:focus {
-  outline:none;
+  outline: none;
 }
 
 .button:hover,

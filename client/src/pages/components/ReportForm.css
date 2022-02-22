@@ -2,22 +2,26 @@
   font-weight: bold;
   font-optical-sizing: auto;
   width: 600px;
-  padding: 0px 50px 0px 50px;
   height: inherit;
+  padding: 0px 50px 0px 50px;
   background-color: #907fa4;
   color: white;
   text-emphasis-color: #f8df00;
   position: fixed;
   top: inherit;
   right: 0px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 #title, #reportText, #address,  #image {
   width: 200px;
+  align-content: center;
   border-style: inset;
   border-color: black;
   border-radius: 6px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0rem;
   margin-top: 0.5rem;
   margin-left: auto;
   margin-right: auto;
