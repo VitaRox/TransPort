@@ -3,14 +3,15 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: auto;
 }
 
 .image-upload__preview {
   width: 7rem;
   height: 7rem;
   border: 1px solid #ccc;
+  display: flex;
   justify-content: center;
+  align-items: center;
   text-align: center;
   margin-bottom: 0.5rem;
 }

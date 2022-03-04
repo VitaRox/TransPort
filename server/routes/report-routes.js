@@ -33,7 +33,6 @@ router.get('/view/reports/user/:userId', reportControllers.getAllReportsByUserId
 router.get('/new', reportControllers.getInputMap);
 
 // Post a new Report
-// TODO: make it receive data from ReportForm in the request body;
 router.post(
   '/new',
   fileUpload.single('image'),

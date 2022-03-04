@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 
-// UI elements
+// UI elements and styles
 import Card from '../../shared/components/UIElements/Card';
 import Modal from "../../shared/components/UIElements/Modal";
 import Button from "../../shared/components/FormElements/Button";
@@ -114,7 +114,7 @@ const Report = props => {
         <Card className="report-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="report-item__image">
-            <img src={`http://localhost:4000/${props.imageUrl}`} alt={props.title} />
+            <img src={`http://localhost:4000/${props.image}`} alt={props.title} />
           </div>
           <div className="report-item__info">
             <h2>{props.title}</h2>
