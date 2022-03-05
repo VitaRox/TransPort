@@ -4,8 +4,7 @@ const { check } = require('express-validator');
 const reportControllers = require('../controllers/report-controllers');
 const fileUpload = require('../middleware/file-upload');
 
-
-router.get('/view', reportControllers.getOutputMap);
+/* End of imports */
 
 // Get ALL Reports
 router.get('/view/reports', reportControllers.getAllReports);
@@ -18,7 +17,6 @@ router.patch('/view/reports/:reportId',
   [
     check('title').not().isEmpty(),
     check('reportText').isLength({ min: 6 })
-
   ],
   reportControllers.updateReport
 );
@@ -29,8 +27,10 @@ router.delete('/view/reports/:reportId', reportControllers.deleteReport);
 // Get all Reports by a given User
 router.get('/view/reports/user/:userId', reportControllers.getAllReportsByUserId);
 
+// TODO: Are these two necessary? They seem to be, but I can't figure out or recall why (lolz)
 // This will load the InputMap (Map and a ReportForm) for the user to create a Report
-router.get('/new', reportControllers.getInputMap);
+// router.get('/new', reportControllers.getInputMap);
+// router.get('/view', reportControllers.getOutputMap);
 
 // Post a new Report
 router.post(

@@ -63,13 +63,9 @@ const UpdateReport = () => {
           },
           true
         );
-        // console.log(responseData.report.title + ' ' + responseData.report.address);
       } catch (err) { }
     };
     fetchReport();
-    // if (!loadedReport) {
-    //   fetchReport();
-    // }
   }, [sendRequest, reportId, setFormData]);
 
   // Handle submission of PATCH request to update this Report

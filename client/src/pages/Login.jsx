@@ -186,6 +186,7 @@ function Login() {
       </React.Fragment>
   );
 }
+// End React functional component
+
 
 export default Login;
-// End React functional component

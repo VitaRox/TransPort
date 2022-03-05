@@ -15,9 +15,10 @@ const url = process.env.DB_URL;
 const fs = require('fs');
 
 // Routing middleware imports
-const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
 const reportRoutes = require('./routes/report-routes');
 const userRoutes = require('./routes/user-routes');
+
+/* End of imports */
 
 // Middleware to parse bodies of JSON requests made to the API
 app.use(express.json());
@@ -34,17 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Static routes middleware
-app.use('/api', staticRoutes);
-
-// This will filter to only pass requests made to paths beginning with '/'
-// to the router middleware in ./routes/data-routes;
-// reportRoutes will be used to route requests/responses to and from /data/view
-// and /data/new (if user is logged in)
 app.use('/api/data', reportRoutes);
-
-// This will filter requests to user-related paths
-// (e.g. creating a User Account, viewing User Account)
 app.use('/api/users', userRoutes);
 
 // Handle case in which path doesn't exist
