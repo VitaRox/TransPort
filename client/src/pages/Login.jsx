@@ -5,6 +5,7 @@ import React, { useState, useContext } from 'react';
 import Card from '../shared/components/UIElements/Card.js';
 import Input from '../shared/components/FormElements/Input';
 import Button from '../shared/components/FormElements/Button';
+import ImageUpload from '../shared/components/FormElements/ImageUpload.js';
 import ErrorModal from '../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../shared/components/UIElements/LoadingSpinner.js';
 
@@ -58,7 +59,8 @@ function Login() {
       setFormData(
         {
           ...formState.inputs,
-          email: undefined
+          email: undefined,
+          image: undefined
         },
         formState.inputs.username.isValid && formState.inputs.password.isValid
       );
@@ -68,6 +70,10 @@ function Login() {
           ...formState.inputs,
           email: {
             value: '',
+            isValid: false
+          },
+          image: {
+            value: null,
             isValid: false
           }
         },
@@ -82,15 +88,17 @@ function Login() {
   // Handle submission of login credentials or signup credentials
   const authSubmitHandler = async event => {
     event.preventDefault();
+    console.log(formState.inputs);
 
     if (isLoginMode) {
       try {
-        const responseData = await sendRequest('http://localhost:4000/api/auth/login',
-        'POST',
-        JSON.stringify({
-          username: formState.inputs.username.value,
-          password: formState.inputs.password.value
-        }),
+        const responseData = await sendRequest(
+          'http://localhost:4000/api/users/login',
+          'POST',
+          JSON.stringify({
+            username: formState.inputs.username.value,
+            password: formState.inputs.password.value
+          }),
         {
           'Content-Type': 'application/json'
         }
@@ -102,17 +110,15 @@ function Login() {
 
     } else {
       try {
+        const formData = new FormData();
+        formData.append('username',formState.inputs.username.value);
+        formData.append('email', formState.inputs.email.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
         const responseData = await sendRequest(
           'http://localhost:4000/api/users/signup',
           'POST',
-          JSON.stringify({
-            username: formState.inputs.username.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value
-          }),
-          {
-            'Content-Type': 'application/json',
-          }
+          formData
         );
         auth.login(responseData.user.id);
       } catch (err) {
@@ -164,6 +170,9 @@ function Login() {
             errorText="Please enter password with at least one uppercase, lowercase, numeral, symbol."
             onInput={inputHandler}
           />
+          {!isLoginMode && (
+            <ImageUpload center id="image" onInput={inputHandler} />
+          )}
           <br />
           <Button type="submit" disabled={!formState.isValid} size={'big'}>
             {isLoginMode ? 'LOG IN' : 'SIGN UP'}
@@ -177,6 +186,7 @@ function Login() {
       </React.Fragment>
   );
 }
+// End React functional component
+
 
 export default Login;
-// End React functional component

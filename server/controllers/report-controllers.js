@@ -140,6 +140,7 @@ const postNewReport = async (req, res, next) => {
     title,
     reportText,
     address,
+    image: req.file.path,
     location: coordinates,
     date: newDate.toUTCString()
   });
@@ -203,25 +204,11 @@ const getAllReportsByUserId = async (req, res, next) => {
   res.status(200).json({ reports: reports.map(report => report.toObject({ getters: true })) });
 };
 
-// Get OutputMap
-const getOutputMap = async (req, res, next) => {
-  console.log("GET request made to fetch OutputMap");
-  res.status(200).json({ message: "GET /data/view appears to be working!!!!!" });
-};
-
-// Get the InputMap (interface through which User makes Report)
-const getInputMap = async (req, res, next) => {
-  console.log("GET request made to fetch InputMap");
-  // TODO: insert code here to actually render InputMap from /client
-  res.status(200).json({ message: "GET /data/new appears to be working!!" });
-};
 
 // Module exports
 exports.getAllReports = getAllReports;
 exports.getReportById = getReportById;
 exports.updateReport = updateReport;
 exports.deleteReport = deleteReport;
-exports.getOutputMap = getOutputMap;
-exports.getInputMap = getInputMap;
 exports.getAllReportsByUserId = getAllReportsByUserId;
 exports.postNewReport = postNewReport;

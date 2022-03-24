@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const path = require('path');
 
 // Port will either be 4000 by default or, if 4000 is in-use, another available port;
 const port = 4000 || process.env.PORT;
@@ -8,18 +9,21 @@ const port = 4000 || process.env.PORT;
 // Import our custom Error subclass
 const HttpError = require(`./models/http-error`);
 
-// Database connection
+// Database connection, file system
 const mongoose = require('mongoose');
 const url = process.env.DB_URL;
+const fs = require('fs');
 
 // Routing middleware imports
-const staticRoutes = require('./routes/static-routes');  // Not 100% sure I'll need this
 const reportRoutes = require('./routes/report-routes');
 const userRoutes = require('./routes/user-routes');
-const authRoutes = require('./routes/auth-routes');
+
+/* End of imports */
 
 // Middleware to parse bodies of JSON requests made to the API
 app.use(express.json());
+
+app.use('/uploads/images', express.static((path.join('uploads', 'images'))));
 
 // Set headers on all responses
 app.use((req, res, next) => {
@@ -31,21 +35,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Static routes middleware
-app.use('/api', staticRoutes);
-
-// This will filter to only pass requests made to paths beginning with '/'
-// to the router middleware in ./routes/data-routes;
-// reportRoutes will be used to route requests/responses to and from /data/view
-// and /data/new (if user is logged in)
 app.use('/api/data', reportRoutes);
-
-// This will filter requests to user-related paths
-// (e.g. creating a User Account, viewing User Account)
 app.use('/api/users', userRoutes);
-
-// Send requests to appropriate middleware for signing in, signing out
-app.use('/api/auth', authRoutes);
 
 // Handle case in which path doesn't exist
 app.use((req, res, next) => {
@@ -55,6 +46,11 @@ app.use((req, res, next) => {
 
 // Default error handler
 app.use((error, req, res, next) => {
+  if (res.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
   if (res.headerSent) {
     return next(error);
   }

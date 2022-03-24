@@ -6,6 +6,7 @@ const reportSchema = new Schema({
   title: { type: String, required: true },
   reportText: { type: String, required: true },
   address: { type: String, required: true },
+  image: { type: String, required: false},
   location: {
     lat: { type: Number, required: true },
     lng: {type: Number, required: true}

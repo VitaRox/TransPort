@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 
-// UI elements
+// UI elements and styles
 import Card from '../../shared/components/UIElements/Card';
 import Modal from "../../shared/components/UIElements/Modal";
 import Button from "../../shared/components/FormElements/Button";
@@ -112,9 +112,11 @@ const Report = props => {
       </Modal>
       <li className="report-item__" onClick={showDetailHandler}>
         <Card className="report-item__content">
-        {isLoading && <LoadingSpinner asOverlay />}
+          {isLoading && <LoadingSpinner asOverlay />}
+          <div className="report-item__image">
+            <img src={`http://localhost:4000/${props.image}`} alt={props.title} />
+          </div>
           <div className="report-item__info">
-            <h1>{props.imageUrl}</h1>
             <h2>{props.title}</h2>
             <h3>{props.address}</h3>
             <p>{props.reportText}</p>
@@ -126,4 +128,3 @@ const Report = props => {
 };
 
 export default Report;
-// End functional component;

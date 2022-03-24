@@ -27,12 +27,13 @@ const ReportList = props => {
         <Report
           key={report.id}
           id={report.id}
-          image={report.imageUrl}
+          image={report.image}
           title={report.title}
           reportText={report.reportText}
           address={report.address}
           authorId={report.authorId}
           location={report.location}
+          // should this be report.onDeleteReport?
           onDelete={props.onDeleteReport}
         />
       ))}

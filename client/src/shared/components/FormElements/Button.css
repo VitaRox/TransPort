@@ -13,7 +13,7 @@
 }
 
 .button:focus {
-  outline:none;
+  outline: none;
 }
 
 .button:hover,
@@ -56,6 +56,11 @@
 
 .button--small {
   font-size: 0.8rem;
+  width: 100%;
+}
+
+.button--medium {
+  font-size: 1.0rem;
   width: 100%;
 }
 
