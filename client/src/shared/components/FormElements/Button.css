@@ -59,6 +59,11 @@
   width: 100%;
 }
 
+.button--medium {
+  font-size: 1.0rem;
+  width: 100%;
+}
+
 .button--big {
   font-size: 1.5rem;
   width: 100%;

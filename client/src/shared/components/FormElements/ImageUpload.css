@@ -6,13 +6,14 @@
 }
 
 .image-upload__preview {
-  width: 7rem;
+  width: auto;
   height: 7rem;
   border: 1px solid #ccc;
-  display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-right: auto;
+  margin-left: auto;
   margin-bottom: 0.5rem;
 }
 
