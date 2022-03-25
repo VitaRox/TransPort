@@ -19,6 +19,7 @@
   "homepage": "https://github.com/VitaRox/Transport#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.1",

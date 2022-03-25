@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const Report = require('../models/report');
 const User = require('../models/user');
 
+
 // Get all posted Reports
 const getAllReports = async (req, res, next) => {
   console.log("Getting all Reports");

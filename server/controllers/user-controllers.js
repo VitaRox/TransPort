@@ -1,9 +1,9 @@
+const bcrypt = require('bcrypt');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const User = require(`../models/user`);
 
-// METHODS
 
 // Login to existing User account
 const login = async (req, res, next) => {
@@ -17,10 +17,18 @@ const login = async (req, res, next) => {
   }
   // Check credentials (username and password);
   if (!identifiedUser) {
-    return next(new HttpError(`No user by this username`, 404));
+    return next(new HttpError(`Invaild credentials; couldn't log you in.`, 401));
   }
-  if (identifiedUser.password !== password) {
-    return next(new HttpError(`Password is incorrect`, 401));
+
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUser.password);
+  } catch (err) {
+    return next(new HttpError(`Couldn't log you in; please check your credentials and try again`, 500));
+  }
+
+  if (!isValidPassword) {
+    return next(new HttpError(`Invaild credentials; couldn't log you in.`, 401));
   }
   res.json({ message: "Logged in.", user: identifiedUser.toObject({ getters: true })});
 };
@@ -80,11 +88,19 @@ const createNewUser = async (req, res, next) => {
   }
   // Create Date object to timestamp new User creation (dateJoined)
   const dateJoined = new Date();
+
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    return next(new HttpError(`Couldn't create new User. It's not you, it's us ;)`, 500));
+  }
+
   // Create new User instance
   const newUser = new User({
     username,
     email,
-    password,
+    password: hashedPassword,
     image: req.file.path,
     dateJoined: dateJoined.toUTCString(),
     reports: []
