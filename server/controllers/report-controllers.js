@@ -101,6 +101,8 @@ const deleteReport = async (req, res, next) => {
     return next(new HttpError("We could not find a Report with this ID", 404));
   }
 
+  const imagePath = report.image;
+
   // Try to delete Report we found
   try {
     const sess = await mongoose.startSession();
@@ -113,6 +115,12 @@ const deleteReport = async (req, res, next) => {
   } catch (err) {
     return next(new HttpError('Delete Report failed', 500));
   }
+
+  // Delete image(s) associated with this Report
+  fs.unlink(imagePath, err => {
+    console.log(err);
+  });
+
   res.status(200).json({ message: `Successfully deleted Report ${reportId}` });
 };
 

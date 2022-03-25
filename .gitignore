@@ -110,6 +110,7 @@ dist
 .tern-port
 
 # VSCode Workspace directories
+*.vscode/launch.json
 *.code-workspace
 
 # Notes, screenshots, etc.
