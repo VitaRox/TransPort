@@ -43,7 +43,7 @@ function ReportForm() {
     },
     image: {
       value: null,
-      isValid: false
+      isValid: true
     }
   },
     // Validity of entire form = (validity of title && validity of report
