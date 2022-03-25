@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require(`jsonwebtoken`);
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
@@ -7,8 +8,8 @@ const User = require(`../models/user`);
 
 // Login to existing User account
 const login = async (req, res, next) => {
-  console.log("POST request made to api/users/login: call me Kenny Loggins, because we're logging on in!");
   const { username, password } = req.body;
+
   let identifiedUser;
   try {
     identifiedUser = await User.findOne({ username: username });
@@ -22,7 +23,7 @@ const login = async (req, res, next) => {
 
   let isValidPassword = false;
   try {
-    isValidPassword = await bcrypt.compare(password, existingUser.password);
+    isValidPassword = await bcrypt.compare(password, identifiedUser.password);
   } catch (err) {
     return next(new HttpError(`Couldn't log you in; please check your credentials and try again`, 500));
   }
@@ -30,7 +31,22 @@ const login = async (req, res, next) => {
   if (!isValidPassword) {
     return next(new HttpError(`Invaild credentials; couldn't log you in.`, 401));
   }
-  res.json({ message: "Logged in.", user: identifiedUser.toObject({ getters: true })});
+
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: identifiedUser.id, email: identifiedUser.email },
+      `supersecret_dont_share`,
+      {expiresIn: '1h'})
+  } catch (err) {
+    return next(new HttpError("logging in  failed", 500));
+  }
+
+  res.json({
+    userId: identifiedUser.id,
+    email: identifiedUser.email,
+    token: token
+  });
 };
 
 // Log User out of their account
@@ -89,6 +105,7 @@ const createNewUser = async (req, res, next) => {
   // Create Date object to timestamp new User creation (dateJoined)
   const dateJoined = new Date();
 
+  // Passwords shouldn't be stored as plaintext!
   let hashedPassword;
   try {
     hashedPassword = await bcrypt.hash(password, 12);
@@ -105,16 +122,27 @@ const createNewUser = async (req, res, next) => {
     dateJoined: dateJoined.toUTCString(),
     reports: []
   });
-  console.log(newUser);
+
   // Add to MongoDb database with mongoose save() method
   // save() also creates a unique id on the object being created
   try {
     await newUser.save();
   } catch (err) {
-    return next(new HttpError("Signup failed", 422));
+    return next(new HttpError("Signup failed", 500));
   }
+
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: newUser.id, email: newUser.email },
+      `supersecret_dont_share`,
+      {expiresIn: '1h'})
+    } catch (err) {
+      return next(new HttpError("Signup failed", 500));
+    }
+
   // Send a response to client
-  res.status(201).json({ user: newUser.toObject({ getters: true })});
+  res.status(201).json({ userId: newUser.id, email: newUser.email, token: token });
 };
 
 // For devs/admins only: get all Users
