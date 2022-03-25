@@ -167,7 +167,8 @@ function Login() {
             type="password"
             label="Enter your password here:    "
             validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter password with at least one uppercase, lowercase, numeral, symbol."
+            errorText="A strong password includes at least one uppercase, one lowercase, one numeric, and
+              one non-alphanumeric character."
             onInput={inputHandler}
           />
           {!isLoginMode && (
