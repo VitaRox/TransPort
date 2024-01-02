@@ -61,9 +61,12 @@ app.use((error, req, res, next) => {
 });
 
 // Connect to database server
-mongoose.set('useUnifiedTopology', true);
+// mongoose.set('useUnifiedTopology', true);
 mongoose
-  .connect(`${url}`)
+  .connect(url, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    useCreateIndex: true })
   .then(
     // Listens on an available port
     app.listen(port, () => {

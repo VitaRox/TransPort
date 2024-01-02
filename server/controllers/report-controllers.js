@@ -1,4 +1,3 @@
-
 const fs = require('fs'); // file-system module
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');

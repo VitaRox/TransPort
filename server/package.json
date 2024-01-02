@@ -23,12 +23,13 @@
     "express": "^4.17.1",
     "express-validator": "^6.10.1",
     "mongodb": "^3.6.6",
-    "mongoose": "^5.12.7",
+    "mongoose": "^5.13.21",
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.3",
     "uuid": "^7.0.3"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.6",
     "nodemon": "^2.0.9"
   }
 }
