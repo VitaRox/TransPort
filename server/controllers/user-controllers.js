@@ -60,7 +60,7 @@ const getUserById = async (req, res, next) => {
 const createNewUser = async (req, res, next) => {
   console.log("POST request made to create a new User!");
   // Validate user input
-  const errors = (validationResult(req));
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
     return next(new HttpError("Must use a strong password, unique username, and valid email address", 422));
@@ -95,7 +95,11 @@ const createNewUser = async (req, res, next) => {
   try {
     await newUser.save();
   } catch (err) {
-    return next(new HttpError("Signup failed", 422));
+    const error = new HttpError(
+      'Creating user failed, please try again.',
+      500
+    );
+    return next(error);
   }
   // Send a response to client
   res.status(201).json({ user: newUser.toObject({ getters: true })});
