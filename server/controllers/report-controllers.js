@@ -1,8 +1,11 @@
+// Desc: Controller functions for handling Report-related requests
 const fs = require('fs'); // file-system module
-const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const getCoordsFromAddress = require('../util/location');
 const mongoose = require('mongoose');
+
+// MODELS
+const HttpError = require('../models/http-error');
 const Report = require('../models/report');
 const User = require('../models/user');
 

@@ -1,7 +1,11 @@
-const HttpError = require('../models/http-error');
+// Desc: Controller functions for User model
 const { validationResult } = require('express-validator');
-const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+// MODELS
 const User = require(`../models/user`);
+const HttpError = require('../models/http-error');
 
 // METHODS
 
@@ -9,24 +13,49 @@ const User = require(`../models/user`);
 const login = async (req, res, next) => {
   console.log("POST request made to api/users/login: call me Kenny Loggins, because we're logging on in!");
   const { username, password } = req.body;
+
+  // Check if User exists
   let identifiedUser;
   try {
     identifiedUser = await User.findOne({ username: username });
   } catch (err) {
     return next(new HttpError('Something went wrong, try again later', 500));
   }
-  // Check credentials (username and password);
+
+  // Check credentials (username);
   if (!identifiedUser) {
-    return next(new HttpError(`No user by this username`, 404));
+    return next(new HttpError(`Invalid credentials; unable to log in`, 401));
   }
-  if (identifiedUser.password !== password) {
+
+  // Check password
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, identifiedUser.password);
+  } catch(err) {
+    return next(new HttpError(`Could not log you in; check your credentials`, 500));
+  }
+  if (!isValidPassword) {
     return next(new HttpError(`Password is incorrect`, 401));
   }
-  res.json({ message: "Logged in.", user: identifiedUser.toObject({ getters: true })});
+
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: identifiedUser.id, email: identifiedUser.email },
+      'supersecret_dont_share' ,
+      { expiresIn: '1h' }
+    );
+  } catch (err) {
+    return next(new HttpError('Logging in failed; please try again later.', 500));
+  }
+  res.json({ 
+    userId: identifiedUser.id,
+    email: identifiedUser.email,
+    token: token
+  });
 };
 
 // Log User out of their account
-// TODO: implement this with authN
 const logout = async (req, res, next) => {
   console.log("POST request made to api/users/logout: logging User out.");
 };
@@ -78,18 +107,29 @@ const createNewUser = async (req, res, next) => {
   if (existingUser) {
     return next(new HttpError('Account associated with this email already exists', 422));
   }
+
+  // Hash password with bcryptjs
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    return next(new HttpError('Could not create user, please try again.', 500));
+  }
+
   // Create Date object to timestamp new User creation (dateJoined)
   const dateJoined = new Date();
+
   // Create new User instance
   const newUser = new User({
     username,
     email,
-    password,
+    password: hashedPassword,
     image: req.file.path,
     dateJoined: dateJoined.toUTCString(),
     reports: []
   });
-  console.log(newUser);
+  // console.log(newUser); TODO: remove this line
+
   // Add to MongoDb database with mongoose save() method
   // save() also creates a unique id on the object being created
   try {
@@ -101,8 +141,21 @@ const createNewUser = async (req, res, next) => {
     );
     return next(error);
   }
-  // Send a response to client
-  res.status(201).json({ user: newUser.toObject({ getters: true })});
+
+  // Create a token for the new User
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: newUser.id, email: newUser.email },
+      'supersecret_dont_share' ,
+      { expiresIn: '1h' }
+    );
+  } catch (err) {
+    return next(new HttpError('Signing up failed, please try again later.', 500));
+  }
+
+  // Return a response to client
+  res.status(201).json({ userId: newUser.id, email: newUser.email, token: token});
 };
 
 // For devs/admins only: get all Users
