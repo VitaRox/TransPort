@@ -12,8 +12,6 @@ const HttpError = require(`./models/http-error`);
 // Database connection, file system
 const mongoose = require('mongoose');
 const url = process.env.DB_URL;
-console.log(`url is: ${url}`);
-console.log(`url type is: ${typeof(url)}`);
 const fs = require('fs');
 
 // Routing middleware imports
