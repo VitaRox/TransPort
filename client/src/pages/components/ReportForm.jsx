@@ -63,11 +63,11 @@ function ReportForm() {
       formData.append('address', formState.inputs.address.value);
       formData.append('authorId', auth.userId);
       formData.append('image', formState.inputs.image.value);
-      await sendRequest('http://localhost:4000/api/data/new', 'POST', formData);
+      await sendRequest('http://localhost:4000/api/data/new', 'POST', formData, {
+        Authorization: 'Bearer ' + auth.token
+      });
       history.push('/');
-    } catch (err) {
-      console.log(err.message);
-    }
+    } catch (err) {}
   };
 
   // Render the component and consituent components;

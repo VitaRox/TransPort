@@ -80,7 +80,8 @@ const UpdateReport = () => {
           reportText: formState.inputs.reportText.value
         }),
         {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token
         }
       );
       history.push('/users/' + auth.userId + '/reports');

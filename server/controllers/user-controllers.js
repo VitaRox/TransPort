@@ -27,7 +27,7 @@ const login = async (req, res, next) => {
     return next(new HttpError(`Invalid credentials; unable to log in`, 401));
   }
 
-  // Check password
+  // Check credentials (password)
   let isValidPassword = false;
   try {
     isValidPassword = await bcrypt.compare(password, identifiedUser.password);
