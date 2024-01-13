@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 
 // Default error handler
 app.use((error, req, res, next) => {
-  if (res.file) {
+  if (req.file) {
     fs.unlink(req.file.path, (err) => {
       console.log(err);
     });
@@ -54,16 +54,19 @@ app.use((error, req, res, next) => {
   if (res.headerSent) {
     return next(error);
   }
-  res.status(error.code || 500)
-    .json(
+  res.status(500);
+  res.json(
       { message: error.message || "An error occurred." }
     );
 });
 
 // Connect to database server
-mongoose.set('useUnifiedTopology', true);
 mongoose
-  .connect(`${url}`)
+  .connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
   .then(
     // Listens on an available port
     app.listen(port, () => {

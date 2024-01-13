@@ -44,7 +44,9 @@ const Report = props => {
     try {
       await sendRequest(
         `http://localhost:4000/api/data/view/reports/${props.id}`,
-        'DELETE'
+        'DELETE',
+        null,
+        { Authorization: 'Bearer ' + auth.token}
       );
       props.onDelete(props.id);
     } catch (err) {}

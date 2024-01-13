@@ -103,7 +103,7 @@ function Login() {
           'Content-Type': 'application/json'
         }
       );
-      auth.login(responseData.user.id);
+      auth.login(responseData.userId, responseData.token);
       } catch (err) {
         console.log(err.message);
       }
@@ -120,7 +120,7 @@ function Login() {
           'POST',
           formData
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {
         console.log(err.message);
       }
