@@ -65,7 +65,13 @@ const updateReport = async (req, res, next) => {
     console.log(report);
   } catch (err) {
     return (
-      next(new HttpError('Something went wrong, could not update place.', 500))
+      next(new HttpError('Something went wrong, could not update this report.', 500))
+    );
+  }
+
+  if (report.authorId.toString() !== req.userData.userId) {
+    return next(
+      new HttpError('You are not authorized to edit this Report', 401)
     );
   }
 
