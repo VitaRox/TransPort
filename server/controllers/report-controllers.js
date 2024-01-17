@@ -109,6 +109,12 @@ const deleteReport = async (req, res, next) => {
     return next(new HttpError("We could not find a Report with this ID", 404));
   }
 
+  if (report.authorId.id !== req.userData.userId) {
+    return next(
+      new HttpError('You are not authorized to delete this Report', 401)
+    );
+  }
+  
   const imagePath = report.image;
 
   // Try to delete Report we found
