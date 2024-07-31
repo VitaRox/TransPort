@@ -14,7 +14,8 @@
   height: 180px;
 }
 
-.report-item__:hover {
+.report-item__ :hover,
+.report-item__ :active {
   background-color: #fdf1b1;
   color: black;
 }

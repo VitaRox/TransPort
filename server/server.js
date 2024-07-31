@@ -65,7 +65,8 @@ mongoose
   .connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    socketTimeoutMS: 30000
   })
   .then(
     // Listens on an available port
